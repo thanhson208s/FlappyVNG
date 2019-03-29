@@ -26,5 +26,5 @@
         }
     ],
     "key":["0x99999999", "0x99999999", "0x99999999", "0x99999999"],
-    "remote":"http://portal-gsn.mto.zing.vn/demo_vn_dev"
+    "remote":"http://10.198.36.95/demo_vn_dev"
 }
