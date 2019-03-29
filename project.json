@@ -1,0 +1,48 @@
+{
+    "project_type": "javascript",
+    "debugMode": 1,
+    "showFPS": true,
+    "frameRate": 60,
+    "id": "gameCanvas",
+    "renderMode": 0,
+    "engineDir": "frameworks/cocos2d-html5",
+    "modules": [
+        "cocos2d",
+        "extensions",
+        "external"
+    ],
+    "jsListOrder": [
+        "src/data/**/*.js",
+        "src/framework/**/*.js",
+        "src/gui/screen/**/*.js",
+        "src/**/*.js"
+    ],
+    "jsList": [
+        "src/data/Resource.js",
+        "src/data/ResourceAnimation.js",
+        "src/framework/AnimationMgr.js",
+        "src/framework/Framework.js",
+        "src/framework/GUI.js",
+        "src/framework/libs/aes.js",
+        "src/framework/libs/crypt.js",
+        "src/framework/libs/md5.js",
+        "src/framework/libs/signals.js",
+        "src/framework/libs/underscore.js",
+        "src/framework/Localization.js",
+        "src/framework/Network.js",
+        "src/framework/PoolObject.js",
+        "src/framework/StringUtils.js",
+        "src/framework/UserData.js",
+        "src/base/network/GameClient.js",
+        "src/base/network/GameClientListener.js",
+        "src/base/network/InPacketFactory.js",
+        "src/base/Resource.js",
+        "src/base/UIFactory.js",
+        "src/modules/animation/ScreenDragonbones.js",
+        "src/modules/localization/ScreenLocalization.js",
+        "src/modules/mainmenu/ScreenMenu.js",
+        "src/modules/testnetwork/network/Network.js",
+        "src/modules/testnetwork/network/Packet.js",
+        "src/modules/testnetwork/ScreenNetwork.js"
+    ]
+}

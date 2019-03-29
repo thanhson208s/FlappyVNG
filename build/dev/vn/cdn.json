@@ -1,0 +1,30 @@
+{
+    "assets": [
+        {
+            "from": "src",
+            "to": "src"
+        },
+        {
+            "from": "res",
+            "to": "res"
+        },
+	   {
+            "from": "simulator/win32/script",
+            "to": "script"
+        },
+        {
+            "from": "main.js",
+            "to": ""
+        },
+        {
+            "from": "project.json",
+            "to": ""
+        },
+        {
+            "from": "config.json",
+            "to": ""
+        }
+    ],
+    "key":["0x99999999", "0x99999999", "0x99999999", "0x99999999"],
+    "remote":"http://portal-gsn.mto.zing.vn/demo_vn_dev"
+}

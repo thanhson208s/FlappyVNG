@@ -1,0 +1,2 @@
+lang_auto_text    ="Thử hiển thị localize text trên gui"
+lang_hello    ="Xin chào!"

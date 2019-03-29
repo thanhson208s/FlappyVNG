@@ -1,0 +1,28 @@
+package org.cocos2dx.javascript;
+
+import org.cocos2dx.lib.Cocos2dxActivity;
+
+//import com.crashlytics.android.Crashlytics;
+//import com.crashlytics.android.ndk.CrashlyticsNdk;
+import com.gsn.baseframework.FrameworkActivity;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+
+
+public class AppActivity extends FrameworkActivity{
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	//Log crash
+		//Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+    	super.onCreate(savedInstanceState);
+    }
+    
+	@Override
+	public void logFabric(String data)
+	{
+		Log.i("logFabric", data);
+		//Crashlytics.getInstance().core.log(data);
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"is_landscape": true,
+	"name":"GSN Game",
+	"android":{
+		"package_name":"com.gsn.fresher"
+	},
+	"tracker":{
+		"app_name":"Team",
+		"partner":"GSN"
+	},
+	"social":{
+		"facebook":{
+			"id":"311021112958733",
+			"use_provider": true
+		},
+		"google": {
+			"id":""
+		}
+	},
+	"country":"vn"
+}

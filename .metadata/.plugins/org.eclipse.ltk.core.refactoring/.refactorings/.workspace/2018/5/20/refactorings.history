@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;io-fabric-sdk-android_fabric&apos;" deleteContents="false" description="Delete resource &apos;io-fabric-sdk-android_fabric&apos;" element1="/io-fabric-sdk-android_fabric" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1526265394861"/>
+</session>
