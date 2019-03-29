@@ -53,17 +53,5 @@ fr.UserData = {
     {
         var numVal = value ? 1 : 0;
         cc.sys.localStorage.setItem(key, numVal);
-    },
-    setStringWithCrypt:function(key, value)
-    {
-        var val = CryptoJS.AES.encrypt(value, KEY_ENCRYPT);
-        cc.sys.localStorage.setItem(key, val.toString());
-    },
-    getStringWithCrypt:function(key, defaultValue){
-        var val = cc.sys.localStorage.getItem(key);
-        if(_.isNull(val)|| _.isNaN(val))
-            return defaultValue;
-        else
-            return CryptoJS.AES.decrypt(val,KEY_ENCRYPT).toString(CryptoJS.enc.Utf8);
     }
 };
