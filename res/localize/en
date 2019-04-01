@@ -1,2 +1,5 @@
 lang_auto_text    ="Test localization on gui"
 lang_hello    ="Hello!"
+lang_btn_try_again    ="Try gain"
+lang_btn_continue    ="Continue"
+lang_update_failed    ="Cập nhật lỗi, chú ý kết nối Wifi VNG-Corp để cập nhật"

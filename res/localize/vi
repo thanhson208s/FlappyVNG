@@ -1,2 +1,5 @@
 lang_auto_text    ="Thử hiển thị localize text trên gui"
 lang_hello    ="Xin chào!"
+lang_btn_try_again    ="Thử lại"
+lang_btn_continue    ="Tiếp tục"
+lang_update_failed    ="Cập nhật lỗi, chú ý kết nối Wifi VNG-Corp để cập nhật"

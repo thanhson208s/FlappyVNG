@@ -136,7 +136,8 @@ void ScreenUpdateAssets::onUpdateError(const std::string& err, int errCode)
 		dialog->addChild(errText);
 
 		addChild(dialog);
-		dialog->showOneButton(err, Localization::text("lang_btn_try_again"),
+		dialog->showTwoButton(err, Localization::text("lang_btn_try_again"),
+			Localization::text("lang_btn_continue"),
 			[this](cocos2d::Node* sender){
 			startUpdate();
 			sender->removeFromParent();
