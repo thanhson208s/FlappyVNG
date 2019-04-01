@@ -141,6 +141,9 @@ void ScreenUpdateAssets::onUpdateError(const std::string& err, int errCode)
 			[this](cocos2d::Node* sender){
 			startUpdate();
 			sender->removeFromParent();
+		},
+			[this](cocos2d::Node* sender){
+			startGame();
 		});
 	}
 	else
