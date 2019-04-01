@@ -20,7 +20,7 @@ Localization* Localization::getInstance()
 	if (!_localization)
 	{
 		_localization = new Localization();
-		_localization->loadConfig();
+		_localization->loadText();
 	}
 	return _localization;
 }
