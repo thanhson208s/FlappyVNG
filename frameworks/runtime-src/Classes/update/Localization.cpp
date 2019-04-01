@@ -6,21 +6,6 @@
 USING_NS_CC;
 using namespace std;
 
-
-//File
-#define CONFIG_LOCALIZE_FILE "res/portal/localize/config.json"
-#define FILE_LANGUAGE_PATH "res/portal/localize/%s.txt"
-#define PATH_TEXTURE_FOR_LANG "%s/%s"
-//Config Json
-#define DEFAULT_LANGUAGE_CODE_KEY "defaultLanguageCode"
-#define LIST_LANGUAGE_KEY "list"
-#define CODE_KEY "code"
-#define NAME_KEY "name"
-#define FOLDER_KEY "folder"
-//default
-#define DEFAULT_DEVICE_LANGUAGE_CODE "mm"
-#define SAVE_LANGUAGE_KEY "lang_save"
-
 Localization* Localization::_localization = NULL;
 Localization::Localization()
 {
@@ -41,92 +26,15 @@ Localization* Localization::getInstance()
 }
 
 
-void Localization::loadConfig()
-{
-
-	std::string fullPath = FileUtils::getInstance()->fullPathForFilename(CONFIG_LOCALIZE_FILE);
-	std::string contentStr = FileUtils::getInstance()->getStringFromFile(fullPath.c_str());
-
-	rapidjson::Document doc;
-	doc.Parse<0>(contentStr.c_str());
-	if (doc.HasParseError())
-	{
-		CCLOG("ERROR: Localization::loadConfig: ParseError %d\n", doc.GetParseError());
-		return;
-	}
-
-	const rapidjson::Value& a = doc[LIST_LANGUAGE_KEY];
-	for (size_t i = 0; i < a.Size(); i++)
-	{
-		LanguageData* data = new LanguageData();
-
-		const rapidjson::Value& listCode = a[i][CODE_KEY];
-		for (size_t j = 0; j < listCode.Size(); j++)
-		{
-			data->code.push_back(listCode[j].GetString());
-		}
-
-		data->name = a[i][NAME_KEY].GetString();
-		data->folder = a[i][FOLDER_KEY].GetString();
-		_listLanguages.push_back(data);
-	}
-
-	std::string defaultLangID = doc[DEFAULT_LANGUAGE_CODE_KEY].GetString();
-
-	if (defaultLangID.empty())
-	{
-		defaultLangID = Application::getInstance()->getCurrentLanguageCode();
-		bool isExistLang = false;
-		for (unsigned int i = 0; i < _listLanguages.size(); i++)
-		{
-			LanguageData* data = _listLanguages.at(i);
-			if (strcmp(data->name.c_str(), defaultLangID.c_str()) == 0)
-			{
-				isExistLang = true;
-				break;
-			}
-		}
-		if (!isExistLang)
-		{
-			defaultLangID = DEFAULT_DEVICE_LANGUAGE_CODE;
-		}
-	}
-	setCurrentLanguage(defaultLangID.c_str());
-}
-
-
-void Localization::setCurrentLanguage(const char* code)
-{
-	for (unsigned int i = 0; i < _listLanguages.size(); i++)
-	{
-		LanguageData* data = _listLanguages.at(i);
-		for (unsigned int j = 0; j < data->code.size(); j++)
-		{
-			if (strcmp(data->code.at(j).c_str(), code) == 0)
-			{
-				if (_currentLang != data)
-				{
-					_currentLang = data;
-					loadTextForCurrentLanguage();
-				}
-				return;
-			}
-		}
-		
-	}
-	log("ERROR: Localization::setCurrentLanguage: %s FALL!", code);
-}
-
-void Localization::loadTextForCurrentLanguage()
+void Localization::loadText()
 {
 
 	localizedStrings.clear();
 
-	std::string fullPath = getFullPathFileLang(_currentLang->folder.c_str());
 	string line, contents;
 
 	// Get data of file
-	contents = FileUtils::getInstance()->getStringFromFile(fullPath);
+	contents = FileUtils::getInstance()->getStringFromFile("res/localize/vi");
 
 	// Create a string stream so that we can use getline( ) on it
 	istringstream fileStringStream(contents);
@@ -200,36 +108,6 @@ std::string Localization::text(const char * mKey, const std::string& defaultText
 		return defaultText;
 	}
 	return mKey;
-}
-
-std::string Localization::getCurrentLanguageName()
-{
-	return _currentLang->name;
-}
-
-std::string Localization::getCurrentLanguageCode()
-{
-	return _currentLang->folder;
-}
-
-unsigned char Localization::getCountOfLanguages()
-{
-	return _listLanguages.size();
-}
-std::string Localization::getLanguageNameAt(int index)
-{
-	return _listLanguages.at(index)->name;
-}
-std::vector<std::string> Localization::getLanguageCodeAt(int index)
-{
-	return _listLanguages.at(index)->code;
-}
-
-std::string Localization::getFullPathFileLang(const char* code)
-{
-	char buff[100];
-	sprintf(buff, FILE_LANGUAGE_PATH, code);
-	return FileUtils::getInstance()->fullPathForFilename(buff);
 }
 
 	
