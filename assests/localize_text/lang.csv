@@ -4,4 +4,4 @@ lang_auto_text,Thử hiển thị localize text trên gui,Test localization on g
 lang_hello,Xin chào!,Hello!,,sdsds
 lang_btn_try_again,Thử lại,Try gain,,
 lang_btn_continue,Tiếp tục,Continue,,
-lang_update_failed,"Cập nhật lỗi, chú ý kết nối Wifi VNG-Corp để cập nhật","Cập nhật lỗi, chú ý kết nối Wifi VNG-Corp để cập nhật",,
+lang_update_failed,"Cập nhật lỗi, kiểm tra lại kết nối mạng!","Cập nhật lỗi, kiểm tra lại kết nối mạng!",,
