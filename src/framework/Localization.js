@@ -63,7 +63,15 @@ fr.Localization = cc.Class.extend(
         _loadTextForCurrentLanguage:function()
         {
             this._localizedStrings = {};
-            var contents = cc.loader.getRes(this.getPathFileLang(this._currentLang.folder));
+            var contents = null;
+            cc.loader.loadTxt(this.getPathFileLang(this._currentLang.folder), function (error, txt) {
+                if (error != null) {
+                    cc.log("Load localization file error!");
+                }
+                else {
+                    contents = txt;
+                }
+            });
             var lines = contents.split('\n');
             for(var i in lines)
             {
@@ -136,7 +144,7 @@ fr.Localization = cc.Class.extend(
         },
         getPathFileLang:function(code)
         {
-            return "localize/" + code + ".txt";
+            return "localize/" + code;
         },
         findLastNotOf:function(strSource,text) {
             var sourceLen = strSource.length;
