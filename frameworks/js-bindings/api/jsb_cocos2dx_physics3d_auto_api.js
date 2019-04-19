@@ -181,7 +181,6 @@ jsb.Physics3DObject = {
  * @param {void} arg0
  */
 setUserData : function (
-void 
 )
 {
 },
@@ -193,7 +192,7 @@ void
 getUserData : function (
 )
 {
-    return void;
+    return;
 },
 
 /**
@@ -253,7 +252,6 @@ int
 getCollisionCallback : function (
 )
 {
-    return std::function<void (cocos2d::Physics3DCollisionInfo &)>;
 },
 
 /**
@@ -1204,7 +1202,6 @@ float
 getUserData : function (
 )
 {
-    return void;
 },
 
 /**
@@ -1282,7 +1279,6 @@ getConstraintType : function (
  * @param {void} arg0
  */
 setUserData : function (
-void 
 )
 {
 },

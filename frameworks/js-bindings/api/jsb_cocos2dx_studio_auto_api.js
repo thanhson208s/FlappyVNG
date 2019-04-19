@@ -2851,7 +2851,7 @@ bool
 
 /**
  * @method getTouchMode
- * @return {cc.Touch::DispatchMode}
+ * @return {cc.Touch.DispatchMode}
  */
 getTouchMode : function (
 )
@@ -2921,7 +2921,7 @@ bool
 
 /**
  * @method setTouchMode
- * @param {cc.Touch::DispatchMode} arg0
+ * @param {cc.Touch.DispatchMode} arg0
  */
 setTouchMode : function (
 dispatchmode 
@@ -3018,17 +3018,17 @@ ccs.Frame = {
 
 /**
  * @method clone
- * @return {ccs.timeline::Frame}
+ * @return {ccs.timeline.Frame}
  */
 clone : function (
 )
 {
-    return ccs.timeline::Frame;
+    return ccs.timeline.Frame;
 },
 
 /**
  * @method setTweenType
- * @param {cc.tweenfunc::TweenType} arg0
+ * @param {cc.tweenfunc.TweenType} arg0
  */
 setTweenType : function (
 tweentype 
@@ -3048,7 +3048,7 @@ node
 
 /**
  * @method setTimeline
- * @param {ccs.timeline::Timeline} arg0
+ * @param {ccs.timeline.Timeline} arg0
  */
 setTimeline : function (
 timeline 
@@ -3068,7 +3068,7 @@ isEnterWhenPassed : function (
 
 /**
  * @method getTweenType
- * @return {cc.tweenfunc::TweenType}
+ * @return {cc.tweenfunc.TweenType}
  */
 getTweenType : function (
 )
@@ -3128,12 +3128,12 @@ bool
 
 /**
  * @method getTimeline
- * @return {ccs.timeline::Timeline}
+ * @return {ccs.timeline.Timeline}
  */
 getTimeline : function (
 )
 {
-    return ccs.timeline::Timeline;
+    return ccs.timeline.Timeline;
 },
 
 /**
@@ -3175,12 +3175,12 @@ bool
 
 /**
  * @method create
- * @return {ccs.timeline::VisibleFrame}
+ * @return {ccs.timeline.VisibleFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::VisibleFrame;
+    return ccs.timeline.VisibleFrame;
 },
 
 /**
@@ -3221,12 +3221,12 @@ str
 
 /**
  * @method create
- * @return {ccs.timeline::TextureFrame}
+ * @return {ccs.timeline.TextureFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::TextureFrame;
+    return ccs.timeline.TextureFrame;
 },
 
 /**
@@ -3267,12 +3267,12 @@ getRotation : function (
 
 /**
  * @method create
- * @return {ccs.timeline::RotationFrame}
+ * @return {ccs.timeline.RotationFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::RotationFrame;
+    return ccs.timeline.RotationFrame;
 },
 
 /**
@@ -3333,12 +3333,12 @@ getSkewX : function (
 
 /**
  * @method create
- * @return {ccs.timeline::SkewFrame}
+ * @return {ccs.timeline.SkewFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::SkewFrame;
+    return ccs.timeline.SkewFrame;
 },
 
 /**
@@ -3359,12 +3359,12 @@ ccs.RotationSkewFrame = {
 
 /**
  * @method create
- * @return {ccs.timeline::RotationSkewFrame}
+ * @return {ccs.timeline.RotationSkewFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::RotationSkewFrame;
+    return ccs.timeline.RotationSkewFrame;
 },
 
 /**
@@ -3445,12 +3445,12 @@ getPosition : function (
 
 /**
  * @method create
- * @return {ccs.timeline::PositionFrame}
+ * @return {ccs.timeline.PositionFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::PositionFrame;
+    return ccs.timeline.PositionFrame;
 },
 
 /**
@@ -3521,12 +3521,12 @@ float
 
 /**
  * @method create
- * @return {ccs.timeline::ScaleFrame}
+ * @return {ccs.timeline.ScaleFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::ScaleFrame;
+    return ccs.timeline.ScaleFrame;
 },
 
 /**
@@ -3567,12 +3567,12 @@ getAnchorPoint : function (
 
 /**
  * @method create
- * @return {ccs.timeline::AnchorPointFrame}
+ * @return {ccs.timeline.AnchorPointFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::AnchorPointFrame;
+    return ccs.timeline.AnchorPointFrame;
 },
 
 /**
@@ -3613,7 +3613,7 @@ getStartFrameIndex : function (
 
 /**
  * @method getInnerActionType
- * @return {ccs.timeline::InnerActionType}
+ * @return {ccs.timeline.InnerActionType}
  */
 getInnerActionType : function (
 )
@@ -3673,7 +3673,7 @@ getSingleFrameIndex : function (
 
 /**
  * @method setInnerActionType
- * @param {ccs.timeline::InnerActionType} arg0
+ * @param {ccs.timeline.InnerActionType} arg0
  */
 setInnerActionType : function (
 inneractiontype 
@@ -3693,12 +3693,12 @@ str
 
 /**
  * @method create
- * @return {ccs.timeline::InnerActionFrame}
+ * @return {ccs.timeline.InnerActionFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::InnerActionFrame;
+    return ccs.timeline.InnerActionFrame;
 },
 
 /**
@@ -3739,12 +3739,12 @@ color3b
 
 /**
  * @method create
- * @return {ccs.timeline::ColorFrame}
+ * @return {ccs.timeline.ColorFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::ColorFrame;
+    return ccs.timeline.ColorFrame;
 },
 
 /**
@@ -3785,12 +3785,12 @@ char
 
 /**
  * @method create
- * @return {ccs.timeline::AlphaFrame}
+ * @return {ccs.timeline.AlphaFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::AlphaFrame;
+    return ccs.timeline.AlphaFrame;
 },
 
 /**
@@ -3839,12 +3839,12 @@ getEvent : function (
 
 /**
  * @method create
- * @return {ccs.timeline::EventFrame}
+ * @return {ccs.timeline.EventFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::EventFrame;
+    return ccs.timeline.EventFrame;
 },
 
 /**
@@ -3885,12 +3885,12 @@ int
 
 /**
  * @method create
- * @return {ccs.timeline::ZOrderFrame}
+ * @return {ccs.timeline.ZOrderFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::ZOrderFrame;
+    return ccs.timeline.ZOrderFrame;
 },
 
 /**
@@ -3931,12 +3931,12 @@ blendfunc
 
 /**
  * @method create
- * @return {ccs.timeline::BlendFuncFrame}
+ * @return {ccs.timeline.BlendFuncFrame}
  */
 create : function (
 )
 {
-    return ccs.timeline::BlendFuncFrame;
+    return ccs.timeline.BlendFuncFrame;
 },
 
 /**
@@ -3957,12 +3957,12 @@ ccs.Timeline = {
 
 /**
  * @method clone
- * @return {ccs.timeline::Timeline}
+ * @return {ccs.timeline.Timeline}
  */
 clone : function (
 )
 {
-    return ccs.timeline::Timeline;
+    return ccs.timeline.Timeline;
 },
 
 /**
@@ -3987,17 +3987,17 @@ node
 
 /**
  * @method getActionTimeline
- * @return {ccs.timeline::ActionTimeline}
+ * @return {ccs.timeline.ActionTimeline}
  */
 getActionTimeline : function (
 )
 {
-    return ccs.timeline::ActionTimeline;
+    return ccs.timeline.ActionTimeline;
 },
 
 /**
  * @method insertFrame
- * @param {ccs.timeline::Frame} arg0
+ * @param {ccs.timeline.Frame} arg0
  * @param {int} arg1
  */
 insertFrame : function (
@@ -4019,7 +4019,7 @@ int
 
 /**
  * @method addFrame
- * @param {ccs.timeline::Frame} arg0
+ * @param {ccs.timeline.Frame} arg0
  */
 addFrame : function (
 frame 
@@ -4059,7 +4059,7 @@ getNode : function (
 
 /**
  * @method removeFrame
- * @param {ccs.timeline::Frame} arg0
+ * @param {ccs.timeline.Frame} arg0
  */
 removeFrame : function (
 frame 
@@ -4069,7 +4069,7 @@ frame
 
 /**
  * @method setActionTimeline
- * @param {ccs.timeline::ActionTimeline} arg0
+ * @param {ccs.timeline.ActionTimeline} arg0
  */
 setActionTimeline : function (
 actiontimeline 
@@ -4089,12 +4089,12 @@ int
 
 /**
  * @method create
- * @return {ccs.timeline::Timeline}
+ * @return {ccs.timeline.Timeline}
  */
 create : function (
 )
 {
-    return ccs.timeline::Timeline;
+    return ccs.timeline.Timeline;
 },
 
 /**
@@ -4148,13 +4148,13 @@ getActionTag : function (
 /**
  * @method create
  * @param {int} arg0
- * @return {ccs.timeline::ActionTimelineData}
+ * @return {ccs.timeline.ActionTimelineData}
  */
 create : function (
 int 
 )
 {
-    return ccs.timeline::ActionTimelineData;
+    return ccs.timeline.ActionTimelineData;
 },
 
 /**
@@ -4185,7 +4185,7 @@ func
 
 /**
  * @method addTimeline
- * @param {ccs.timeline::Timeline} arg0
+ * @param {ccs.timeline.Timeline} arg0
  */
 addTimeline : function (
 timeline 
@@ -4233,7 +4233,7 @@ init : function (
 
 /**
  * @method removeTimeline
- * @param {ccs.timeline::Timeline} arg0
+ * @param {ccs.timeline.Timeline} arg0
  */
 removeTimeline : function (
 timeline 
@@ -4288,13 +4288,13 @@ bool
 /**
  * @method getAnimationInfo
  * @param {String} arg0
- * @return {ccs.timeline::AnimationInfo}
+ * @return {ccs.timeline.AnimationInfo}
  */
 getAnimationInfo : function (
 str 
 )
 {
-    return ccs.timeline::AnimationInfo;
+    return ccs.timeline.AnimationInfo;
 },
 
 /**
@@ -4327,7 +4327,7 @@ getTimeSpeed : function (
 
 /**
  * @method addAnimationInfo
- * @param {ccs.timeline::AnimationInfo} arg0
+ * @param {ccs.timeline.AnimationInfo} arg0
  */
 addAnimationInfo : function (
 animationinfo 
@@ -4439,12 +4439,12 @@ int
 
 /**
  * @method create
- * @return {ccs.timeline::ActionTimeline}
+ * @return {ccs.timeline.ActionTimeline}
  */
 create : function (
 )
 {
-    return ccs.timeline::ActionTimeline;
+    return ccs.timeline.ActionTimeline;
 },
 
 /**
@@ -4581,12 +4581,12 @@ bool
 
 /**
  * @method getRootSkeletonNode
- * @return {ccs.timeline::SkeletonNode}
+ * @return {ccs.timeline.SkeletonNode}
  */
 getRootSkeletonNode : function (
 )
 {
-    return ccs.timeline::SkeletonNode;
+    return ccs.timeline.SkeletonNode;
 },
 
 /**
@@ -4662,13 +4662,13 @@ getDebugDrawColor : function (
 /**
  * @method create
 * @param {int} int
-* @return {ccs.timeline::BoneNode|ccs.timeline::BoneNode}
+* @return {ccs.timeline.BoneNode|ccs.timeline.BoneNode}
 */
 create : function(
 int 
 )
 {
-    return ccs.timeline::BoneNode;
+    return ccs.timeline.BoneNode;
 },
 
 /**
@@ -4690,13 +4690,13 @@ ccs.SkeletonNode = {
 /**
  * @method getBoneNode
  * @param {String} arg0
- * @return {ccs.timeline::BoneNode}
+ * @return {ccs.timeline.BoneNode}
  */
 getBoneNode : function (
 str 
 )
 {
-    return ccs.timeline::BoneNode;
+    return ccs.timeline.BoneNode;
 },
 
 /**
@@ -4733,12 +4733,12 @@ getAllSubBonesMap : function (
 
 /**
  * @method create
- * @return {ccs.timeline::SkeletonNode}
+ * @return {ccs.timeline.SkeletonNode}
  */
 create : function (
 )
 {
-    return ccs.timeline::SkeletonNode;
+    return ccs.timeline.SkeletonNode;
 },
 
 /**

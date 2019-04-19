@@ -19,13 +19,13 @@ dispose : function (
 /**
  * @method getArmatureData
  * @param {String} arg0
- * @return {dragonBones::ArmatureData}
+ * @return {dragonBones.ArmatureData}
  */
 getArmatureData : function (
 str 
 )
 {
-    return dragonBones::ArmatureData;
+    return dragonBones.ArmatureData;
 },
 
 /**
@@ -87,12 +87,12 @@ db.Object = {
 
 /**
  * @method getParent
- * @return {dragonBones::Bone}
+ * @return {dragonBones.Bone}
  */
 getParent : function (
 )
 {
-    return dragonBones::Bone;
+    return dragonBones.Bone;
 },
 
 /**
@@ -105,12 +105,12 @@ dispose : function (
 
 /**
  * @method getArmature
- * @return {dragonBones::Armature}
+ * @return {dragonBones.Armature}
  */
 getArmature : function (
 )
 {
-    return dragonBones::Armature;
+    return dragonBones.Armature;
 },
 
 /**
@@ -152,73 +152,73 @@ db.AnimationState = {
 /**
  * @method setCurrentTime
  * @param {float} arg0
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setCurrentTime : function (
 float 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method setTimeScale
  * @param {float} arg0
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setTimeScale : function (
 float 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method setAdditiveBlending
  * @param {bool} arg0
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setAdditiveBlending : function (
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method getClip
- * @return {dragonBones::AnimationData}
+ * @return {dragonBones.AnimationData}
  */
 getClip : function (
 )
 {
-    return dragonBones::AnimationData;
+    return dragonBones.AnimationData;
 },
 
 /**
  * @method setPlayTimes
  * @param {int} arg0
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setPlayTimes : function (
 int 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method removeMixingTransform
  * @param {String} arg0
  * @param {bool} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 removeMixingTransform : function (
 str, 
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -243,26 +243,26 @@ getCurrentPlayTimes : function (
 
 /**
  * @method removeAllMixingTransform
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 removeAllMixingTransform : function (
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method addMixingTransform
  * @param {String} arg0
  * @param {bool} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 addMixingTransform : function (
 str, 
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -279,14 +279,14 @@ getCurrentTime : function (
  * @method setAutoFadeOut
  * @param {bool} arg0
  * @param {float} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setAutoFadeOut : function (
 bool, 
 float 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -321,36 +321,36 @@ getPlayTimes : function (
 
 /**
  * @method play
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 play : function (
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method fadeOut
  * @param {float} arg0
  * @param {bool} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 fadeOut : function (
 float, 
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method stop
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 stop : function (
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -387,26 +387,26 @@ getTimeScale : function (
  * @method setFrameTween
  * @param {bool} arg0
  * @param {bool} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setFrameTween : function (
 bool, 
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method setWeight
  * @param {float} arg0
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 setWeight : function (
 float 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -513,12 +513,12 @@ str
 
 /**
  * @method getLastAnimationState
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 getLastAnimationState : function (
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -529,10 +529,10 @@ getLastAnimationState : function (
  * @param {int} arg3
  * @param {int} arg4
  * @param {String} arg5
- * @param {dragonBones::Animation::AnimationFadeOutMode} arg6
+ * @param {dragonBones.Animation.AnimationFadeOutMode} arg6
  * @param {bool} arg7
  * @param {bool} arg8
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 gotoAndPlay : function (
 str, 
@@ -546,21 +546,21 @@ bool,
 bool 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
  * @method getState
  * @param {String} arg0
  * @param {int} arg1
- * @return {dragonBones::AnimationState}
+ * @return {dragonBones.AnimationState}
  */
 getState : function (
 str, 
 int 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -612,8 +612,8 @@ getIsPlaying : function (
  * @param {float} arg4
  * @param {int} arg5
  * @param {String} arg6
- * @param {dragonBones::Animation::AnimationFadeOutMode} arg7
- * @return {dragonBones::AnimationState}
+ * @param {dragonBones.Animation.AnimationFadeOutMode} arg7
+ * @return {dragonBones.AnimationState}
  */
 gotoAndStop : function (
 str, 
@@ -626,7 +626,7 @@ str,
 animationfadeoutmode 
 )
 {
-    return dragonBones::AnimationState;
+    return dragonBones.AnimationState;
 },
 
 /**
@@ -658,25 +658,25 @@ db.Armature = {
 /**
  * @method getBone
  * @param {String} arg0
- * @return {dragonBones::Bone}
+ * @return {dragonBones.Bone}
  */
 getBone : function (
 str 
 )
 {
-    return dragonBones::Bone;
+    return dragonBones.Bone;
 },
 
 /**
  * @method getSlot
  * @param {String} arg0
- * @return {dragonBones::Slot}
+ * @return {dragonBones.Slot}
  */
 getSlot : function (
 str 
 )
 {
-    return dragonBones::Slot;
+    return dragonBones.Slot;
 },
 
 /**
@@ -701,7 +701,7 @@ bool
  * @method replaceSlot
  * @param {String} arg0
  * @param {String} arg1
- * @param {dragonBones::Slot} arg2
+ * @param {dragonBones.Slot} arg2
  */
 replaceSlot : function (
 str, 
@@ -713,8 +713,8 @@ slot
 
 /**
  * @method removeBone
-* @param {String|dragonBones::Bone} str
-* @return {dragonBones::Bone}
+* @param {String|dragonBones.Bone} str
+* @return {dragonBones.Bone}
 */
 removeBone : function(
 bone 
@@ -729,12 +729,12 @@ bone
 getDisplay : function (
 )
 {
-    return void;
+    return;
 },
 
 /**
  * @method addSlot
- * @param {dragonBones::Slot} arg0
+ * @param {dragonBones.Slot} arg0
  * @param {String} arg1
  */
 addSlot : function (
@@ -757,19 +757,18 @@ str
 /**
  * @method getBoneByDisplay
  * @param {void} arg0
- * @return {dragonBones::Bone}
+ * @return {dragonBones.Bone}
  */
 getBoneByDisplay : function (
-void 
 )
 {
-    return dragonBones::Bone;
+    return dragonBones.Bone;
 },
 
 /**
  * @method removeSlot
-* @param {String|dragonBones::Slot} str
-* @return {dragonBones::Slot}
+* @param {String|dragonBones.Slot} str
+* @return {dragonBones.Slot}
 */
 removeSlot : function(
 slot 
@@ -789,7 +788,7 @@ isInheritAnimation : function (
 
 /**
  * @method addBone
-* @param {dragonBones::Bone|dragonBones::Bone} bone
+* @param {dragonBones.Bone|dragonBones.Bone} bone
 * @param {String} str
 */
 addBone : function(
@@ -801,22 +800,22 @@ str
 
 /**
  * @method getArmatureData
- * @return {dragonBones::ArmatureData}
+ * @return {dragonBones.ArmatureData}
  */
 getArmatureData : function (
 )
 {
-    return dragonBones::ArmatureData;
+    return dragonBones.ArmatureData;
 },
 
 /**
  * @method getAnimation
- * @return {dragonBones::Animation}
+ * @return {dragonBones.Animation}
  */
 getAnimation : function (
 )
 {
-    return dragonBones::Animation;
+    return dragonBones.Animation;
 },
 
 /**
@@ -830,38 +829,36 @@ sortSlotsByZOrder : function (
 /**
  * @method getSlotByDisplay
  * @param {void} arg0
- * @return {dragonBones::Slot}
+ * @return {dragonBones.Slot}
  */
 getSlotByDisplay : function (
-void 
 )
 {
-    return dragonBones::Slot;
+    return dragonBones.Slot;
 },
 
 /**
  * @method getEventDispatcher
- * @return {dragonBones::IEventDispatcher}
+ * @return {dragonBones.IEventDispatcher}
  */
 getEventDispatcher : function (
 )
 {
-    return dragonBones::IEventDispatcher;
+    return dragonBones.IEventDispatcher;
 },
 
 /**
  * @method Armature
  * @constructor
- * @param {dragonBones::ArmatureData} arg0
- * @param {dragonBones::Animation} arg1
- * @param {dragonBones::IEventDispatcher} arg2
+ * @param {dragonBones.ArmatureData} arg0
+ * @param {dragonBones.Animation} arg1
+ * @param {dragonBones.IEventDispatcher} arg2
  * @param {void} arg3
  */
 Armature : function (
 armaturedata, 
 animation, 
-ieventdispatcher, 
-void 
+ieventdispatcher
 )
 {
 },
@@ -875,7 +872,7 @@ db.Bone = {
 
 /**
  * @method addChild
- * @param {dragonBones::Object} arg0
+ * @param {dragonBones.Object} arg0
  */
 addChild : function (
 object 
@@ -885,17 +882,17 @@ object
 
 /**
  * @method getSlot
- * @return {dragonBones::Slot}
+ * @return {dragonBones.Slot}
  */
 getSlot : function (
 )
 {
-    return dragonBones::Slot;
+    return dragonBones.Slot;
 },
 
 /**
  * @method contains
- * @param {dragonBones::Object} arg0
+ * @param {dragonBones.Object} arg0
  * @return {bool}
  */
 contains : function (
@@ -907,7 +904,7 @@ object
 
 /**
  * @method removeChild
- * @param {dragonBones::Object} arg0
+ * @param {dragonBones.Object} arg0
  */
 removeChild : function (
 object 
@@ -946,7 +943,7 @@ db.BaseFactory = {
 * @param {String} str
 * @param {String} str
 * @param {String} str
-* @return {dragonBones::Armature|dragonBones::Armature|dragonBones::Armature}
+* @return {dragonBones.Armature|dragonBones.Armature|dragonBones.Armature}
 */
 buildArmature : function(
 str,
@@ -956,7 +953,7 @@ str,
 str 
 )
 {
-    return dragonBones::Armature;
+    return dragonBones.Armature;
 },
 
 /**
@@ -973,7 +970,7 @@ bool
 
 /**
  * @method addTextureAtlas
- * @param {dragonBones::ITextureAtlas} arg0
+ * @param {dragonBones.ITextureAtlas} arg0
  * @param {String} arg1
  */
 addTextureAtlas : function (
@@ -985,7 +982,7 @@ str
 
 /**
  * @method addDragonBonesData
- * @param {dragonBones::DragonBonesData} arg0
+ * @param {dragonBones.DragonBonesData} arg0
  * @param {String} arg1
  */
 addDragonBonesData : function (
@@ -1006,20 +1003,20 @@ dispose : function (
 /**
  * @method getTextureAtlas
  * @param {String} arg0
- * @return {dragonBones::ITextureAtlas}
+ * @return {dragonBones.ITextureAtlas}
  */
 getTextureAtlas : function (
 str 
 )
 {
-    return dragonBones::ITextureAtlas;
+    return dragonBones.ITextureAtlas;
 },
 
 /**
  * @method getTextureDisplay
  * @param {String} arg0
  * @param {String} arg1
- * @param {dragonBones::DisplayData} arg2
+ * @param {dragonBones.DisplayData} arg2
  * @return {void}
  */
 getTextureDisplay : function (
@@ -1028,7 +1025,7 @@ str,
 displaydata 
 )
 {
-    return void;
+    return;
 },
 
 /**
@@ -1046,13 +1043,13 @@ bool
 /**
  * @method getDragonBonesData
  * @param {String} arg0
- * @return {dragonBones::DragonBonesData}
+ * @return {dragonBones.DragonBonesData}
  */
 getDragonBonesData : function (
 str 
 )
 {
-    return dragonBones::DragonBonesData;
+    return dragonBones.DragonBonesData;
 },
 
 /**
@@ -1091,12 +1088,12 @@ getGlobalPosition : function (
 
 /**
  * @method getCCChildArmature
- * @return {dragonBones::DBCCArmature}
+ * @return {dragonBones.DBCCArmature}
  */
 getCCChildArmature : function (
 )
 {
-    return dragonBones::DBCCArmature;
+    return dragonBones.DBCCArmature;
 },
 
 /**
@@ -1124,7 +1121,7 @@ bool
 /**
  * @method DBCCSlot
  * @constructor
- * @param {dragonBones::SlotData} arg0
+ * @param {dragonBones.SlotData} arg0
  */
 DBCCSlot : function (
 slotdata 
@@ -1161,17 +1158,17 @@ getCCEventDispatcher : function (
 
 /**
  * @method getArmatureNode
- * @return {dragonBones::DBCCArmatureNode}
+ * @return {dragonBones.DBCCArmatureNode}
  */
 getArmatureNode : function (
 )
 {
-    return dragonBones::DBCCArmatureNode;
+    return dragonBones.DBCCArmatureNode;
 },
 
 /**
  * @method setArmatureNode
- * @param {dragonBones::DBCCArmatureNode} arg0
+ * @param {dragonBones.DBCCArmatureNode} arg0
  */
 setArmatureNode : function (
 dbccarmaturenode 
@@ -1182,13 +1179,13 @@ dbccarmaturenode
 /**
  * @method getCCSlot
  * @param {String} arg0
- * @return {dragonBones::DBCCSlot}
+ * @return {dragonBones.DBCCSlot}
  */
 getCCSlot : function (
 str 
 )
 {
-    return dragonBones::DBCCSlot;
+    return dragonBones.DBCCSlot;
 },
 
 /**
@@ -1204,9 +1201,9 @@ getCCDisplay : function (
 /**
  * @method DBCCArmature
  * @constructor
- * @param {dragonBones::ArmatureData} arg0
- * @param {dragonBones::Animation} arg1
- * @param {dragonBones::IEventDispatcher} arg2
+ * @param {dragonBones.ArmatureData} arg0
+ * @param {dragonBones.Animation} arg1
+ * @param {dragonBones.IEventDispatcher} arg2
  * @param {cc.Node} arg3
  */
 DBCCArmature : function (
@@ -1227,12 +1224,12 @@ db.DBCCArmatureNode = {
 
 /**
  * @method getAnimation
- * @return {dragonBones::Animation}
+ * @return {dragonBones.Animation}
  */
 getAnimation : function (
 )
 {
-    return dragonBones::Animation;
+    return dragonBones.Animation;
 },
 
 /**
@@ -1277,12 +1274,12 @@ play : function (
 
 /**
  * @method getArmature
- * @return {dragonBones::DBCCArmature}
+ * @return {dragonBones.DBCCArmature}
  */
 getArmature : function (
 )
 {
-    return dragonBones::DBCCArmature;
+    return dragonBones.DBCCArmature;
 },
 
 /**
@@ -1304,13 +1301,13 @@ int
 /**
  * @method getCCSlot
  * @param {String} arg0
- * @return {dragonBones::DBCCSlot}
+ * @return {dragonBones.DBCCSlot}
  */
 getCCSlot : function (
 str 
 )
 {
-    return dragonBones::DBCCSlot;
+    return dragonBones.DBCCSlot;
 },
 
 /**
@@ -1355,8 +1352,8 @@ float
 
 /**
  * @method initWithDBCCArmature
- * @param {dragonBones::DBCCArmature} arg0
- * @param {dragonBones::WorldClock} arg1
+ * @param {dragonBones.DBCCArmature} arg0
+ * @param {dragonBones.WorldClock} arg1
  * @return {bool}
  */
 initWithDBCCArmature : function (
@@ -1379,28 +1376,28 @@ getCCDisplay : function (
 
 /**
  * @method create
- * @param {dragonBones::DBCCArmature} arg0
- * @return {dragonBones::DBCCArmatureNode}
+ * @param {dragonBones.DBCCArmature} arg0
+ * @return {dragonBones.DBCCArmatureNode}
  */
 create : function (
 dbccarmature 
 )
 {
-    return dragonBones::DBCCArmatureNode;
+    return dragonBones.DBCCArmatureNode;
 },
 
 /**
  * @method createWithWorldClock
- * @param {dragonBones::DBCCArmature} arg0
- * @param {dragonBones::WorldClock} arg1
- * @return {dragonBones::DBCCArmatureNode}
+ * @param {dragonBones.DBCCArmature} arg0
+ * @param {dragonBones.WorldClock} arg1
+ * @return {dragonBones.DBCCArmatureNode}
  */
 createWithWorldClock : function (
 dbccarmature, 
 worldclock 
 )
 {
-    return dragonBones::DBCCArmatureNode;
+    return dragonBones.DBCCArmatureNode;
 },
 
 /**
@@ -1436,13 +1433,13 @@ int
 /**
  * @method createWithSpriteFrame
  * @param {cc.SpriteFrame} arg0
- * @return {dragonBones::DBCCSprite}
+ * @return {dragonBones.DBCCSprite}
  */
 createWithSpriteFrame : function (
 spriteframe 
 )
 {
-    return dragonBones::DBCCSprite;
+    return dragonBones.DBCCSprite;
 },
 
 /**
@@ -1468,7 +1465,7 @@ db.DBCCFactory = {
 * @param {String} str
 * @param {String} str
 * @param {String} str
-* @return {dragonBones::DBCCArmatureNode|dragonBones::DBCCArmatureNode|dragonBones::DBCCArmatureNode}
+* @return {dragonBones.DBCCArmatureNode|dragonBones.DBCCArmatureNode|dragonBones.DBCCArmatureNode}
 */
 buildArmatureNode : function(
 str,
@@ -1478,7 +1475,7 @@ str,
 str 
 )
 {
-    return dragonBones::DBCCArmatureNode;
+    return dragonBones.DBCCArmatureNode;
 },
 
 /**
@@ -1501,14 +1498,14 @@ str
  * @method loadTextureAtlas
  * @param {String} arg0
  * @param {String} arg1
- * @return {dragonBones::ITextureAtlas}
+ * @return {dragonBones.ITextureAtlas}
  */
 loadTextureAtlas : function (
 str, 
 str 
 )
 {
-    return dragonBones::ITextureAtlas;
+    return dragonBones.ITextureAtlas;
 },
 
 /**
@@ -1533,14 +1530,14 @@ str
  * @method loadDragonBonesData
  * @param {String} arg0
  * @param {String} arg1
- * @return {dragonBones::DragonBonesData}
+ * @return {dragonBones.DragonBonesData}
  */
 loadDragonBonesData : function (
 str, 
 str 
 )
 {
-    return dragonBones::DragonBonesData;
+    return dragonBones.DragonBonesData;
 },
 
 /**
@@ -1553,12 +1550,12 @@ destroyInstance : function (
 
 /**
  * @method getInstance
- * @return {dragonBones::DBCCFactory}
+ * @return {dragonBones.DBCCFactory}
  */
 getInstance : function (
 )
 {
-    return dragonBones::DBCCFactory;
+    return dragonBones.DBCCFactory;
 },
 
 /**
@@ -1579,7 +1576,7 @@ db.DBCCHelper = {
 
 /**
  * @method onRemovedArmatureNode
- * @param {dragonBones::DBCCArmatureNode} arg0
+ * @param {dragonBones.DBCCArmatureNode} arg0
  */
 onRemovedArmatureNode : function (
 dbccarmaturenode 
@@ -1593,7 +1590,7 @@ dbccarmaturenode
  * @param {String} arg1
  * @param {String} arg2
  * @param {String} arg3
- * @return {dragonBones::DBCCArmatureNode}
+ * @return {dragonBones.DBCCArmatureNode}
  */
 buildAsyncArmatureNode : function (
 str, 
@@ -1602,7 +1599,7 @@ str,
 str 
 )
 {
-    return dragonBones::DBCCArmatureNode;
+    return dragonBones.DBCCArmatureNode;
 },
 
 /**
@@ -1627,12 +1624,12 @@ str
 
 /**
  * @method getInstance
- * @return {dragonBones::DBCCHelper}
+ * @return {dragonBones.DBCCHelper}
  */
 getInstance : function (
 )
 {
-    return dragonBones::DBCCHelper;
+    return dragonBones.DBCCHelper;
 },
 
 /**

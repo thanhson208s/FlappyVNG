@@ -43,7 +43,6 @@ getBoneCurveByName : function (
 str 
 )
 {
-    return cc.Animation3D::Curve;
 },
 
 /**
@@ -1135,7 +1134,6 @@ int
  * @param {void} arg0
  */
 afterAsyncLoad : function (
-void 
 )
 {
 },

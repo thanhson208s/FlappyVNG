@@ -39,7 +39,6 @@ initConfig : function (
 getLastData : function (
 )
 {
-    return fr::sPackage;
 },
 
 /**
@@ -63,7 +62,6 @@ double,
 bool 
 )
 {
-    return fr::sPackage;
 },
 
 /**
@@ -131,7 +129,6 @@ conPlayGetDataBall : function (
 int 
 )
 {
-    return fr::sPackage;
 },
 
 /**
@@ -151,7 +148,6 @@ int
 getInstance : function (
 )
 {
-    return fr::PhysicBidaGen;
 },
 
 /**

@@ -271,7 +271,6 @@ bool
 getDefaultProfile : function (
 )
 {
-    return cc.experimental::AudioProfile;
 },
 
 /**
@@ -295,7 +294,6 @@ getProfile : function(
 int 
 )
 {
-    return cc.experimental::AudioProfile;
 },
 
 };

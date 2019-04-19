@@ -811,7 +811,6 @@ getTag : function (
 getonEnterTransitionDidFinishCallback : function (
 )
 {
-    return std::function<void ()>;
 },
 
 /**
@@ -1059,7 +1058,6 @@ touch
 getOnEnterCallback : function (
 )
 {
-    return std::function<void ()>;
 },
 
 /**
@@ -1648,7 +1646,6 @@ float
 getOnExitCallback : function (
 )
 {
-    return std::function<void ()>;
 },
 
 /**
@@ -1838,7 +1835,6 @@ func
 getonExitTransitionDidStartCallback : function (
 )
 {
-    return std::function<void ()>;
 },
 
 /**
@@ -19104,7 +19100,6 @@ float
 getDefaultViewport : function (
 )
 {
-    return cc.experimental::Viewport;
 },
 
 /**
@@ -20532,7 +20527,6 @@ getName : function (
 getStateBlock : function (
 )
 {
-    return cc.RenderState::StateBlock;
 },
 
 /**

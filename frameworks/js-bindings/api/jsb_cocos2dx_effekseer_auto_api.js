@@ -11,13 +11,13 @@ efk.Effect = {
 /**
  * @method create
  * @param {String} arg0
- * @return {efk::Effect}
+ * @return {efk.Effect}
  */
 create : function (
 str 
 )
 {
-    return efk::Effect;
+    return efk.Effect;
 },
 
 /**
@@ -48,7 +48,7 @@ getInternalHandle : function (
 
 /**
  * @method setEffect
- * @param {efk::Effect} arg0
+ * @param {efk.Effect} arg0
  */
 setEffect : function (
 effect 
@@ -184,12 +184,12 @@ bool
 
 /**
  * @method getEffect
- * @return {efk::Effect}
+ * @return {efk.Effect}
  */
 getEffect : function (
 )
 {
-    return efk::Effect;
+    return efk.Effect;
 },
 
 /**
@@ -204,22 +204,22 @@ getSpeed : function (
 
 /**
  * @method create
-* @param {efk::EffectManager|efk::EffectManager} effectmanager
+* @param {efk.EffectManager|efk.EffectManager} effectmanager
 * @param {String} str
-* @return {efk::EffectEmitter|efk::EffectEmitter}
+* @return {efk.EffectEmitter|efk.EffectEmitter}
 */
 create : function(
 effectmanager,
 str 
 )
 {
-    return efk::EffectEmitter;
+    return efk.EffectEmitter;
 },
 
 /**
  * @method EffectEmitter
  * @constructor
- * @param {efk::EffectManager} arg0
+ * @param {efk.EffectManager} arg0
  */
 EffectEmitter : function (
 effectmanager 
@@ -299,13 +299,13 @@ mat4
 /**
  * @method create
  * @param {size_object} arg0
- * @return {efk::EffectManager}
+ * @return {efk.EffectManager}
  */
 create : function (
 size 
 )
 {
-    return efk::EffectManager;
+    return efk.EffectManager;
 },
 
 /**

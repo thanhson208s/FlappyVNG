@@ -117,7 +117,6 @@ getFolderAssetsName : function (
 getInstance : function (
 )
 {
-    return fr::FrameworkDelegate;
 },
 
 /**
@@ -329,7 +328,6 @@ putInt : function (
 int 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -379,7 +377,6 @@ putUnsignedShort : function (
 short 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -391,7 +388,6 @@ putShort : function (
 int 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -403,7 +399,6 @@ putDouble : function (
 double 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -425,7 +420,6 @@ putString : function (
 str 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -439,7 +433,6 @@ char,
 int 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -448,10 +441,8 @@ int
  * @return {fr::OutPacket}
  */
 putLong : function (
-long long 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -485,7 +476,6 @@ char,
 int 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -497,7 +487,6 @@ putByte : function (
 int 
 )
 {
-    return fr::OutPacket;
 },
 
 /**
@@ -771,7 +760,6 @@ gsnclient
 create : function (
 )
 {
-    return fr::GsnClient;
 },
 
 /**
@@ -781,7 +769,6 @@ create : function (
 getInstance : function (
 )
 {
-    return fr::GsnClient;
 },
 
 /**
@@ -1014,7 +1001,6 @@ size,
 func 
 )
 {
-    return fr::AsyncSprite;
 },
 
 };
@@ -1095,7 +1081,6 @@ str,
 func 
 )
 {
-    return fr::HttpMultipart;
 },
 
 /**
@@ -1469,7 +1454,6 @@ getTrackId : function (
 getInstance : function (
 )
 {
-    return fr::NativePortal;
 },
 
 };

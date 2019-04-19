@@ -141,7 +141,6 @@ float
 create : function (
 )
 {
-    return cc.experimental::ui::VideoPlayer;
 },
 
 /**

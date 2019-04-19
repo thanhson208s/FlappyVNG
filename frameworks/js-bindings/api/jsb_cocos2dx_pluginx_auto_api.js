@@ -74,7 +74,6 @@ loadPlugin : function (
 char 
 )
 {
-    return cc.plugin::PluginProtocol;
 },
 
 /**
@@ -92,7 +91,6 @@ end : function (
 getInstance : function (
 )
 {
-    return cc.plugin::PluginManager;
 },
 
 };
@@ -210,7 +208,6 @@ char
 getCallback : function (
 )
 {
-    return std::function<void (int, std::basic_string<char> &)>;
 },
 
 /**
@@ -267,7 +264,6 @@ queryPoints : function (
 getCallback : function (
 )
 {
-    return std::function<void (int, std::basic_string<char> &)>;
 },
 
 /**
@@ -316,7 +312,6 @@ char
 getCallback : function (
 )
 {
-    return std::function<void (int, std::basic_string<char> &)>;
 },
 
 /**
@@ -361,7 +356,6 @@ showAchievements : function (
 getCallback : function (
 )
 {
-    return std::function<void (int, std::basic_string<char> &)>;
 },
 
 /**
@@ -388,7 +382,6 @@ db.ProtocolUser = {
 getCallback : function (
 )
 {
-    return std::function<void (int, std::basic_string<char> &)>;
 },
 
 /**
@@ -445,7 +438,6 @@ db.AgentManager = {
 getSocialPlugin : function (
 )
 {
-    return cc.plugin::ProtocolSocial;
 },
 
 /**
@@ -455,7 +447,6 @@ getSocialPlugin : function (
 getAdsPlugin : function (
 )
 {
-    return cc.plugin::ProtocolAds;
 },
 
 /**
@@ -473,7 +464,6 @@ purge : function (
 getUserPlugin : function (
 )
 {
-    return cc.plugin::ProtocolUser;
 },
 
 /**
@@ -483,7 +473,6 @@ getUserPlugin : function (
 getIAPPlugin : function (
 )
 {
-    return cc.plugin::ProtocolIAP;
 },
 
 /**
@@ -493,7 +482,6 @@ getIAPPlugin : function (
 getSharePlugin : function (
 )
 {
-    return cc.plugin::ProtocolShare;
 },
 
 /**
@@ -503,7 +491,6 @@ getSharePlugin : function (
 getAnalyticsPlugin : function (
 )
 {
-    return cc.plugin::ProtocolAnalytics;
 },
 
 /**
@@ -521,7 +508,6 @@ destroyInstance : function (
 getInstance : function (
 )
 {
-    return cc.plugin::AgentManager;
 },
 
 };
@@ -642,7 +628,6 @@ destroyInstance : function (
 getInstanceJs : function (
 )
 {
-    return cc.plugin::FacebookAgent;
 },
 
 };
