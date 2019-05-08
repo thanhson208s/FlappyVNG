@@ -10,6 +10,8 @@ cc.game.onStart = function () {
     cc.view.enableRetina(true);
     // Adjust viewport meta
     cc.view.adjustViewPort(true);
+    jsb.fileUtils.addSearchPath(fr.NativeService.getFolderUpdateAssets(), true);
+    jsb.fileUtils.addSearchPath(fr.NativeService.getFolderUpdateAssets() + "/res", true);
     cc.loader.resPath = "res";
     cc.LoaderScene.preload(g_resources, function () {
         //hide fps
