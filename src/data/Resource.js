@@ -72,5 +72,12 @@ var g_resources = [
     "zcsd/screen_localize.json",
     "zcsd/screen_menu.json",
     "zcsd/screen_network.json",
-    "zcsd/screen_zalo.json"
+    "zcsd/screen_zalo.json",
+    "flappy/flappy.png",
+    "flappy/background.png",
+    "flappy/bird/up.png",
+    "flappy/bird/down.png",
+    "flappy/bird/mid.png",
+    "flappy/play.png",
+    "flappy/replay.png"
 ];
