@@ -33,7 +33,7 @@ cc.game.onStart = function () {
         //modules
         testnetwork.connector = new testnetwork.Connector(gv.gameClient);
 
-        fr.view(ScreenFlappy);
+        fr.view(ScreenFlappy, 3);
     }, this);
 };
 cc.game.run();

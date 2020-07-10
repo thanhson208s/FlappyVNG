@@ -22,18 +22,18 @@ var ScreenFlappy = cc.Layer.extend({
 
         var flappySprite = new Flappy();
         flappySprite.setPosition(size.width*1/3, this.bird.y);
-        this.addChild(flappySprite);
+
         this.bird.sprite = flappySprite;
 
         var background = new Background(size.width, size.height);
         background.setPosition(size.width/2, size.height/2);
-        this.addChild(background);
+
         this.background = background;
 
         var coverLayer = new cc.LayerColor(cc.color(0,0,0,0), size.width, size.height);
         coverLayer.setPosition(size.width/2, size.height/2);
         coverLayer.zIndex = 1;
-        this.addChild(coverLayer);
+
 
         var btnPlay = new cc.Sprite("flappy/play.png");
         btnPlay.setPosition(size.width*2/3, size.height/2);
@@ -56,9 +56,14 @@ var ScreenFlappy = cc.Layer.extend({
                 screen.removeChild(btnPlay);
                 screen.bird.v = screen.bird.v0;
                 screen.update = screen.flyingFlappy;
+                cc.audioEngine.playMusic("flappy/theme.mp3", true);
             }
         }, btnPlay);
+
         this.addChild(btnPlay);
+        this.addChild(coverLayer);
+        this.addChild(background);
+        this.addChild(flappySprite);
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
@@ -77,7 +82,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.y += this.bird.v * dt;
         this.bird.sprite.y = this.bird.y;
 
-        if (this.bird.y <= this.limit.min * this.height || this.bird.y >= this.limit.max * this.height) {
+        if (this.bird.y <= this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2 || this.bird.y >= this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2) {
             console.log("Losed");
             this.unscheduleUpdate();
             this.background.unscheduleUpdate();
@@ -93,7 +98,7 @@ var ScreenFlappy = cc.Layer.extend({
                     var y = sender.getLocationY();
                     if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
                     if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
-                    fr.view(ScreenFlappy);
+                    fr.view(ScreenFlappy, 3);
                 }
             }, btnReplay);
             this.addChild(btnReplay);
