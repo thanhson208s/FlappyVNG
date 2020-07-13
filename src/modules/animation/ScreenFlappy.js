@@ -12,28 +12,28 @@ var ScreenFlappy = cc.Layer.extend({
         this._super();
         var size = cc.director.getVisibleSize();
 
-        this.bird = {g: -2000, v0: 800, gAngle: 720, vAngle0: -720, maxAngle: -30, minAngle: 90};
+        this.bird = {g: -2000, v0: 800, vMax: -1000, gAngle: 720, vAngle0: -720, maxAngle: -30, minAngle: 90};
         this.bird.v = 20;
         this.bird.y = size.height*1/2;
         this.bird.vAngle = 0;
         this.bird.angle = 0;
-
         this.limit = {max: 1, min: 75/900};
 
         var flappySprite = new Flappy();
         flappySprite.setPosition(size.width*1/3, this.bird.y);
-
         this.bird.sprite = flappySprite;
 
         var background = new Background(size.width, size.height);
         background.setPosition(size.width/2, size.height/2);
-
         this.background = background;
+
+        var obstacleLayer = new Obstacle(size.width, size.height);
+        obstacleLayer.setPosition(size.width/2, size.height/2);
+        this.obstacleLayer = obstacleLayer;
 
         var coverLayer = new cc.LayerColor(cc.color(0,0,0,0), size.width, size.height);
         coverLayer.setPosition(size.width/2, size.height/2);
         coverLayer.zIndex = 1;
-
 
         var btnPlay = new cc.Sprite("flappy/play.png");
         btnPlay.setPosition(size.width*2/3, size.height/2);
@@ -49,14 +49,15 @@ var ScreenFlappy = cc.Layer.extend({
                 cc.eventManager.addListener({
                     event: cc.EventListener.MOUSE,
                     onMouseDown: function(sender){
-                        var bird = sender.getCurrentTarget().parent.bird;
-                        bird.v = bird.v0;
+                        var screen = sender.getCurrentTarget().parent;
+                        screen.bird.v = screen.bird.v0;
                     }
                 }, coverLayer);
                 screen.removeChild(btnPlay);
                 screen.bird.v = screen.bird.v0;
                 screen.update = screen.flyingFlappy;
-                cc.audioEngine.playMusic("flappy/theme.mp3", true);
+                obstacleLayer.initPipes();
+                //cc.audioEngine.playMusic("flappy/theme.mp3", true);
             }
         }, btnPlay);
 
@@ -64,6 +65,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(coverLayer);
         this.addChild(background);
         this.addChild(flappySprite);
+        this.addChild(obstacleLayer);
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
@@ -79,14 +81,19 @@ var ScreenFlappy = cc.Layer.extend({
     flyingFlappy: function(dt)
     {
         this.bird.v += this.bird.g * dt;
+        if (this.bird.v < this.bird.vMax)
+            this.bird.v = this.bird.vMax;
         this.bird.y += this.bird.v * dt;
-        this.bird.sprite.y = this.bird.y;
 
         if (this.bird.y <= this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2 || this.bird.y >= this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2) {
-            console.log("Losed");
+            if (this.bird.y < this.height / 2)
+                this.bird.sprite.y = this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2;
+            else
+                this.bird.sprite.y = this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2;
             this.unscheduleUpdate();
             this.background.unscheduleUpdate();
             this.bird.sprite.unscheduleUpdate();
+            this.obstacleLayer.unscheduleUpdate();
 
             var btnReplay = new cc.Sprite("flappy/replay.png");
             btnReplay.setPosition(this.width/2, this.height/2);
@@ -104,6 +111,7 @@ var ScreenFlappy = cc.Layer.extend({
             this.addChild(btnReplay);
             return;
         }
+        this.bird.sprite.y = this.bird.y;
 
         if (this.bird.v >= 0){
             this.bird.vAngle = this.bird.vAngle0;
