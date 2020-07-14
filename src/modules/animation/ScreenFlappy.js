@@ -41,6 +41,7 @@ var ScreenFlappy = cc.Layer.extend({
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseDown: function(sender){
+                cc.log("Down 1");
                 var x = sender.getLocationX();
                 var y = sender.getLocationY();
                 if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
@@ -60,13 +61,15 @@ var ScreenFlappy = cc.Layer.extend({
             }
         }, btnPlay);
 
+
+
+        this.update = this.idleFlappy;
+        this.scheduleUpdate();
+
         this.addChild(btnPlay);
         this.addChild(coverLayer);
         this.addChild(background);
         this.addChild(flappySprite);
-
-        this.update = this.idleFlappy;
-        this.scheduleUpdate();
     },
     idleFlappy: function(dt)
     {

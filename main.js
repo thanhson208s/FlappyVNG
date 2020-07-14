@@ -1,6 +1,26 @@
 
 var gv = gv || {};
 
+var TestScene = cc.Layer.extend({
+    ctor: function() {
+        this._super();
+    },
+
+    onEnter: function() {
+        this._super();
+        this.initEvents();
+    },
+
+    initEvents: function() {
+        cc.eventManager.addListener({
+            event: cc.EventListener.MOUSE,
+            onMouseDown: function(sender){
+                cc.log("Down 1");
+            }
+        }, this);
+    }
+})
+
 var DESIGN_RESOLUTION_WIDTH = 1136;
 var DESIGN_RESOLUTION_HEIGHT = 640;
 cc.game.onStart = function () {
@@ -33,7 +53,8 @@ cc.game.onStart = function () {
         //modules
         testnetwork.connector = new testnetwork.Connector(gv.gameClient);
 
-        fr.view(ScreenFlappy, 3);
+        fr.view(ScreenFlappy);
     }, this);
+
 };
 cc.game.run();
