@@ -84,5 +84,16 @@ var g_resources = [
     "flappy/sfx/sfx_wing.wav",
     "flappy/ground.png",
     "flappy/pipedown.png",
-    "plappy/pipeup.png"
+    "flappy/pipeup.png",
+    "flappy/num/0.png",
+    "flappy/num/1.png",
+    "flappy/num/2.png",
+    "flappy/num/3.png",
+    "flappy/num/4.png",
+    "flappy/num/5.png",
+    "flappy/num/6.png",
+    "flappy/num/7.png",
+    "flappy/num/8.png",
+    "flappy/num/9.png",
+    "flappy/highscore.txt"
 ];
