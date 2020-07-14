@@ -12,35 +12,28 @@ var ScreenFlappy = cc.Layer.extend({
     _beginPos:0,
     isMouseDown:false,
 
-    ctor:function() {
+    ctor:function()
+    {
+        //singleton
         this._super();
-        var size = cc.director.getVisibleSize();
+        ScreenFlappy._instance = this;
+        //singleton
 
-        this.bird = {g: -2000, v0: 750, vMax: -1000, vFall: -200, gAngle: 720, vAngle0: -720, maxAngle: -30, minAngle: 90};
+        //properties
+        var size = cc.director.getVisibleSize();
+        this.bird = {g: -2000, v0: 750, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
         this.bird.v = 20;
         this.bird.y = size.height*1/2;
         this.bird.vAngle = 0;
         this.bird.angle = 0;
         this.limit = {max: 1, min: 75/900};
+        //properties
 
-        var flappySprite = new Flappy();
-        flappySprite.setPosition(size.width*1/3, this.bird.y);
-        this.bird.sprite = flappySprite;
-
-        var background = new Background(size.width, size.height);
-        background.setPosition(size.width/2, size.height/2);
-        this.background = background;
-
-        var pointLayer = new PointSystem(this.width, this.height);
-        pointLayer.setPosition(size.width/2, size.height/2);
-        this.pointLayer = pointLayer;
-
-        var obstacleLayer = new Obstacle(size.width, size.height);
-        obstacleLayer.setPosition(size.width/2, size.height/2);
-        this.obstacleLayer = obstacleLayer;
-
-        var coverLayer = new cc.LayerColor(cc.color(0,0,0,0), size.width, size.height);
-        coverLayer.setPosition(size.width/2, size.height/2);
+        this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
+        this.addChild(new Background(size.width, size.height), -1);
+        this.addChild(new PointSystem(size.width, size.height), 1);
+        this.addChild(new Obstacle(size.width, size.height), 0);
+        this.addChild(new DeathLayer(size.width, size.height), 10);
 
         var btnPlay = new cc.Sprite("flappy/play.png");
         btnPlay.setPosition(size.width*2/3, size.height/2);
@@ -48,70 +41,88 @@ var ScreenFlappy = cc.Layer.extend({
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseDown: function(sender){
-                cc.log("Down 1");
                 var x = sender.getLocationX();
                 var y = sender.getLocationY();
                 if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
                 if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
                 var screen = sender.getCurrentTarget().parent;
-                cc.eventManager.addListener({
+                screen.clickListener = cc.eventManager.addListener({
                     event: cc.EventListener.MOUSE,
-                    onMouseDown: function(sender){
-                        var screen = sender.getCurrentTarget().parent;
-                        screen.bird.v = screen.bird.v0;
-                    }
-                }, coverLayer);
+                    onMouseDown: screen.pushTheBird
+                }, screen);
                 screen.removeChild(btnPlay);
                 screen.bird.v = screen.bird.v0;
                 screen.update = screen.flyingFlappy;
-                obstacleLayer.initPipes();
+                Obstacle.Instance().initPipes();
                 //cc.audioEngine.playMusic("flappy/theme.mp3", true);
             }
         }, btnPlay);
-
-
-
-        this.update = this.idleFlappy;
-        this.scheduleUpdate();
-
         this.addChild(btnPlay);
-        this.addChild(pointLayer);
-        this.addChild(coverLayer);
-        this.addChild(background);
-        this.addChild(flappySprite);
-        this.addChild(obstacleLayer);
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
     },
+
     idleFlappy: function(dt)
     {
         var amplitude = 10;
         this.bird.y += this.bird.v * dt;
         if (this.bird.y >= this.height/2 + amplitude || this.bird.y <= this.height/2 - amplitude)
             this.bird.v = -this.bird.v;
-        this.bird.sprite.y = this.bird.y;
+        Flappy.Instance().y = this.bird.y;
     },
+
     flyingFlappy: function(dt)
     {
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
         this.bird.y += this.bird.v * dt;
-        if(this.obstacleLayer.collided(this.bird.sprite)){
-            cc.log("collied");
+        var colliedWithPipes = Obstacle.Instance().collided();
+        var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2 || this.bird.y >= this.limit.max * this.height - Flappy.Instance().height * Flappy.Instance().getScaleY()/2;
+
+        if (colliedWithPipes || colliedWithBorders) {
+            DeathLayer.Instance().flash();
+            this.setFallingFlappy();
+            return;
         }
+        Flappy.Instance().y = this.bird.y;
 
-        if (this.bird.y <= this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2 || this.bird.y >= this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2) {
-            if (this.bird.y < this.height / 2)
-                this.bird.sprite.y = this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2;
-            else
-                this.bird.sprite.y = this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2;
+        if (this.bird.v >= 0){
+            this.bird.vAngle = this.bird.vAngle0;
+            this.bird.angle += this.bird.vAngle * dt;
+            if (this.bird.angle < this.bird.minAngle){
+                this.bird.angle = this.bird.minAngle;
+                this.bird.vAngle = 0;
+            }
+        } else{
+            this.bird.vAngle += this.bird.gAngle * dt;
+            this.bird.angle += this.bird.vAngle * dt;
+            if (this.bird.angle > this.bird.maxAngle)
+                this.bird.angle = this.bird.maxAngle;
+        }
+        Flappy.Instance().rotation = this.bird.angle;
+    },
+
+    setFallingFlappy: function(){
+        cc.eventManager.removeListener(this.clickListener);
+        this.bird.v = 0;
+        this.bird.vAngle = 0;
+        this.update = this.fallingFlappy;
+        Background.Instance().unscheduleUpdate();
+        Flappy.Instance().unschedule(Flappy.Instance().wing);
+        Obstacle.Instance().unscheduleUpdate();
+    },
+
+    fallingFlappy: function(dt)
+    {
+        this.bird.v += this.bird.g * dt;
+        if (this.bird.v < this.bird.vMax)
+            this.bird.v = this.bird.vMax;
+        this.bird.y += this.bird.v * dt;
+        if (this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2){
+            Flappy.Instance().y = this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
             this.unscheduleUpdate();
-            this.background.unscheduleUpdate();
-            this.bird.sprite.unscheduleUpdate();
-            this.obstacleLayer.unscheduleUpdate();
-
             var btnReplay = new cc.Sprite("flappy/replay.png");
             btnReplay.setPosition(this.width/2, this.height/2);
             btnReplay.setScale(0.5, 0.5);
@@ -128,21 +139,32 @@ var ScreenFlappy = cc.Layer.extend({
             this.addChild(btnReplay);
             return;
         }
-        this.bird.sprite.y = this.bird.y;
+        Flappy.Instance().y = this.bird.y;
 
         if (this.bird.v >= 0){
             this.bird.vAngle = this.bird.vAngle0;
             this.bird.angle += this.bird.vAngle * dt;
-            if (this.bird.angle < -30){
-                this.bird.angle = -30;
+            if (this.bird.angle < this.bird.minAngle){
+                this.bird.angle = this.bird.minAngle;
                 this.bird.vAngle = 0;
             }
         } else{
             this.bird.vAngle += this.bird.gAngle * dt;
             this.bird.angle += this.bird.vAngle * dt;
-            if (this.bird.angle > 90)
-                this.bird.angle = 90;
+            if (this.bird.angle > this.bird.maxAngle)
+                this.bird.angle = this.bird.maxAngle;
         }
-        this.bird.sprite.rotation = this.bird.angle;
+        Flappy.Instance().rotation = this.bird.angle;
+
+    },
+
+    pushTheBird: function(sender)
+    {
+        var screen = sender.getCurrentTarget();
+        screen.bird.v = screen.bird.v0;
     }
 });
+
+ScreenFlappy.Instance = function(){ return ScreenFlappy._instance; };
+
+

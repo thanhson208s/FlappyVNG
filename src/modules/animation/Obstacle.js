@@ -6,13 +6,19 @@ var Obstacle = cc.Layer.extend({
 
     ctor: function(width, height)
     {
+        //singleton
         this._super();
+        Obstacle._instance = this;
+        //singleton
+
+        //basic attributes
         this.width = width;
         this.height = height;
-        this.zIndex = 0;
+        this.setPosition(width/2, height/2);
+        //basic attributes
 
+        //properties
         this.speed = 180;
-        this.grounds = ["first", "second"];
         this.distanceBetweenPair = 150;
         this.pipeWidth = 80;
         this.gapDistance = 220;
@@ -20,6 +26,8 @@ var Obstacle = cc.Layer.extend({
         this.maxHeight = this.height/2 - this.gapDistance;
         this.minHeight = (75 / 900 - 1/2) * this.height + this.gapDistance;
         this.currentPipeTag = 0;
+        this.grounds = ["first", "second"];
+        //properties
 
         var firstGround = new cc.Sprite("flappy/ground.png");
         firstGround.setScale(this.width/firstGround.width, this.height/firstGround.height);
@@ -49,7 +57,13 @@ var Obstacle = cc.Layer.extend({
     },
     updateWithPipes: function(dt)
     {
-        this.x -= this.speed * dt;
+        var i;
+        for (i = 0; i < this.pairs.length; i++){
+            this.getChildByTag(i).x -= this.speed * dt;
+        }
+        for (i = 0; i < this.grounds.length; i++){
+            this.getChildByName(this.grounds[i]).x -= this.speed * dt;
+        }
 
         var firstGround = this.getChildByName(this.grounds[0]);
         if (this.x + firstGround.x + this.width/2 <= this.width - this.groundSpawnX){
@@ -79,26 +93,30 @@ var Obstacle = cc.Layer.extend({
         }
         this.update = this.updateWithPipes;
     },
+
     getNewSpawnHeight: function(oldHeight)
     {
         //TODO: need a more complicated function
         return Math.random()*(this.maxHeight - this.minHeight) + this.minHeight;
     },
-    collided: function(flappy)
+
+    collided: function()
     {
         var curPipe = this.getChildByTag(this.currentPipeTag);
-        if (flappy.x + flappy.width/2 * flappy.getScaleX() < this.x + curPipe.x - this.pipeWidth/2) return false;
-        else if (flappy.x - flappy.width/2 * flappy.getScaleX() > this.x + curPipe.x + this.pipeWidth/2){
+        if (Flappy.Instance().x + Flappy.Instance().width/2 * Flappy.Instance().getScaleX() < this.x + curPipe.x - this.pipeWidth/2) return false;
+        else if (Flappy.Instance().x - Flappy.Instance().width/2 * Flappy.Instance().getScaleX() > this.x + curPipe.x + this.pipeWidth/2){
             this.currentPipeTag = (this.currentPipeTag + 1) % this.pairs.length;
-            PointSystem.instance.increasePoint();
+            PointSystem.Instance().increaseScore();
             return false;
         }
         else{
             //TODO: detect collision if exists
-            return false;
+            return Flappy.Instance().y + Flappy.Instance().height/2 * Flappy.Instance().getScaleY() >= this.y + curPipe.y + this.gapDistance/2 || Flappy.Instance().y - Flappy.Instance().height/2 * Flappy.Instance().getScaleY() <= this.y + curPipe.y - this.gapDistance/2;
         }
     }
 });
+
+Obstacle.Instance = function(){ return Obstacle._instance; };
 
 var PipePair = cc.Layer.extend({
     ctor: function(distance, width)

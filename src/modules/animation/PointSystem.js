@@ -2,41 +2,52 @@
  * Created by HP on 7/13/2020.
  */
 
-
 var PointSystem = cc.Layer.extend({
     ctor: function(width, height)
     {
+        //singleton
         this._super();
-        PointSystem.instance = this;
+        PointSystem._instance = this;
+        //singleton
+
+        //basic attributes
         this.width = width;
         this.height = height;
-        this.zIndex = 1;
-        cc.log(jsb.FileUtils);
-        cc.log("" + this.highScore);
-        this.point = 0;
-        this.num2Sprites(this.point);
+        this.setPosition(width/2, height/2);
+        //basic attributes
+
+        //properties
+        this.score = 0;
+        this.highScore = 0;
+        //properties
+
+        this.num2Sprites(this.score);
     },
-    num2Sprites: function(num){
+
+    num2Sprites: function(score){
         this.removeAllChildren();
         var numList = [];
-        if (num == 0) numList.push(0);
+        if (score == 0) numList.push(0);
         else{
-            while (num > 0){
-                numList.push(num % 10);
-                num = Math.floor(num/10);
+            while (score > 0){
+                numList.push(score % 10);
+                score = Math.floor(score/10);
             }
         }
 
-        var i, curX = 10;
-        for (i = numList.length - 1; i >= 0; i--){
+        var curX = 10;
+        for (var i = numList.length - 1; i >= 0; i--){
             var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
             this.addChild(sprite);
             curX += sprite.width * sprite.getScaleX() * 1.1;
             sprite.setPosition(curX - this.width/2, this.height/2 - sprite.height * sprite.getScaleY());
         }
     },
-    increasePoint: function(){
-        this.point++;
-        this.num2Sprites(this.point);
+
+    increaseScore: function(){
+        this.num2Sprites(++this.score);
     }
-})
+});
+
+PointSystem.Instance = function(){ return PointSystem._instance; }
+
