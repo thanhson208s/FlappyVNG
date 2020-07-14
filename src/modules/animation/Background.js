@@ -11,29 +11,29 @@ var Background = cc.Layer.extend({
         this.height = height;
         this.zIndex = -1;
 
-        this.firstSprite = new cc.Sprite("flappy/background.png");
-        this.firstSprite.setScale(this.width/this.firstSprite.width, this.height/this.firstSprite.height);
-        this.addChild(this.firstSprite);
+        this.backgroundSpeed = 30;
+        this.backgrounds = ["first", "second"];
 
-        this.secondSprite = new cc.Sprite("flappy/background.png");
-        this.secondSprite.setScale(this.firstSprite.getScaleX(), this.firstSprite.getScaleY());
-        this.addChild(this.secondSprite);
+        var firstSprite = new cc.Sprite("flappy/background.png");
+        firstSprite.setScale(this.width/firstSprite.width, this.height/firstSprite.height);
+        this.addChild(firstSprite, 0, this.backgrounds[0]);
+        var secondSprite = new cc.Sprite("flappy/background.png");
+        secondSprite.setScale(firstSprite.getScaleX(), firstSprite.getScaleY());
+        this.addChild(secondSprite, 0, this.backgrounds[1]);
 
-        this.firstSprite.setPosition(0, 0);
-        this.secondSprite.setPosition(this.width, 0);
+        this.backgroundSpawnX = this.width * (1 - 100/firstSprite.width);
+        firstSprite.setPosition(0, 0);
+        secondSprite.setPosition(this.backgroundSpawnX, 0);
 
         this.scheduleUpdate();
     },
     update: function(dt){
-        var dx = -100 * dt;
-        this.firstSprite.x += dx;
-        this.secondSprite.x += dx;
+        this.x -= this.backgroundSpeed * dt;
 
-        if (this.firstSprite.x <= -this.width){
-            this.firstSprite.x += 2*this.width;
-            var temp = this.firstSprite;
-            this.firstSprite = this.secondSprite;
-            this.secondSprite = temp;
+        var firstBackground = this.getChildByName(this.backgrounds[0]);
+        if (this.x + firstBackground.x + this.width/2 <= this.width - this.backgroundSpawnX){
+            firstBackground.x += 2 * this.backgroundSpawnX;
+            this.backgrounds.push(this.backgrounds.shift());
         }
     }
 });

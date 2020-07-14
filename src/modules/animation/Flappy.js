@@ -8,9 +8,9 @@ var Flappy = cc.Sprite.extend({
     ctor: function(){
         this._super("flappy/bird/up.png");
 
-        this.zIndex = 0;
-        this.setScale(0.4, 0.4);
-        this.rate = 5;
+        this.zIndex = 1;
+        this.setScale(0.3, 0.3);
+        this.rate = 10;
         this.count = 0;
         this.index = 0;
 

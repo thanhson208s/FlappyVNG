@@ -42,6 +42,8 @@
         "src/modules/animation/ScreenFlappy.js",
         "src/modules/animation/Background.js",
         "src/modules/animation/Flappy.js",
+        "src/modules/animation/Obstacle.js",
+        "src/modules/animation/PointSystem.js",
         "src/modules/localization/ScreenLocalization.js",
         "src/modules/mainmenu/ScreenMenu.js",
         "src/modules/testnetwork/network/Network.js",
