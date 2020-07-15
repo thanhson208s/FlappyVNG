@@ -47,6 +47,7 @@
         "src/modules/animation/FlashLayer.js",
         "src/modules/animation/GameoverLayer.js",
         "src/modules/animation/GameStartLayer.js",
+        "src/modules/animation/seedrandom.js",
         "src/modules/localization/ScreenLocalization.js",
         "src/modules/mainmenu/ScreenMenu.js",
         "src/modules/testnetwork/network/Network.js",

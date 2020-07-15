@@ -48,5 +48,6 @@
     <file url="file://$PROJECT_DIR$/res/flappy/stars.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/theme.mp3" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/title.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/modules/animation/seedrandom.js" charset="windows-1252" />
   </component>
 </project>

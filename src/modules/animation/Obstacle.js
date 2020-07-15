@@ -18,7 +18,7 @@ var Obstacle = cc.Layer.extend({
         //basic attributes
 
         //properties
-        this.speed = 180;
+        this.speed = 170;
         this.distanceBetweenPair = 160;
         this.pipeWidth = 60;
         this.gapDistance = 155;
@@ -115,6 +115,7 @@ var Obstacle = cc.Layer.extend({
 
     getNewSpawnHeight: function(oldHeight)
     {
+
         return Math.random()*(this.maxHeight - this.minHeight) + this.minHeight;
     },
 

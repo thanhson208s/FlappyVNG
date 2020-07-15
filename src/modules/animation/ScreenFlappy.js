@@ -22,10 +22,7 @@ var ScreenFlappy = cc.Layer.extend({
         //constants
         this.bird = {g: -2000, v0: 600, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
         this.limit = {max: 1, min: 75/900};
-        this._timeScale = 0.5;
-        if (this._timeScale != 0)
-            this.timeScale = 1/this._timeScale;
-        else this.timeScale = 0;
+        this.timeScale = 1;
         //constants
 
         this.addChild(new Background(size.width, size.height), -1);
@@ -35,8 +32,6 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new FlashLayer(size.width, size.height), 10);
         this.addChild(new GameoverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
-
-        cc.director.setScale
 
         //var particleSystem = new cc.ParticleFlower();
         //particleSystem.setPosition(size.width/2, size.height/2);
@@ -50,6 +45,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     initGame:function()
     {
+        //Math.seedrandom("son");
         this.bird.v = 20; this.bird.y = this.height/2;
         this.bird.vAngle = 0; this.bird.angle = 0;
 
@@ -73,6 +69,10 @@ var ScreenFlappy = cc.Layer.extend({
         this.spaceListener = cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyPressed:function(keyCode, sender){
+                if (keyCode == 27){
+                    ScreenFlappy.Instance().timeScale = 1 -  ScreenFlappy.Instance().timeScale;
+                }
+                if (ScreenFlappy.Instance().timeScale == 0) return;
                 if (keyCode == 32) ScreenFlappy.Instance().pushFlappy(sender);
             }
         }, this);
@@ -173,7 +173,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     dtAfterTimeScale:function(dt){
         if (this.timeScale == 0) return 0;
-        else return dt / this.timeScale;
+        else return dt * this.timeScale;
     }
 });
 

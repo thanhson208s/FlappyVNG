@@ -34,6 +34,7 @@ var Flappy = cc.Sprite.extend({
 
     wing: function(dt)
     {
+        if (ScreenFlappy.Instance().timeScale == 0) return;
         this.index = (this.index + 1) % this.spriteNames.length;
         this.setSpriteFrame(new cc.SpriteFrame(this.spriteNames[this.index], cc.rect(0,0,175,122)));
     }
