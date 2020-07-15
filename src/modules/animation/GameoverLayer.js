@@ -62,6 +62,12 @@ var BtnReplay = cc.Sprite.extend({
             event: cc.EventListener.MOUSE,
             onMouseDown: this.restartGame
         }, this);
+        this.spaceListener = cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed:function(keyCode, sender){
+                if (keyCode == 32) BtnReplay.Instance().restartGame(sender);
+            }
+        }, this);
     },
 
     hide:function()
@@ -69,14 +75,18 @@ var BtnReplay = cc.Sprite.extend({
         this.setVisible(false);
         if (this.clickListener)
             cc.eventManager.removeListener(this.clickListener);
+        if (this.spaceListener)
+            cc.eventManager.removeListener(this.spaceListener);
     },
 
     restartGame: function(sender){
-        var x = sender.getLocationX();
-        var y = sender.getLocationY();
-        var btnReplay = BtnReplay.Instance();
-        if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
-        if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
+        if (sender.getType() == cc.Event.MOUSE) {
+            var x = sender.getLocationX();
+            var y = sender.getLocationY();
+            var btnReplay = BtnReplay.Instance();
+            if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
+            if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
+        }
         FlashLayer.Instance().flash();
         ScreenFlappy.Instance().initGame();
     }
@@ -102,7 +112,7 @@ var Scoreboard = cc.Sprite.extend({
         this.scorePos = {x: this.width - 40, y: this.height - 65};
         this.bestScorePos = {x: this.width - 40, y: 40};
         this.medalPos = {x: 76, y: this.height/2 - 10};
-        this.thresholds = [["none", 5], ["bronze", 10], ["silver", 20], ["gold", 40], ["ruby", 70], ["diamond", 100]];
+        this.thresholds = [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 40], ["ruby", 70], ["diamond", 100]];
         this.starRate = {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2};
         //constants
     },

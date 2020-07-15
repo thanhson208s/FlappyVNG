@@ -20,7 +20,7 @@ var Obstacle = cc.Layer.extend({
         //properties
         this.speed = 180;
         this.distanceBetweenPair = 160;
-        this.pipeWidth = 70;
+        this.pipeWidth = 60;
         this.gapDistance = 155;
         this.pipeStartPoint = this.width * 3/2;
         this.maxHeight = this.height/2 - this.gapDistance;

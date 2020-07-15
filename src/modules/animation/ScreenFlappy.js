@@ -65,6 +65,12 @@ var ScreenFlappy = cc.Layer.extend({
             event: cc.EventListener.MOUSE,
             onMouseDown: this.pushFlappy
         }, this);
+        this.spaceListener = cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed:function(keyCode, sender){
+                if (keyCode == 32) ScreenFlappy.Instance().pushFlappy(sender);
+            }
+        }, this);
         BtnPlay.Instance().hide();
         this.bird.v = this.bird.v0;
         this.update = this.flyingFlappy;
@@ -86,8 +92,11 @@ var ScreenFlappy = cc.Layer.extend({
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
         this.bird.y += this.bird.v * dt;
+        if (this.bird.y >= this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY())
+            this.bird.y = this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY();
+
         var colliedWithPipes = Obstacle.Instance().collided();
-        var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2 || this.bird.y >= this.limit.max * this.height - Flappy.Instance().height * Flappy.Instance().getScaleY()/2;
+        var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
 
         if (colliedWithPipes || colliedWithBorders) {
             PointSystem.Instance().saveBestScore();
@@ -102,6 +111,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     setFallingFlappy: function(){
         cc.eventManager.removeListener(this.clickListener);
+        cc.eventManager.removeListener(this.spaceListener);
         this.bird.v = 500;
         this.bird.vAngle = 0;
         this.update = this.fallingFlappy;
@@ -174,6 +184,12 @@ var BtnPlay = cc.Sprite.extend({
             event: cc.EventListener.MOUSE,
             onMouseDown: this.startGame
         }, this);
+        this.spaceListener = cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed:function(keyCode, sender){
+                if (keyCode == 32) BtnPlay.Instance().startGame(sender);
+            }
+        }, this);
     },
 
     hide:function()
@@ -181,15 +197,19 @@ var BtnPlay = cc.Sprite.extend({
         this.setVisible(false);
         if (this.clickListener)
             cc.eventManager.removeListener(this.clickListener);
+        if (this.spaceListener)
+            cc.eventManager.removeListener(this.spaceListener);
     },
     
     startGame: function(sender)
     {
-        var x = sender.getLocationX();
-        var y = sender.getLocationY();
-        var btnPlay = BtnPlay.Instance();
-        if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
-        if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
+        if (sender.getType() == cc.Event.MOUSE) {
+            var x = sender.getLocationX();
+            var y = sender.getLocationY();
+            var btnPlay = BtnPlay.Instance();
+            if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
+            if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
+        }
         ScreenFlappy.Instance().startGame();
     }
 });
