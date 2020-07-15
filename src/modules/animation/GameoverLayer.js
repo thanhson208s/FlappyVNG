@@ -102,8 +102,19 @@ var Scoreboard = cc.Sprite.extend({
         this.scorePos = {x: this.width - 40, y: this.height - 65};
         this.bestScorePos = {x: this.width - 40, y: 40};
         this.medalPos = {x: 76, y: this.height/2 - 10};
-        this.thresholds = [["none", 0], ["bronze", 10], ["silver", 30], ["gold", 60], ["ruby", 100], ["diamond", 150]];
+        this.thresholds = [["none", 5], ["bronze", 10], ["silver", 20], ["gold", 40], ["ruby", 70], ["diamond", 100]];
+        this.starRate = {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2};
         //constants
+    },
+
+    spark:function(){
+        var medal = this.getChildByName("medal");
+        var R = (medal.width / 2 * medal.getScaleX() + medal.height / 2 * medal.getScaleY()) / 2;
+        var r = Math.random() * R;
+        var angle = Math.random() * 360;
+        var x = r * Math.cos(angle / 180 * Math.PI);
+        var y = r * Math.sin(angle / 180 * Math.PI);
+        this.addChild(new Star(medal.x + x, medal.y + y), 2);
     },
 
     show:function()
@@ -124,7 +135,6 @@ var Scoreboard = cc.Sprite.extend({
             }
         }
 
-        this.removeAllChildren();
         this.score2Sprites(score, false);
         this.score2Sprites(bestScore, true);
         this.showMedal(score);
@@ -133,7 +143,9 @@ var Scoreboard = cc.Sprite.extend({
 
     hide:function()
     {
+        this.removeAllChildren();
         this.setVisible(false);
+        this.unschedule(this.spark);
     },
 
     score2Sprites:function(score, best)
@@ -176,8 +188,45 @@ var Scoreboard = cc.Sprite.extend({
         var medalSprite = new cc.Sprite("flappy/medal/" + this.thresholds[i][0] + ".png");
         medalSprite.setPosition(this.medalPos.x, this.medalPos.y);
         medalSprite.setScale(0.6, 0.6);
-        this.addChild(medalSprite, 1);
+        this.addChild(medalSprite, 1, "medal");
+        if (this.thresholds[i][0] != "none")
+            this.schedule(this.spark, this.starRate[this.thresholds[i][0]]);
     }
 });
 
-Scoreboard.Instance = function(){ return Scoreboard._instance; }
+Scoreboard.Instance = function(){ return Scoreboard._instance; };
+
+var Star = cc.Sprite.extend({
+    ctor:function(x, y){
+        this._super("flappy/stars.png");
+
+        //basic attributes
+        this.setScale(0.4, 0.4);
+        this.opacity = 0;
+        this.setPosition(x, y);
+        //basic attributes
+
+        //properties
+        this.lifeTime = 1;
+        this.increasing = true;
+        //properties
+
+        this.scheduleUpdate();
+    },
+
+    update:function(dt){
+        if (this.increasing){
+            var opacity = this.opacity + 255 * 2 / this.lifeTime * dt;
+            if (opacity > 255){
+                this.opacity = 255;
+                this.increasing = false;
+            }else this.opacity = opacity;
+        }else{
+            var opacity = this.opacity - 255 * 2 / this.lifeTime * dt;
+            if (opacity < 0){
+                this.opacity = 0;
+                Scoreboard.Instance().removeChild(this);
+            }else this.opacity = opacity;
+        }
+    }
+})

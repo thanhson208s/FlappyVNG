@@ -2,12 +2,6 @@
  * Created by GSN on 7/9/2015.
  */
 
-// TODO:
-// + change logic of restart
-// + make high score menu
-// + add sound
-// + make a "balance" class
-
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,
@@ -35,11 +29,16 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new Obstacle(size.width, size.height), 0);
         this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
         this.addChild(new PointSystem(size.width, size.height), 1);
-        this.addChild(new BtnPlay(size.width*2/3, size.height/2), 2);
+        this.addChild(new BtnPlay(size.width*2/3, size.height/2), 3);
         this.addChild(new FlashLayer(size.width, size.height), 10);
+        this.addChild(new GameoverLayer(size.width, size.height), 5);
 
-        //this.addChild(new BtnReplay(size.width/2, size.height/2));
-        this.addChild(new GameoverLayer(size.width, size.height), 2);
+        //var particleSystem = new cc.ParticleFlower();
+        //particleSystem.setPosition(size.width/2, size.height/2);
+        //particleSystem.texture = cc.textureCache.addImage("flappy/stars.png");
+        //if (particleSystem.setShapeType)
+        //    particleSystem.setShapeType(cc.ParticleSystem.STAR_SHAPE);
+        //this.addChild(particleSystem, 20);
 
         this.initGame();
     },

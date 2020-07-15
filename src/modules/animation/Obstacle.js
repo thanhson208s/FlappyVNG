@@ -113,7 +113,6 @@ var Obstacle = cc.Layer.extend({
 
     getNewSpawnHeight: function(oldHeight)
     {
-        //TODO: need a more complicated function
         return Math.random()*(this.maxHeight - this.minHeight) + this.minHeight;
     },
 
@@ -127,7 +126,6 @@ var Obstacle = cc.Layer.extend({
             return false;
         }
         else{
-            //TODO: detect collision if exists
             return Flappy.Instance().y + Flappy.Instance().height/2 * Flappy.Instance().getScaleY() >= this.y + curPipe.y + this.gapDistance/2 || Flappy.Instance().y - Flappy.Instance().height/2 * Flappy.Instance().getScaleY() <= this.y + curPipe.y - this.gapDistance/2;
         }
     }
