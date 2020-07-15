@@ -29,10 +29,10 @@ var Flappy = cc.Sprite.extend({
     {
         this.setPosition(this.x0, this.y0);
         this.rotation = 0;
-        this.schedule(this.wing, 1/this.rate);
+        this.schedule(this.wing, 1/ScreenFlappy.Instance().dtAfterTimeScale(this.rate));
     },
 
-    wing: function()
+    wing: function(dt)
     {
         this.index = (this.index + 1) % this.spriteNames.length;
         this.setSpriteFrame(new cc.SpriteFrame(this.spriteNames[this.index], cc.rect(0,0,175,122)));

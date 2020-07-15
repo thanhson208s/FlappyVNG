@@ -109,5 +109,7 @@ var g_resources = [
     "flappy/cloud/medium1.png",
     "flappy/cloud/large0.png",
     "flappy/cloud/large1.png",
-    "flappy/stars.png"
+    "flappy/stars.png",
+    "flappy/title.png",
+    "flappy/message.png"
 ];

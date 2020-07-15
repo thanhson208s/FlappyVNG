@@ -54,11 +54,13 @@ var Obstacle = cc.Layer.extend({
 
     idle: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.moveGrounds(dt);
     },
 
     updateWithPipes: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.moveGrounds(dt);
         this.movePipes(dt);
     },

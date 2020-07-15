@@ -45,6 +45,7 @@ var Background = cc.Layer.extend({
 
     update:function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.x -= this.speed * dt;
 
         var firstBackground = this.getChildByName(this.backgrounds[0]);

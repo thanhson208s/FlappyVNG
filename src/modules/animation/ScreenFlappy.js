@@ -19,19 +19,24 @@ var ScreenFlappy = cc.Layer.extend({
         this.width = size.width;
         this.height = size.height;
         //basic attributes
-
         //constants
         this.bird = {g: -2000, v0: 600, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
         this.limit = {max: 1, min: 75/900};
+        this._timeScale = 0.5;
+        if (this._timeScale != 0)
+            this.timeScale = 1/this._timeScale;
+        else this.timeScale = 0;
         //constants
 
         this.addChild(new Background(size.width, size.height), -1);
         this.addChild(new Obstacle(size.width, size.height), 0);
         this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
         this.addChild(new PointSystem(size.width, size.height), 1);
-        this.addChild(new BtnPlay(size.width*2/3, size.height/2), 3);
         this.addChild(new FlashLayer(size.width, size.height), 10);
         this.addChild(new GameoverLayer(size.width, size.height), 5);
+        this.addChild(new GameStartLayer(size.width, size.height), 3);
+
+        cc.director.setScale
 
         //var particleSystem = new cc.ParticleFlower();
         //particleSystem.setPosition(size.width/2, size.height/2);
@@ -52,7 +57,7 @@ var ScreenFlappy = cc.Layer.extend({
         Background.Instance().initGame();
         Obstacle.Instance().initGame();
         PointSystem.Instance().initGame();
-        BtnPlay.Instance().show();
+        GameStartLayer.Instance().show();
         GameoverLayer.Instance().hide();
 
         this.update = this.idleFlappy;
@@ -71,7 +76,8 @@ var ScreenFlappy = cc.Layer.extend({
                 if (keyCode == 32) ScreenFlappy.Instance().pushFlappy(sender);
             }
         }, this);
-        BtnPlay.Instance().hide();
+        GameStartLayer.Instance().hide();
+        PointSystem.Instance().show();
         this.bird.v = this.bird.v0;
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
@@ -79,6 +85,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     idleFlappy: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var amplitude = 10;
         this.bird.y += this.bird.v * dt;
         if (this.bird.y >= this.height/2 + amplitude || this.bird.y <= this.height/2 - amplitude)
@@ -88,6 +95,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     flyingFlappy: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
@@ -122,6 +130,7 @@ var ScreenFlappy = cc.Layer.extend({
 
     fallingFlappy:function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
@@ -129,6 +138,7 @@ var ScreenFlappy = cc.Layer.extend({
         if (this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2){
             Flappy.Instance().y = this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
             this.unscheduleUpdate();
+            PointSystem.Instance().hide();
             GameoverLayer.Instance().show();
             return;
         }
@@ -137,7 +147,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.rotateFlappy(dt);
     },
 
-    rotateFlappy:function(dt){
+    rotateFlappy:function(dt)
+    {
         if (this.bird.v >= 0){
             this.bird.vAngle = this.bird.vAngle0;
             this.bird.angle += this.bird.vAngle * dt;
@@ -154,66 +165,71 @@ var ScreenFlappy = cc.Layer.extend({
         Flappy.Instance().rotation = this.bird.angle;
     },
 
-    pushFlappy: function(sender)
+    pushFlappy:function(sender)
     {
         var screen = sender.getCurrentTarget();
         screen.bird.v = screen.bird.v0;
+    },
+
+    dtAfterTimeScale:function(dt){
+        if (this.timeScale == 0) return 0;
+        else return dt / this.timeScale;
     }
 });
 
 ScreenFlappy.Instance = function(){ return ScreenFlappy._instance; };
 
-var BtnPlay = cc.Sprite.extend({
-    ctor:function(x, y)
-    {
-        //singleton
-        this._super("flappy/play.png");
-        BtnPlay._instance = this;
-        //singleton
-
-        //basic attributes
-        this.setPosition(x, y);
-        this.setScale(0.5, 0.5);
-        //basic attributes
-    },
-
-    show:function()
-    {
-        this.setVisible(true);
-        this.clickListener = cc.eventManager.addListener({
-            event: cc.EventListener.MOUSE,
-            onMouseDown: this.startGame
-        }, this);
-        this.spaceListener = cc.eventManager.addListener({
-            event: cc.EventListener.KEYBOARD,
-            onKeyPressed:function(keyCode, sender){
-                if (keyCode == 32) BtnPlay.Instance().startGame(sender);
-            }
-        }, this);
-    },
-
-    hide:function()
-    {
-        this.setVisible(false);
-        if (this.clickListener)
-            cc.eventManager.removeListener(this.clickListener);
-        if (this.spaceListener)
-            cc.eventManager.removeListener(this.spaceListener);
-    },
-    
-    startGame: function(sender)
-    {
-        if (sender.getType() == cc.Event.MOUSE) {
-            var x = sender.getLocationX();
-            var y = sender.getLocationY();
-            var btnPlay = BtnPlay.Instance();
-            if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
-            if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
-        }
-        ScreenFlappy.Instance().startGame();
-    }
-});
-
-BtnPlay.Instance = function(){ return BtnPlay._instance; }
+//var BtnPlay = cc.Sprite.extend({
+//    ctor:function(x, y)
+//    {
+//        //singleton
+//        this._super("flappy/play.png");
+//        BtnPlay._instance = this;
+//        //singleton
+//
+//        //basic attributes
+//        this.setPosition(x, y);
+//        this.setScale(0.5, 0.5);
+//        //basic attributes
+//    },
+//
+//    show:function()
+//    {
+//        this.setVisible(true);
+//        this.clickListener = cc.eventManager.addListener({
+//            event: cc.EventListener.MOUSE,
+//            onMouseDown: this.startGame
+//        }, this);
+//        this.spaceListener = cc.eventManager.addListener({
+//            event: cc.EventListener.KEYBOARD,
+//            onKeyPressed:function(keyCode, sender){
+//                if (keyCode == 32) BtnPlay.Instance().startGame(sender);
+//            }
+//        }, this);
+//    },
+//
+//    hide:function()
+//    {
+//        this.setVisible(false);
+//        if (this.clickListener)
+//            cc.eventManager.removeListener(this.clickListener);
+//        if (this.spaceListener)
+//            cc.eventManager.removeListener(this.spaceListener);
+//    },
+//
+//    startGame: function(sender)
+//    {
+//        if (sender.getType() == cc.Event.MOUSE) {
+//            var x = sender.getLocationX();
+//            var y = sender.getLocationY();
+//            var btnPlay = BtnPlay.Instance();
+//            if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
+//            if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
+//        }
+//        ScreenFlappy.Instance().startGame();
+//    }
+//});
+//
+//BtnPlay.Instance = function(){ return BtnPlay._instance; }
 
 

@@ -27,7 +27,14 @@ var PointSystem = cc.Layer.extend({
     {
         this.score = 0;
         this.bestScore = cc.sys.localStorage.getItem(this.storageKey);
+    },
+
+    show:function(){
         this.score2Sprites(0);
+    },
+
+    hide:function(){
+        this.removeAllChildren();
     },
 
     score2Sprites:function(score)

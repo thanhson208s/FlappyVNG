@@ -23,18 +23,13 @@
     <file url="file://$PROJECT_DIR$/res/flappy/ground.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/groundBW.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/groundNight.png" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/Bronze.webp" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/Gold.webp" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/Platinum.webp" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/Silver.webp" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/bronze.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/bronze.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/diamond.png" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/res/flappy/medal/gold.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/gold.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/none.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/ruby.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/medal/silver.png" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/res/flappy/message.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/pipedown.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/pipedownBW.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/pipedownNight.png" charset="windows-1252" />
@@ -52,5 +47,6 @@
     <file url="file://$PROJECT_DIR$/res/flappy/sfx/sfx_wing.wav" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/stars.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/theme.mp3" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/res/flappy/title.png" charset="windows-1252" />
   </component>
 </project>
