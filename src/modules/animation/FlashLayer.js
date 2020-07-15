@@ -2,12 +2,12 @@
  * Created by CPU12735-local on 7/14/2020.
  */
 
-var DeathLayer = cc.LayerColor.extend({
+var FlashLayer = cc.LayerColor.extend({
     ctor: function(width, height)
     {
         //singleton
         this._super(cc.color(255, 255, 255, 0), width, height);
-        DeathLayer._instance = this;
+        FlashLayer._instance = this;
         //singleton
 
         //basic attributes
@@ -47,4 +47,4 @@ var DeathLayer = cc.LayerColor.extend({
     }
 });
 
-DeathLayer.Instance = function(){ return DeathLayer._instance; }
+FlashLayer.Instance = function(){ return FlashLayer._instance; }

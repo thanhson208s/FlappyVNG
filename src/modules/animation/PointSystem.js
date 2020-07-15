@@ -3,7 +3,7 @@
  */
 
 var PointSystem = cc.Layer.extend({
-    ctor: function(width, height)
+    ctor:function(width, height)
     {
         //singleton
         this._super();
@@ -16,15 +16,22 @@ var PointSystem = cc.Layer.extend({
         this.setPosition(width/2, height/2);
         //basic attributes
 
-        //properties
-        this.score = 0;
-        this.highScore = 0;
-        //properties
-
-        this.num2Sprites(this.score);
+        //constants
+        this.storageKey = "flappyBestScore";
+        if (cc.sys.localStorage.getItem(this.storageKey) == null)
+            cc.sys.localStorage.setItem(this.storageKey, 0);
+        //constants
     },
 
-    num2Sprites: function(score){
+    initGame:function()
+    {
+        this.score = 0;
+        this.bestScore = cc.sys.localStorage.getItem(this.storageKey);
+        this.score2Sprites(0);
+    },
+
+    score2Sprites:function(score)
+    {
         this.removeAllChildren();
         var numList = [];
         if (score == 0) numList.push(0);
@@ -44,8 +51,16 @@ var PointSystem = cc.Layer.extend({
         }
     },
 
-    increaseScore: function(){
-        this.num2Sprites(++this.score);
+    increaseScore:function()
+    {
+        this.score2Sprites(++this.score);
+    },
+
+    saveBestScore:function()
+    {
+        cc.log("Score: " + this.score, "Best: ", this.bestScore);
+        if (this.score > this.bestScore)
+            cc.sys.localStorage.setItem(this.storageKey, this.score);
     }
 });
 

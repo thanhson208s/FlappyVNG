@@ -14,7 +14,8 @@ var Flappy = cc.Sprite.extend({
 
         //basic attributes
         this.setScale(0.3, 0.3);
-        this.setPosition(x, y);
+        this.x0 = x;
+        this.y0 = y;
         //basic attributes
 
         //properties
@@ -22,7 +23,12 @@ var Flappy = cc.Sprite.extend({
         this.index = 0;
         this.spriteNames = ["flappy/bird/up.png", "flappy/bird/mid.png", "flappy/bird/down.png", "flappy/bird/mid.png"];
         //properties
+    },
 
+    initGame: function()
+    {
+        this.setPosition(this.x0, this.y0);
+        this.rotation = 0;
         this.schedule(this.wing, 1/this.rate);
     },
 
