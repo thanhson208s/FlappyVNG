@@ -95,5 +95,6 @@ var g_resources = [
     "flappy/num/7.png",
     "flappy/num/8.png",
     "flappy/num/9.png",
-    "flappy/highscore.txt"
+    "flappy/highscore.txt",
+    "flappy/winErr.mp3"
 ];

@@ -18,5 +18,6 @@
     <file url="file://$PROJECT_DIR$/res/flappy/sfx/sfx_swooshing.wav" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/sfx/sfx_wing.wav" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/theme.mp3" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/res/flappy/winErr.mp3" charset="windows-1252" />
   </component>
 </project>

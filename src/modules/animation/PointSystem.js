@@ -11,8 +11,6 @@ var PointSystem = cc.Layer.extend({
         this.width = width;
         this.height = height;
         this.zIndex = 1;
-        cc.log(jsb.FileUtils);
-        cc.log("" + this.highScore);
         this.point = 0;
         this.num2Sprites(this.point);
     },

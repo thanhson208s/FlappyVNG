@@ -23,6 +23,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.angle = 0;
         this.limit = {max: 1, min: 75/900};
 
+        cc.audioEngine.preloadEffect("flappy/winErr.mp3");
+
         var flappySprite = new Flappy();
         flappySprite.setPosition(size.width*1/3, this.bird.y);
         this.bird.sprite = flappySprite;
@@ -58,6 +60,8 @@ var ScreenFlappy = cc.Layer.extend({
                     onMouseDown: function(sender){
                         var screen = sender.getCurrentTarget().parent;
                         screen.bird.v = screen.bird.v0;
+                        cc.AudioEngine.getInstance().setEffectsVolume(1);
+                        cc.AudioEngine.getInstance().playEffect("flappy/winErr.mp3", false);
                     }
                 }, coverLayer);
                 screen.removeChild(btnPlay);
@@ -74,6 +78,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(background);
         this.addChild(flappySprite);
         this.addChild(obstacleLayer);
+
+
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
