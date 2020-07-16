@@ -32,14 +32,15 @@ var Flappy = cc.Sprite.extend({
         this.spriteNames = ["flappy/bird/" + version + "up.png", "flappy/bird/" + version + "mid.png", "flappy/bird/" + version + "down.png", "flappy/bird/" + version + "mid.png"];
         this.setPosition(this.x0, this.y0);
         this.rotation = 0;
-        this.schedule(this.wing, 1/ScreenFlappy.Instance().dtAfterTimeScale(this.rate));
-    },
 
-    wing: function(dt)
-    {
-        if (ScreenFlappy.Instance().timeScale == 0) return;
-        this.index = (this.index + 1) % this.spriteNames.length;
-        this.setSpriteFrame(new cc.SpriteFrame(this.spriteNames[this.index], cc.rect(0,0,175,122)));
+        var animation = cc.Animation();
+        for (var i = 0; i < this.spriteNames.length; i++){
+            animation.addSpriteFrameWithFile(this.spriteNames[i]);
+        }
+        animation.setDelayPerUnit(1/this.rate);
+        var animate = cc.Animate(animation).repeatForever();
+        animate.setTag(0);
+        this.runAction(animate);
     }
 });
 

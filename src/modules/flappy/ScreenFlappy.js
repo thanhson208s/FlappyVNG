@@ -139,7 +139,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.vAngle = 0;
         this.update = this.fallingFlappy;
         Background.Instance().unscheduleUpdate();
-        Flappy.Instance().unschedule(Flappy.Instance().wing);
+        Flappy.Instance().stopActionByTag(0);
         Obstacle.Instance().unscheduleUpdate();
         GameStartLayer.Instance().unscheduleUpdate();
         Player.Instance().unscheduleUpdate();

@@ -36,7 +36,7 @@ var Player = cc.Layer.extend({
         if (left - 2 > target.x + PIPE_CONST.WIDTH / 2) return;
 
         if (targetName == "pipe") {
-            if (down - 2 <= target.y - PIPE_CONST.GAP_DISTANCE / 2) {
+            if (down - 10 <= target.y - PIPE_CONST.GAP_DISTANCE / 2) {
                 ScreenFlappy.Instance().bird.v = FLAPPY_CONST.V_0;
             }
         }

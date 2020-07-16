@@ -27,13 +27,12 @@ var GameOverLayer = cc.Layer.extend({
     },
 
     show:function(){
-        this.getChildByName("gameover").setVisible(true);
-        BtnReplay.Instance().show();
+        this.getChildByName("gameover").runAction(cc.MoveTo(0.5, this.width/2, this.height * 7/8));
         Scoreboard.Instance().show();
     },
 
     hide:function(){
-        this.getChildByName("gameover").setVisible(false);
+        this.getChildByName("gameover").y = this.height * 9/8;
         BtnReplay.Instance().hide();
         Scoreboard.Instance().hide();
     }
@@ -57,22 +56,26 @@ var BtnReplay = cc.Sprite.extend({
 
     show:function()
     {
-        this.setVisible(true);
-        this.clickListener = cc.eventManager.addListener({
-            event: cc.EventListener.MOUSE,
-            onMouseDown: this.restartGame
-        }, this);
-        this.spaceListener = cc.eventManager.addListener({
-            event: cc.EventListener.KEYBOARD,
-            onKeyPressed:function(keyCode, sender){
-                if (keyCode == 32) BtnReplay.Instance().restartGame(sender);
-            }
-        }, this);
+        this.runAction(cc.sequence(
+            cc.moveTo(1, this.x, this.y + GameOverLayer.Instance().height/2),
+            cc.callFunc(function(){
+                BtnReplay.Instance().clickListener = cc.eventManager.addListener({
+                    event: cc.EventListener.MOUSE,
+                    onMouseDown: BtnReplay.Instance().restartGame
+                }, BtnReplay.Instance());
+                BtnReplay.Instance().spaceListener = cc.eventManager.addListener({
+                    event: cc.EventListener.KEYBOARD,
+                    onKeyPressed:function(keyCode, sender){
+                        if (keyCode == 32) BtnReplay.Instance().restartGame(sender);
+                    }
+                }, BtnReplay.Instance());
+            })
+        ));
     },
 
     hide:function()
     {
-        this.setVisible(false);
+        this.y = this.y - GameOverLayer.Instance().height/2;
         if (this.clickListener)
             cc.eventManager.removeListener(this.clickListener);
         if (this.spaceListener)
@@ -147,20 +150,22 @@ var Scoreboard = cc.Sprite.extend({
         }
 
         this.score2Sprites(bestScore, true);
-
-        this.scoreSprites = [];
-        this.currentScore = 0;
-        this.showScoreIncreasing();
-        if (score > 0) this.schedule(this.showScoreIncreasing, 1/score);
-
-        this.showMedal(score);
-        this.setVisible(true);
+        this.runAction(cc.sequence(
+            cc.moveTo(0.5, this.x, this.y + GameOverLayer.Instance().height),
+            cc.callFunc(function(){
+                Scoreboard.Instance().scoreSprites = [];
+                Scoreboard.Instance().currentScore = 0;
+                Scoreboard.Instance().showScoreIncreasing();
+                if (score > 0) Scoreboard.Instance().schedule(Scoreboard.Instance().showScoreIncreasing, 1/score);
+                else Scoreboard.Instance().showMedal(score);
+            })
+        ));
     },
 
     hide:function()
     {
         this.removeAllChildren();
-        this.setVisible(false);
+        this.y = this.y - GameOverLayer.Instance().height;
         this.unschedule(this.spark);
     },
 
@@ -197,6 +202,7 @@ var Scoreboard = cc.Sprite.extend({
     showScoreIncreasing:function(){
         if (this.currentScore > PointSystem.Instance().score) {
             this.unschedule(this.showScoreIncreasing);
+            this.showMedal(PointSystem.Instance().score);
             return;
         }
         for (var i = 0; i < this.scoreSprites.length; i++){
@@ -235,10 +241,21 @@ var Scoreboard = cc.Sprite.extend({
         i--;
         var medalSprite = new cc.Sprite("flappy/medal/" + this.thresholds[i][0] + ".png");
         medalSprite.setPosition(this.medalPos.x, this.medalPos.y);
-        medalSprite.setScale(0.6, 0.6);
+        medalSprite.setScale(100, 100);
         this.addChild(medalSprite, 1, "medal");
-        if (this.thresholds[i][0] != "none")
-            this.schedule(this.spark, this.starRate[this.thresholds[i][0]]);
+        medalSprite.setVisible(false)
+        medalSprite.runAction(cc.sequence(
+            cc.delayTime(0.2),
+            cc.callFunc(function(){medalSprite.setVisible(true)}),
+            cc.scaleTo(1, 0.6, 0.6),
+            cc.callFunc(function(){
+                if (Scoreboard.Instance().thresholds[i][0] != "none")
+                    Scoreboard.Instance().schedule(Scoreboard.Instance().spark, Scoreboard.Instance().starRate[Scoreboard.Instance().thresholds[i][0]]);
+            }),
+            cc.callFunc(function(){
+                BtnReplay.Instance().show();
+            })
+        ));
     }
 });
 

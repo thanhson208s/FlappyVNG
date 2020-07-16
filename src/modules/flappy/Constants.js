@@ -5,7 +5,7 @@
 
 var FLAPPY_CONST = {
     V_0: 600,
-    V_MAX: -1100,
+    V_MAX: -1000,
     G: -2100,
     V_ANGLE_0: -720,
     G_ANGLE: 720,
@@ -29,9 +29,9 @@ var BG_CONST = {
 var DEBUGGING = false;
 var AUTO = false;
 var TIME_SCALE = 1;
-var COIN_RATE = 0.5;
+var COIN_RATE = 0.2;
 
 var MEDAL_CONST = {
-    THRESHOLDS: [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]],
+    THRESHOLDS: [["none", 0], ["bronze", 1], ["silver", 2], ["gold", 3], ["ruby", 4], ["diamond", 5]],
     STAR_RATES: {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2}
 };

@@ -270,13 +270,12 @@ var Coin = cc.Sprite.extend({
        this.rate = 10;
        this.spriteNames = [0, 1, 2, 3, 4, 5].map(function(x){ return "flappy/coin/coin" + x + ".png"});
 
-       this.schedule(this.spin, 1/ScreenFlappy.Instance().dtAfterTimeScale(this.rate));
-   },
-
-   spin:function()
-   {
-       if (ScreenFlappy.Instance().timeScale == 0) return;
-       this.index = (this.index + 1) % this.spriteNames.length;
-       this.setSpriteFrame(new cc.SpriteFrame(this.spriteNames[this.index], cc.rect(0,0,438,438)));
+       var animation = cc.Animation();
+       for (var i = 0; i < this.spriteNames.length; i++){
+           animation.addSpriteFrameWithFile(this.spriteNames[i]);
+       }
+       animation.setDelayPerUnit(1/this.rate);
+       var animate = cc.Animate(animation).repeatForever();
+       this.runAction(animate);
    }
 });
