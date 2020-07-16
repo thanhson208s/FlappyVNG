@@ -16,8 +16,8 @@ var FLAPPY_CONST = {
 var PIPE_CONST = {
     GAP_DISTANCE: 140,
     SPEED: 165,
-    DISTANCE: 160,
-    WIDTH: 45
+    DISTANCE: 180,
+    WIDTH: 50
 };
 
 var BG_CONST = {
@@ -25,3 +25,6 @@ var BG_CONST = {
     GROUND_HEIGHT: 75/900,
     OVERLAP_WIDTH: 100/1464
 };
+
+var DEBUGGING = false;
+var AUTO = true;

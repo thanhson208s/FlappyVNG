@@ -56,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/src/modules/flappy/Constants.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+              <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -64,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/modules/flappy/Player.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="114" selection-start-line="25" selection-start-column="114" selection-end-line="25" selection-end-column="114" />
+            <state vertical-scroll-proportion="0.7784343">
+              <caret line="33" column="63" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -76,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScreenFlappy.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ScreenFlappy.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/modules/flappy/ScreenFlappy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18611522">
-              <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="166" column="60" selection-start-line="161" selection-start-column="8" selection-end-line="166" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -114,7 +114,7 @@
         <entry file="file://$PROJECT_DIR$/src/modules/flappy/Obstacle.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="50" />
+              <caret line="134" column="51" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -199,11 +199,11 @@
         <option value="$PROJECT_DIR$/src/modules/flappy/GameoverLayer.js" />
         <option value="$PROJECT_DIR$/src/modules/flappy/Background.js" />
         <option value="$PROJECT_DIR$/project.json" />
-        <option value="$PROJECT_DIR$/src/modules/flappy/Player.js" />
-        <option value="$PROJECT_DIR$/src/modules/flappy/Constants.js" />
         <option value="$PROJECT_DIR$/src/modules/flappy/GameStartLayer.js" />
         <option value="$PROJECT_DIR$/src/modules/flappy/Obstacle.js" />
+        <option value="$PROJECT_DIR$/src/modules/flappy/Constants.js" />
         <option value="$PROJECT_DIR$/src/modules/flappy/ScreenFlappy.js" />
+        <option value="$PROJECT_DIR$/src/modules/flappy/Player.js" />
       </list>
     </option>
   </component>
@@ -223,7 +223,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
-    <option name="width" value="1455" />
+    <option name="width" value="1062" />
     <option name="height" value="1048" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -873,12 +873,12 @@
       <workItem from="1594817685378" duration="2137000" />
       <workItem from="1594864444300" duration="10372000" />
       <workItem from="1594881769993" duration="109000" />
-      <workItem from="1594882320366" duration="13551000" />
+      <workItem from="1594882320366" duration="15312000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1796027000" />
+    <option name="totallyTimeSpent" value="1797788000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -890,20 +890,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="0" width="1455" height="1048" extended-state="1" />
+    <frame x="-9" y="0" width="1062" height="1048" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22939867" sideWeight="0.48288772" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20935412" sideWeight="0.7894737" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20935412" sideWeight="0.79376256" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20935412" sideWeight="0.21052632" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22939867" sideWeight="0.46149734" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20935412" sideWeight="0.20623742" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26726058" sideWeight="0.4557344" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14852199" sideWeight="0.4945946" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20724346" sideWeight="0.4945946" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24832962" sideWeight="0.27325162" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2489339" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1267,26 +1267,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="114" selection-start-line="25" selection-start-column="114" selection-end-line="25" selection-end-column="114" />
-          <folding>
-            <element signature="e#0#38#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#38#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/flappy/Flappy.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1311,6 +1291,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/flappy/GameStartLayer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1331,19 +1321,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Obstacle.js">
+    <entry file="file://$PROJECT_DIR$/src/modules/flappy/ScreenFlappy.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="50" />
+          <caret line="166" column="60" selection-start-line="161" selection-start-column="8" selection-end-line="166" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/flappy/ScreenFlappy.js">
+    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Obstacle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18611522">
-          <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="134" column="51" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="51" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/flappy/Player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7784343">
+          <caret line="33" column="63" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

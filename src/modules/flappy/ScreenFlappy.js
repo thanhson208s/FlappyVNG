@@ -4,9 +4,6 @@
 
 //TODO: add sound
 
-var DEBUGGING = false;
-var AUTO = true;
-
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,
@@ -195,6 +192,23 @@ var ScreenFlappy = cc.Layer.extend({
                 this.bird.angle = this.bird.maxAngle;
         }
         Flappy.Instance().rotation = this.bird.angle;
+    },
+
+    getNextRot:function(dt)
+    {
+        if (this.bird.v >= 0){
+            var vAngle = this.bird.vAngle0;
+            var angle = this.bird.angle + vAngle * dt;
+            if (angle < this.bird.minAngle){
+                angle = this.bird.minAngle;
+            }
+        } else{
+            var vAngle = this.bird.vAngle + this.bird.gAngle * dt;
+            var angle = this.bird.angle + vAngle * dt;
+            if (angle > this.bird.maxAngle)
+                this.bird.angle = this.bird.maxAngle;
+        }
+        return angle;
     },
 
     pushFlappy:function(sender)
