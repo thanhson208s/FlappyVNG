@@ -2,147 +2,234 @@
  * Created by GSN on 7/9/2015.
  */
 
-// TODO:
-// + change logic of restart
-// + save point to file and make high score menu
-// + make fall effect for flappy
-
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,
     isMouseDown:false,
 
-    ctor:function() {
+    ctor:function()
+    {
+        //singleton
         this._super();
+        ScreenFlappy._instance = this;
+        //singleton
+
+        //basic attributes
         var size = cc.director.getVisibleSize();
-
-        this.bird = {g: -2000, v0: 750, vMax: -1000, vFall: -200, gAngle: 720, vAngle0: -720, maxAngle: -30, minAngle: 90};
-        this.bird.v = 20;
-        this.bird.y = size.height*1/2;
-        this.bird.vAngle = 0;
-        this.bird.angle = 0;
+        this.width = size.width;
+        this.height = size.height;
+        //basic attributes
+        //constants
+        this.bird = {g: -2000, v0: 600, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
         this.limit = {max: 1, min: 75/900};
+        this.timeScale = 1;
+        //constants
 
-        cc.audioEngine.preloadEffect("flappy/winErr.mp3");
+        this.addChild(new Background(size.width, size.height), -1);
+        this.addChild(new Obstacle(size.width, size.height), 0);
+        this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
+        this.addChild(new PointSystem(size.width, size.height), 1);
+        this.addChild(new FlashLayer(size.width, size.height), 10);
+        this.addChild(new GameoverLayer(size.width, size.height), 5);
+        this.addChild(new GameStartLayer(size.width, size.height), 3);
 
-        var flappySprite = new Flappy();
-        flappySprite.setPosition(size.width*1/3, this.bird.y);
-        this.bird.sprite = flappySprite;
+        //var particleSystem = new cc.ParticleFlower();
+        //particleSystem.setPosition(size.width/2, size.height/2);
+        //particleSystem.texture = cc.textureCache.addImage("flappy/stars.png");
+        //if (particleSystem.setShapeType)
+        //    particleSystem.setShapeType(cc.ParticleSystem.STAR_SHAPE);
+        //this.addChild(particleSystem, 20);
 
-        var background = new Background(size.width, size.height);
-        background.setPosition(size.width/2, size.height/2);
-        this.background = background;
+        this.initGame();
+    },
 
-        var pointLayer = new PointSystem(this.width, this.height);
-        pointLayer.setPosition(size.width/2, size.height/2);
-        this.pointLayer = pointLayer;
+    initGame:function()
+    {
+        //Math.seedrandom("son");
+        this.bird.v = 20; this.bird.y = this.height/2;
+        this.bird.vAngle = 0; this.bird.angle = 0;
 
-        var obstacleLayer = new Obstacle(size.width, size.height);
-        obstacleLayer.setPosition(size.width/2, size.height/2);
-        this.obstacleLayer = obstacleLayer;
-
-        var coverLayer = new cc.LayerColor(cc.color(0,0,0,0), size.width, size.height);
-        coverLayer.setPosition(size.width/2, size.height/2);
-
-        var btnPlay = new cc.Sprite("flappy/play.png");
-        btnPlay.setPosition(size.width*2/3, size.height/2);
-        btnPlay.setScale(0.5, 0.5);
-        cc.eventManager.addListener({
-            event: cc.EventListener.MOUSE,
-            onMouseDown: function(sender){
-                var x = sender.getLocationX();
-                var y = sender.getLocationY();
-                if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
-                if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
-                var screen = sender.getCurrentTarget().parent;
-                cc.eventManager.addListener({
-                    event: cc.EventListener.MOUSE,
-                    onMouseDown: function(sender){
-                        var screen = sender.getCurrentTarget().parent;
-                        screen.bird.v = screen.bird.v0;
-                        cc.AudioEngine.getInstance().setEffectsVolume(1);
-                        cc.AudioEngine.getInstance().playEffect("flappy/winErr.mp3", false);
-                    }
-                }, coverLayer);
-                screen.removeChild(btnPlay);
-                screen.bird.v = screen.bird.v0;
-                screen.update = screen.flyingFlappy;
-                obstacleLayer.initPipes();
-                //cc.audioEngine.playMusic("flappy/theme.mp3", true);
-            }
-        }, btnPlay);
-
-        this.addChild(btnPlay);
-        this.addChild(pointLayer);
-        this.addChild(coverLayer);
-        this.addChild(background);
-        this.addChild(flappySprite);
-        this.addChild(obstacleLayer);
-
-
+        Flappy.Instance().initGame();
+        Background.Instance().initGame();
+        Obstacle.Instance().initGame();
+        PointSystem.Instance().initGame();
+        GameStartLayer.Instance().show();
+        GameoverLayer.Instance().hide();
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
     },
+
+    startGame:function()
+    {
+        this.clickListener = cc.eventManager.addListener({
+            event: cc.EventListener.MOUSE,
+            onMouseDown: this.pushFlappy
+        }, this);
+        this.spaceListener = cc.eventManager.addListener({
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed:function(keyCode, sender){
+                if (keyCode == 27){
+                    ScreenFlappy.Instance().timeScale = 1 -  ScreenFlappy.Instance().timeScale;
+                }
+                if (ScreenFlappy.Instance().timeScale == 0) return;
+                if (keyCode == 32) ScreenFlappy.Instance().pushFlappy(sender);
+            }
+        }, this);
+        GameStartLayer.Instance().hide();
+        PointSystem.Instance().show();
+        this.bird.v = this.bird.v0;
+        this.update = this.flyingFlappy;
+        Obstacle.Instance().startGame();
+    },
+
     idleFlappy: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var amplitude = 10;
         this.bird.y += this.bird.v * dt;
         if (this.bird.y >= this.height/2 + amplitude || this.bird.y <= this.height/2 - amplitude)
             this.bird.v = -this.bird.v;
-        this.bird.sprite.y = this.bird.y;
+        Flappy.Instance().y = this.bird.y;
     },
+
     flyingFlappy: function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
         this.bird.y += this.bird.v * dt;
-        if(this.obstacleLayer.collided(this.bird.sprite)){
-            cc.log("collied");
-        }
+        if (this.bird.y >= this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY())
+            this.bird.y = this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY();
 
-        if (this.bird.y <= this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2 || this.bird.y >= this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2) {
-            if (this.bird.y < this.height / 2)
-                this.bird.sprite.y = this.limit.min * this.height + this.bird.sprite.width * this.bird.sprite.getScaleX() /2;
-            else
-                this.bird.sprite.y = this.limit.max * this.height - this.bird.sprite.height * this.bird.sprite.getScaleY() / 2;
-            this.unscheduleUpdate();
-            this.background.unscheduleUpdate();
-            this.bird.sprite.unscheduleUpdate();
-            this.obstacleLayer.unscheduleUpdate();
+        var colliedWithPipes = Obstacle.Instance().collided();
+        var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
 
-            var btnReplay = new cc.Sprite("flappy/replay.png");
-            btnReplay.setPosition(this.width/2, this.height/2);
-            btnReplay.setScale(0.5, 0.5);
-            cc.eventManager.addListener({
-                event: cc.EventListener.MOUSE,
-                onMouseDown: function(sender){
-                    var x = sender.getLocationX();
-                    var y = sender.getLocationY();
-                    if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
-                    if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
-                    fr.view(ScreenFlappy, 1);
-                }
-            }, btnReplay);
-            this.addChild(btnReplay);
+        if (colliedWithPipes || colliedWithBorders) {
+            PointSystem.Instance().saveBestScore();
+            FlashLayer.Instance().flash();
+            this.setFallingFlappy();
             return;
         }
-        this.bird.sprite.y = this.bird.y;
+        Flappy.Instance().y = this.bird.y;
 
+        this.rotateFlappy(dt);
+    },
+
+    setFallingFlappy: function(){
+        cc.eventManager.removeListener(this.clickListener);
+        cc.eventManager.removeListener(this.spaceListener);
+        this.bird.v = 500;
+        this.bird.vAngle = 0;
+        this.update = this.fallingFlappy;
+        Background.Instance().unscheduleUpdate();
+        Flappy.Instance().unschedule(Flappy.Instance().wing);
+        Obstacle.Instance().unscheduleUpdate();
+    },
+
+    fallingFlappy:function(dt)
+    {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
+        this.bird.v += this.bird.g * dt;
+        if (this.bird.v < this.bird.vMax)
+            this.bird.v = this.bird.vMax;
+        this.bird.y += this.bird.v * dt;
+        if (this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2){
+            Flappy.Instance().y = this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
+            this.unscheduleUpdate();
+            PointSystem.Instance().hide();
+            GameoverLayer.Instance().show();
+            return;
+        }
+        Flappy.Instance().y = this.bird.y;
+
+        this.rotateFlappy(dt);
+    },
+
+    rotateFlappy:function(dt)
+    {
         if (this.bird.v >= 0){
             this.bird.vAngle = this.bird.vAngle0;
             this.bird.angle += this.bird.vAngle * dt;
-            if (this.bird.angle < -30){
-                this.bird.angle = -30;
+            if (this.bird.angle < this.bird.minAngle){
+                this.bird.angle = this.bird.minAngle;
                 this.bird.vAngle = 0;
             }
         } else{
             this.bird.vAngle += this.bird.gAngle * dt;
             this.bird.angle += this.bird.vAngle * dt;
-            if (this.bird.angle > 90)
-                this.bird.angle = 90;
+            if (this.bird.angle > this.bird.maxAngle)
+                this.bird.angle = this.bird.maxAngle;
         }
-        this.bird.sprite.rotation = this.bird.angle;
+        Flappy.Instance().rotation = this.bird.angle;
+    },
+
+    pushFlappy:function(sender)
+    {
+        var screen = sender.getCurrentTarget();
+        screen.bird.v = screen.bird.v0;
+    },
+
+    dtAfterTimeScale:function(dt){
+        if (this.timeScale == 0) return 0;
+        else return dt * this.timeScale;
     }
 });
+
+ScreenFlappy.Instance = function(){ return ScreenFlappy._instance; };
+
+//var BtnPlay = cc.Sprite.extend({
+//    ctor:function(x, y)
+//    {
+//        //singleton
+//        this._super("flappy/play.png");
+//        BtnPlay._instance = this;
+//        //singleton
+//
+//        //basic attributes
+//        this.setPosition(x, y);
+//        this.setScale(0.5, 0.5);
+//        //basic attributes
+//    },
+//
+//    show:function()
+//    {
+//        this.setVisible(true);
+//        this.clickListener = cc.eventManager.addListener({
+//            event: cc.EventListener.MOUSE,
+//            onMouseDown: this.startGame
+//        }, this);
+//        this.spaceListener = cc.eventManager.addListener({
+//            event: cc.EventListener.KEYBOARD,
+//            onKeyPressed:function(keyCode, sender){
+//                if (keyCode == 32) BtnPlay.Instance().startGame(sender);
+//            }
+//        }, this);
+//    },
+//
+//    hide:function()
+//    {
+//        this.setVisible(false);
+//        if (this.clickListener)
+//            cc.eventManager.removeListener(this.clickListener);
+//        if (this.spaceListener)
+//            cc.eventManager.removeListener(this.spaceListener);
+//    },
+//
+//    startGame: function(sender)
+//    {
+//        if (sender.getType() == cc.Event.MOUSE) {
+//            var x = sender.getLocationX();
+//            var y = sender.getLocationY();
+//            var btnPlay = BtnPlay.Instance();
+//            if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
+//            if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
+//        }
+//        ScreenFlappy.Instance().startGame();
+//    }
+//});
+//
+//BtnPlay.Instance = function(){ return BtnPlay._instance; }
+
+

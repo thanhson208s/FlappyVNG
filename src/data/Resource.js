@@ -81,7 +81,6 @@ var g_resources = [
     "flappy/play.png",
     "flappy/replay.png",
     "flappy/theme.mp3",
-    "flappy/sfx/sfx_wing.wav",
     "flappy/ground.png",
     "flappy/pipedown.png",
     "flappy/pipeup.png",
@@ -95,6 +94,27 @@ var g_resources = [
     "flappy/num/7.png",
     "flappy/num/8.png",
     "flappy/num/9.png",
+<<<<<<< HEAD
     "flappy/highscore.txt",
     "flappy/winErr.mp3"
+=======
+    "flappy/scoreboard/scoreboard.png",
+    "flappy/scoreboard/scoreboardNew.png",
+    "flappy/medal/bronze.png",
+    "flappy/medal/silver.png",
+    "flappy/medal/gold.png",
+    "flappy/medal/ruby.png",
+    "flappy/medal/diamond.png",
+    "flappy/gameover.png",
+    "flappy/cloud/small0.png",
+    "flappy/cloud/small1.png",
+    "flappy/cloud/small2.png",
+    "flappy/cloud/medium0.png",
+    "flappy/cloud/medium1.png",
+    "flappy/cloud/large0.png",
+    "flappy/cloud/large1.png",
+    "flappy/stars.png",
+    "flappy/title.png",
+    "flappy/message.png"
+>>>>>>> f33f108bbd3c73101323cdf3a8d77264057ea528
 ];

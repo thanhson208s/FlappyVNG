@@ -44,10 +44,15 @@
         "src/modules/animation/Flappy.js",
         "src/modules/animation/Obstacle.js",
         "src/modules/animation/PointSystem.js",
+        "src/modules/animation/FlashLayer.js",
+        "src/modules/animation/GameoverLayer.js",
+        "src/modules/animation/GameStartLayer.js",
+        "src/modules/animation/seedrandom.js",
         "src/modules/localization/ScreenLocalization.js",
         "src/modules/mainmenu/ScreenMenu.js",
         "src/modules/testnetwork/network/Network.js",
         "src/modules/testnetwork/network/Packet.js",
         "src/modules/testnetwork/ScreenNetwork.js"
+
     ]
 }
