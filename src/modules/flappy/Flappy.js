@@ -8,7 +8,7 @@ var Flappy = cc.Sprite.extend({
     ctor: function(x, y)
     {
         //singleton
-        this._super("flappy/bird/up.png");
+        this._super("flappy/bird/BWup.png");
         Flappy._instance = this;
         //singleton
 
@@ -21,12 +21,15 @@ var Flappy = cc.Sprite.extend({
         //properties
         this.rate = 10;
         this.index = 0;
-        this.spriteNames = ["flappy/bird/up.png", "flappy/bird/mid.png", "flappy/bird/down.png", "flappy/bird/mid.png"];
+        this.spriteNames = [];
+        this.versions = ["yellow", "BW", "red", "blue"];
         //properties
     },
 
     initGame: function()
     {
+        var version = this.versions[Math.floor(Math.random() * this.versions.length)];
+        this.spriteNames = ["flappy/bird/" + version + "up.png", "flappy/bird/" + version + "mid.png", "flappy/bird/" + version + "down.png", "flappy/bird/" + version + "mid.png"];
         this.setPosition(this.x0, this.y0);
         this.rotation = 0;
         this.schedule(this.wing, 1/ScreenFlappy.Instance().dtAfterTimeScale(this.rate));

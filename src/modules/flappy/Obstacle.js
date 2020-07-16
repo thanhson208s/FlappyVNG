@@ -23,11 +23,14 @@ var Obstacle = cc.Layer.extend({
         this.distanceBetweenPair = PIPE_CONST.DISTANCE;
         this.pipeWidth = PIPE_CONST.WIDTH;
         this.gapDistance = PIPE_CONST.GAP_DISTANCE;
-        this.pipeStartPoint = this.width * 2;
+        this.pipeStartPoint = this.width * 3/2;
         this.maxHeight = this.height - (this.gapDistance/2 + this.pipeWidth / 2);
         this.minHeight = BG_CONST.GROUND_HEIGHT * this.height + (this.gapDistance/2 + this.pipeWidth / 2);
         this.grounds = ["first", "second"];
         this.groundSpawnX = this.width * (3/2 - BG_CONST.OVERLAP_WIDTH);
+        this.coinRate = COIN_RATE;
+        this.targets = [];
+        this.targetNames = [];
         //Constants
 
         this.spawnGrounds();
@@ -36,10 +39,26 @@ var Obstacle = cc.Layer.extend({
 
     initGame: function()
     {
-        this.currentPipeTag = this.pipeTags[0];
+        for (var i = 0; i < this.targets.length; i++){
+            if (this.targetNames[i] == "coin"){
+                this.removeChild(this.targets[i]);
+            }
+        }
+        var nTarget = this.targets.length;
+        for (var i = 0; i < nTarget; i++){
+            if (this.targetNames[0] == "coin"){
+                this.targetNames.shift();
+                this.targets.shift();
+            }
+            else{
+                this.targetNames.push(this.targetNames.shift());
+                this.targets.push(this.targets.shift());
+            }
+        }
+        this.currentTargetIndex = 0;
         var curStartPoint = this.pipeStartPoint;
-        for (var i = 0; i < this.pipeTags.length; i++){
-            var pipePair = this.getChildByTag(this.pipeTags[i]);
+        for (var i = 0; i < this.targets.length; i++){
+            var pipePair = this.targets[i];
             pipePair.setPosition(curStartPoint, this.getNewSpawnHeight(0));
             curStartPoint += this.pipeWidth + this.distanceBetweenPair;
         }
@@ -63,7 +82,7 @@ var Obstacle = cc.Layer.extend({
     {
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.moveGrounds(dt);
-        this.movePipes(dt);
+        this.moveTargets(dt);
     },
 
     spawnGrounds: function(){
@@ -80,10 +99,11 @@ var Obstacle = cc.Layer.extend({
     spawnPipes: function()
     {
         var numOfPairs = Math.ceil(this.width / (this.pipeWidth + this.distanceBetweenPair)) + 1;
-        this.pipeTags = [];
         for (var i = 0; i < numOfPairs; i++){
-            this.pipeTags[i] = i;
-            this.addChild( new PipePair(this.gapDistance, this.pipeWidth), 0, i)
+            var pipePair = new PipePair(this.gapDistance, this.pipeWidth)
+            this.addChild(pipePair);
+            this.targets.push(pipePair);
+            this.targetNames.push("pipe");
         }
     },
 
@@ -100,17 +120,47 @@ var Obstacle = cc.Layer.extend({
         }
     },
 
-    movePipes: function(dt)
+    moveTargets: function(dt)
     {
-        for (var i = 0; i < this.pipeTags.length; i++){
-            this.getChildByTag(i).x -= this.speed * dt;
+        for (var i = 0; i < this.targets.length; i++){
+            this.targets[i].x -= this.speed * dt;
         }
 
-        var firstPipe = this.getChildByTag(this.pipeTags[0]);
-        if (this.x + firstPipe.x + this.pipeWidth <= 0){
-            var lastPipe = this.getChildByTag(this.pipeTags[this.pipeTags.length - 1]);
-            firstPipe.setPosition(lastPipe.x + this.pipeWidth + this.distanceBetweenPair, this.getNewSpawnHeight(lastPipe.y));
-            this.pipeTags.push(this.pipeTags.shift());
+        var firstTarget = this.targets[0];
+        if (firstTarget.x + this.pipeWidth <= 0){
+            if (this.targetNames[0] == "coin"){
+                this.removeChild(this.targets.shift());
+                this.targetNames.shift();
+            }
+            else {
+                var lastPipe = this.targets[this.targets.length - 1];
+
+                var coinCount = 0;
+                while(Math.random() < this.coinRate){
+                    coinCount++;
+                }
+                if (coinCount == 0)
+                    firstTarget.setPosition(lastPipe.x + this.pipeWidth + this.distanceBetweenPair, this.getNewSpawnHeight(lastPipe.y));
+                else {
+                    var distance = (5 / 8 * (this.pipeWidth + this.distanceBetweenPair) * (coinCount + 1) - (coinCount - 1) * 80) / (coinCount + 1);
+                    var curX = lastPipe.x;
+                    var curY = lastPipe.y;
+                    for (var i = 0; i < coinCount; i++){
+                        curY = this.getNewSpawnHeight(curY);
+                        curX += distance;
+                        var coin = new Coin(curX, curY);
+                        this.targets.push(coin);
+                        this.targetNames.push("coin");
+                        this.addChild(coin);
+                    }
+                    firstTarget.setPosition(curX + distance, this.getNewSpawnHeight(curY));
+                }
+
+                this.targets.push(this.targets.shift());
+                this.targetNames.push(this.targetNames.shift());
+
+            }
+            this.currentTargetIndex--;
         }
     },
 
@@ -121,9 +171,7 @@ var Obstacle = cc.Layer.extend({
 
     collided: function(x, y)
     {
-        var curPipe = this.getChildByTag(this.currentPipeTag);
         var flappy = Flappy.Instance();
-
         var left = x - flappy.width/2 * flappy.getScaleX();
         //right
         var rot = flappy.rotation / 180 * Math.PI;
@@ -135,29 +183,54 @@ var Obstacle = cc.Layer.extend({
         var right = x + 1/Math.sqrt(A - B*B/(4*C));
         //right
         var down = y - 1/Math.sqrt(C - B*B/(4*A));
+        var up = y + 1/Math.sqrt(C - B*B/(4*A));
         if (down <= ScreenFlappy.Instance().limit.min * ScreenFlappy.Instance().height){
             flappy.y = ScreenFlappy.Instance().limit.min * ScreenFlappy.Instance().height + (y - down);
             return true;
         }
-
         flappy.y = y;
-        if (right < curPipe.x - this.pipeWidth/2)
-            return false;
-        else if (left >= curPipe.x + this.pipeWidth/2){
-            this.currentPipeTag = (this.currentPipeTag + 1) % this.pipeTags.length;
-            PointSystem.Instance().increaseScore();
+
+        if (this.targetNames[this.currentTargetIndex] == "coin"){
+            var coin = this.targets[this.currentTargetIndex];
+            if (right <= coin.x - coin.width/2 * coin.getScaleX()){
+                //do nothing
+            }
+            else if (left >= coin.x + coin.width/2 * coin.getScaleX()){
+                this.currentTargetIndex++;
+            }else{
+                if (!(up <= coin.y - coin.height/2 * coin.getScaleY() || down >= coin.y + coin.height/2 * coin.getScaleY())){
+                    this.targets.splice(this.currentTargetIndex, 1);
+                    this.targetNames.splice(this.currentTargetIndex, 1);
+                    this.removeChild(coin);
+                    PointSystem.Instance().increaseScore(2);
+                }
+            }
             return false;
         }
-        else{
-            var up = y + 1/Math.sqrt(C - B*B/(4*A));
-            var colliedWithPipe = up >= curPipe.y + this.gapDistance/2 || down <= curPipe.y - this.gapDistance/2;
-            return colliedWithPipe && !DEBUGGING;
+        else {
+            var curPipe = this.targets[this.currentTargetIndex];
+            if (right < curPipe.x - this.pipeWidth / 2)
+                return false;
+            else if (left > curPipe.x + this.pipeWidth / 2) {
+                PointSystem.Instance().increaseScore(1);
+                this.currentTargetIndex++;
+                return false;
+            }
+            else {
+                var colliedWithPipe = up >= curPipe.y + this.gapDistance / 2 || down <= curPipe.y - this.gapDistance / 2;
+                return colliedWithPipe && !DEBUGGING;
+            }
         }
     },
 
-    getCurrentPipe:function()
+    getCurrentTarget:function()
     {
-        return this.getChildByTag(this.currentPipeTag);
+        return this.targets[this.currentTargetIndex];
+    },
+
+    getCurrentTargetName:function()
+    {
+        return this.targetNames[this.currentTargetIndex];
     }
 });
 
@@ -182,4 +255,28 @@ var PipePair = cc.Layer.extend({
         pipeup.setPosition(0, distance/2);
         pipedown.setPosition(0, -distance/2);
     }
+});
+
+
+var Coin = cc.Sprite.extend({
+   ctor:function(x, y)
+   {
+       this._super("flappy/coin/coin0.png");
+
+       this.setPosition(x, y);
+       this.setScale(0.1, 0.1);
+
+       this.index = 0;
+       this.rate = 10;
+       this.spriteNames = [0, 1, 2, 3, 4, 5].map(function(x){ return "flappy/coin/coin" + x + ".png"});
+
+       this.schedule(this.spin, 1/ScreenFlappy.Instance().dtAfterTimeScale(this.rate));
+   },
+
+   spin:function()
+   {
+       if (ScreenFlappy.Instance().timeScale == 0) return;
+       this.index = (this.index + 1) % this.spriteNames.length;
+       this.setSpriteFrame(new cc.SpriteFrame(this.spriteNames[this.index], cc.rect(0,0,438,438)));
+   }
 });

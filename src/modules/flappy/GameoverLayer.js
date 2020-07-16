@@ -190,7 +190,7 @@ var Scoreboard = cc.Sprite.extend({
             sprite.setScale(0.6, 0.6);
             sprite.setPosition(x, y);
             this.addChild(sprite, 1);
-            x -= sprite.width * sprite.getScaleX() * 1.1;
+            x -= sprite.width * sprite.getScaleX() + 2;
         }
     },
 
@@ -222,7 +222,7 @@ var Scoreboard = cc.Sprite.extend({
             sprite.setPosition(x, y);
             this.addChild(sprite, 1);
             this.scoreSprites.push(sprite);
-            x -= sprite.width * sprite.getScaleX() * 1.1;
+            x -= sprite.width * sprite.getScaleX() + 2;
         }
     },
 

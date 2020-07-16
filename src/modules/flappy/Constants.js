@@ -14,9 +14,9 @@ var FLAPPY_CONST = {
 };
 
 var PIPE_CONST = {
-    GAP_DISTANCE: 145,
+    GAP_DISTANCE: 150,
     SPEED: 165,
-    DISTANCE: 200,
+    DISTANCE: 195,
     WIDTH: 65
 };
 
@@ -29,6 +29,7 @@ var BG_CONST = {
 var DEBUGGING = false;
 var AUTO = false;
 var TIME_SCALE = 1;
+var COIN_RATE = 0.5;
 
 var MEDAL_CONST = {
     THRESHOLDS: [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]],
