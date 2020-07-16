@@ -48,6 +48,8 @@
         "src/modules/flappy/GameoverLayer.js",
         "src/modules/flappy/GameStartLayer.js",
         "src/modules/flappy/seedrandom.js",
+        "src/modules/flappy/Constants.js",
+        "src/modules/flappy/Player.js",
         "src/modules/localization/ScreenLocalization.js",
         "src/modules/mainmenu/ScreenMenu.js",
         "src/modules/testnetwork/network/Network.js",

@@ -19,7 +19,7 @@ var GameStartLayer = cc.Layer.extend({
         //basic attributes
 
         //constants
-        this.speed = 170;
+        this.speed = PIPE_CONST.SPEED;
         //constants
 
         var title = new cc.Sprite("flappy/title.png");

@@ -13,26 +13,27 @@ var Background = cc.Layer.extend({
         //basic attributes
         this.width = width;
         this.height = height;
-        this.setPosition(width/2, height/2);
+        this.setAnchorPoint(0, 0);
+        this.setPosition(0, 0);
         //basic attributes
 
         //constants
-        this.speed = 10;
+        this.speed = BG_CONST.SPEED;
         this.backgrounds = ["first", "second"];
-        this.distanceBetweenBackgrounds = this.width * (1 - 100/1464);
-        this.cloudNames = ["small0", "small1", "small2", "medium0", "medium1", "large0", "large1"];
-        this.cloudSpeeds = {"small0": 70, "small1": 60, "small2": 50, "medium0": 40, "medium1": 30, "large0": 20, "large1": 0};
-        this.cloudProbs = {"small0": 0.1, "small1": 0.09, "small2": 0.08, "medium0": 0.04, "medium1": 0.03, "large0": 0.02, "large1": 0.01};
+        this.distanceBetweenBackgrounds = this.width * (1 - BG_CONST.OVERLAP_WIDTH);
+        //this.cloudNames = ["small0", "small1", "small2", "medium0", "medium1", "large0", "large1"];
+        //this.cloudSpeeds = {"small0": 70, "small1": 60, "small2": 50, "medium0": 40, "medium1": 30, "large0": 20, "large1": 0};
+        //this.cloudProbs = {"small0": 0.1, "small1": 0.09, "small2": 0.08, "medium0": 0.04, "medium1": 0.03, "large0": 0.02, "large1": 0.01};
         //constants
 
         var firstSprite = new cc.Sprite("flappy/background.png");
         firstSprite.setScale(this.width/firstSprite.width, this.height/firstSprite.height);
-        firstSprite.setPosition(0, 0);
+        firstSprite.setPosition(this.width/2, this.height/2);
         this.addChild(firstSprite, 0, this.backgrounds[0]);
 
         var secondSprite = new cc.Sprite("flappy/background.png");
         secondSprite.setScale(firstSprite.getScaleX(), firstSprite.getScaleY());
-        secondSprite.setPosition(this.distanceBetweenBackgrounds, 0);
+        secondSprite.setPosition(this.width/2 + this.distanceBetweenBackgrounds, this.height/2);
         this.addChild(secondSprite, 0, this.backgrounds[1]);
 
         //this.spawnCloud();
@@ -46,10 +47,12 @@ var Background = cc.Layer.extend({
     update:function(dt)
     {
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
-        this.x -= this.speed * dt;
+        for (var i = 0; i < this.backgrounds.length; i++){
+            this.getChildByName(this.backgrounds[i]).x -= this.speed * dt;
+        }
 
         var firstBackground = this.getChildByName(this.backgrounds[0]);
-        if (this.x + firstBackground.x  <= this.width/2 - this.distanceBetweenBackgrounds){
+        if (firstBackground.x  <= this.width/2 - this.distanceBetweenBackgrounds){
             firstBackground.x += 2 * this.distanceBetweenBackgrounds;
             this.backgrounds.push(this.backgrounds.shift());
         }

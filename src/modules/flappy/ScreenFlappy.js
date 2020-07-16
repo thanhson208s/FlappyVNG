@@ -4,7 +4,8 @@
 
 //TODO: add sound
 
-var DEBUGGING = true;
+var DEBUGGING = false;
+var AUTO = true;
 
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
@@ -25,8 +26,16 @@ var ScreenFlappy = cc.Layer.extend({
         //basic attributes
 
         //constants
-        this.bird = {g: -2000, v0: 600, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
-        this.limit = {max: 1, min: 75/900};
+        this.bird = {
+            g: FLAPPY_CONST.G,
+            v0: FLAPPY_CONST.V_0,
+            vMax: FLAPPY_CONST.V_MAX,
+            gAngle: FLAPPY_CONST.G_ANGLE,
+            vAngle0: FLAPPY_CONST.V_ANGLE_0,
+            minAngle: FLAPPY_CONST.ANGLE_MIN,
+            maxAngle: FLAPPY_CONST.ANGLE_MAX
+        };
+        this.limit = {max: 1, min: BG_CONST.GROUND_HEIGHT};
         this.timeScale = 1;
         //constants
 
@@ -37,6 +46,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new FlashLayer(size.width, size.height), 10);
         this.addChild(new GameoverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
+        this.addChild(new Player());
 
         //cc.audioEngine.preloadEffect("flappy/sfx/sfw_wing.wav");
         //cc.audioEngine.preloadEffect("flappy/sfx/sfx_hit.wav");
@@ -89,6 +99,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.v = this.bird.v0;
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
+        if (AUTO)
+            Player.Instance().startGame();
         //cc.audioEngine.rewindMusic();
     },
 
@@ -105,6 +117,8 @@ var ScreenFlappy = cc.Layer.extend({
     flyingFlappy: function(dt)
     {
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
+        this.rotateFlappy(dt);
+
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
@@ -112,20 +126,14 @@ var ScreenFlappy = cc.Layer.extend({
         if (this.bird.y >= this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY())
             this.bird.y = this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY();
 
-        var colliedWithPipes = Obstacle.Instance().collided();
-        var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
-
-        if ((colliedWithPipes && !DEBUGGING) || colliedWithBorders) {
+        if (Obstacle.Instance().collided(Flappy.Instance().x + dt*PIPE_CONST.SPEED, this.bird.y)) {
             //cc.audioEngine.playEffect("flappy/sfx/sfx_hit.wav", false);
-            cc.audioEngine.pauseMusic();
+            //cc.audioEngine.pauseMusic();
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
             this.setFallingFlappy();
             return;
         }
-        Flappy.Instance().y = this.bird.y;
-
-        this.rotateFlappy(dt);
     },
 
     setFallingFlappy: function(){
@@ -138,26 +146,37 @@ var ScreenFlappy = cc.Layer.extend({
         Flappy.Instance().unschedule(Flappy.Instance().wing);
         Obstacle.Instance().unscheduleUpdate();
         GameStartLayer.Instance().unscheduleUpdate();
+        Player.Instance().unscheduleUpdate();
         //cc.audioEngine.playEffect("flappy/sfx/sfx_die.wav");
     },
 
     fallingFlappy:function(dt)
     {
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
+        this.rotateFlappy(dt);
+
         this.bird.v += this.bird.g * dt;
         if (this.bird.v < this.bird.vMax)
             this.bird.v = this.bird.vMax;
         this.bird.y += this.bird.v * dt;
-        if (this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2){
-            Flappy.Instance().y = this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
+
+        var flappy = Flappy.Instance();
+        var rot = flappy.rotation / 180 * Math.PI;
+        var a = flappy.width/2 * flappy.getScaleX();
+        var b = flappy.height/2 * flappy.getScaleY();
+        var A = Math.pow(Math.cos(rot), 2)/(a*a) + Math.pow(Math.sin(rot), 2)/(b*b);
+        var B = Math.sin(2*rot)*(1/(a*a) - 1/(b*b));
+        var C = Math.pow(Math.sin(rot), 2)/(a*a) + Math.pow(Math.cos(rot), 2)/(b*b);
+        var down = this.bird.y - 1/Math.sqrt(C - B*B/(4*A));
+
+        if (down <= this.limit.min * this.height && this.bird.v < 0){
+            flappy.y = this.limit.min * this.height + (this.bird.y - down);
             this.unscheduleUpdate();
             PointSystem.Instance().hide();
             GameoverLayer.Instance().show();
             return;
         }
-        Flappy.Instance().y = this.bird.y;
-
-        this.rotateFlappy(dt);
+        flappy.y = this.bird.y;
     },
 
     rotateFlappy:function(dt)

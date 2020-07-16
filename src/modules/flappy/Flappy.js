@@ -13,7 +13,7 @@ var Flappy = cc.Sprite.extend({
         //singleton
 
         //basic attributes
-        this.setScale(0.3, 0.3);
+        this.setScale(0.25, 0.25);
         this.x0 = x;
         this.y0 = y;
         //basic attributes

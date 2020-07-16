@@ -113,7 +113,7 @@ var Scoreboard = cc.Sprite.extend({
         this.scorePos = {x: this.width - 40, y: this.height - 65};
         this.bestScorePos = {x: this.width - 40, y: 40};
         this.medalPos = {x: 76, y: this.height/2 - 10};
-        this.thresholds = [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 40], ["ruby", 70], ["diamond", 100]];
+        this.thresholds = [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]];
         this.starRate = {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2};
         //constants
     },
