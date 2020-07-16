@@ -94,10 +94,6 @@ var g_resources = [
     "flappy/num/7.png",
     "flappy/num/8.png",
     "flappy/num/9.png",
-<<<<<<< HEAD
-    "flappy/highscore.txt",
-    "flappy/winErr.mp3"
-=======
     "flappy/scoreboard/scoreboard.png",
     "flappy/scoreboard/scoreboardNew.png",
     "flappy/medal/bronze.png",
@@ -115,6 +111,10 @@ var g_resources = [
     "flappy/cloud/large1.png",
     "flappy/stars.png",
     "flappy/title.png",
-    "flappy/message.png"
->>>>>>> f33f108bbd3c73101323cdf3a8d77264057ea528
+    "flappy/message.png",
+    "flappy/sfx/sfx_wing.wav",
+    "flappy/sfx/sfx_hit.wav",
+    "flappy/sfx/sfx_point.wav",
+    "flappy/sfx/sfx_swooshing.wav",
+    "flappy/sfx/sfx_die.wav"
 ];

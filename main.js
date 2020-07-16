@@ -55,10 +55,5 @@ cc.game.onStart = function () {
 
         fr.view(ScreenFlappy, 0.5);
     }, this);
-
-<<<<<<< HEAD
-    //cc.audioEngine.preloadEffect("flappy/sfx/sfx_wing.wav");
-=======
->>>>>>> f33f108bbd3c73101323cdf3a8d77264057ea528
 };
 cc.game.run();

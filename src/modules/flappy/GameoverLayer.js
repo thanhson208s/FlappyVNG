@@ -87,6 +87,7 @@ var BtnReplay = cc.Sprite.extend({
             if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
             if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
         }
+        //cc.audioEngine.playEffect("flappy/sfx/sfx_swooshing.wav", false);
         FlashLayer.Instance().flash();
         ScreenFlappy.Instance().initGame();
     }
@@ -145,8 +146,15 @@ var Scoreboard = cc.Sprite.extend({
             }
         }
 
-        this.score2Sprites(score, false);
         this.score2Sprites(bestScore, true);
+
+        this.scoreSprites = [];
+        this.currentScore = 0;
+        var runTime = (score >= 100) ? 2 : ((score >= 50) ? 1.5 : 1);
+        this.showScoreIncreasing();
+        if (score > 0)
+            this.schedule(this.showScoreIncreasing, this.runTime/score);
+
         this.showMedal(score);
         this.setVisible(true);
     },
@@ -184,6 +192,38 @@ var Scoreboard = cc.Sprite.extend({
             sprite.setScale(0.6, 0.6);
             sprite.setPosition(x, y);
             this.addChild(sprite, 1);
+            x -= sprite.width * sprite.getScaleX() * 1.1;
+        }
+    },
+
+    showScoreIncreasing:function(){
+        if (this.currentScore > PointSystem.Instance().score) {
+            this.unschedule(this.showScoreIncreasing);
+            return;
+        }
+        for (var i = 0; i < this.scoreSprites.length; i++){
+            this.removeChild(this.scoreSprites[i]);
+        }
+        this.scoreSprites = [];
+
+        var score = this.currentScore++;
+        var x = this.scorePos.x;
+        var y = this.scorePos.y;
+        var numList = [];
+        if (score == 0) numList.push(0);
+        else{
+            while (score > 0){
+                numList.push(score % 10);
+                score = Math.floor(score/10);
+            }
+        }
+
+        for (var i = 0; i < numList.length; i++){
+            var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
+            sprite.setScale(0.6, 0.6);
+            sprite.setPosition(x, y);
+            this.addChild(sprite, 1);
+            this.scoreSprites.push(sprite);
             x -= sprite.width * sprite.getScaleX() * 1.1;
         }
     },

@@ -59,6 +59,7 @@ var PointSystem = cc.Layer.extend({
 
     increaseScore:function()
     {
+        //cc.audioEngine.playEffect("flappy/sfx/sfx_point.wav", false);
         this.score2Sprites(++this.score);
     },
 

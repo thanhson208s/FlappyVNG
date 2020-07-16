@@ -2,6 +2,10 @@
  * Created by GSN on 7/9/2015.
  */
 
+//TODO: add sound
+
+var DEBUGGING = true;
+
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,
@@ -19,6 +23,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.width = size.width;
         this.height = size.height;
         //basic attributes
+
         //constants
         this.bird = {g: -2000, v0: 600, vMax: -1000, gAngle: 720, vAngle0: -720, minAngle: -30, maxAngle: 90};
         this.limit = {max: 1, min: 75/900};
@@ -33,12 +38,15 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new GameoverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
 
-        //var particleSystem = new cc.ParticleFlower();
-        //particleSystem.setPosition(size.width/2, size.height/2);
-        //particleSystem.texture = cc.textureCache.addImage("flappy/stars.png");
-        //if (particleSystem.setShapeType)
-        //    particleSystem.setShapeType(cc.ParticleSystem.STAR_SHAPE);
-        //this.addChild(particleSystem, 20);
+        //cc.audioEngine.preloadEffect("flappy/sfx/sfw_wing.wav");
+        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_hit.wav");
+        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_point.wav");
+        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_swooshing.wav");
+        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_die.wav");
+        //
+        //cc.audioEngine.playMusic("flappy/theme.mp3", true);
+        //cc.audioEngine.pauseMusic();
+
 
         this.initGame();
     },
@@ -81,6 +89,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.v = this.bird.v0;
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
+        //cc.audioEngine.rewindMusic();
     },
 
     idleFlappy: function(dt)
@@ -106,7 +115,9 @@ var ScreenFlappy = cc.Layer.extend({
         var colliedWithPipes = Obstacle.Instance().collided();
         var colliedWithBorders =  this.bird.y <= this.limit.min * this.height + Flappy.Instance().width * Flappy.Instance().getScaleX()/2;
 
-        if (colliedWithPipes || colliedWithBorders) {
+        if ((colliedWithPipes && !DEBUGGING) || colliedWithBorders) {
+            //cc.audioEngine.playEffect("flappy/sfx/sfx_hit.wav", false);
+            cc.audioEngine.pauseMusic();
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
             this.setFallingFlappy();
@@ -126,6 +137,8 @@ var ScreenFlappy = cc.Layer.extend({
         Background.Instance().unscheduleUpdate();
         Flappy.Instance().unschedule(Flappy.Instance().wing);
         Obstacle.Instance().unscheduleUpdate();
+        GameStartLayer.Instance().unscheduleUpdate();
+        //cc.audioEngine.playEffect("flappy/sfx/sfx_die.wav");
     },
 
     fallingFlappy:function(dt)
@@ -169,67 +182,15 @@ var ScreenFlappy = cc.Layer.extend({
     {
         var screen = sender.getCurrentTarget();
         screen.bird.v = screen.bird.v0;
+        //cc.audioEngine.playEffect("flappy/sfx/sfx_wing.wav", false);
     },
 
-    dtAfterTimeScale:function(dt){
-        if (this.timeScale == 0) return 0;
-        else return dt * this.timeScale;
+    dtAfterTimeScale:function(dt)
+    {
+        return dt * this.timeScale;
     }
 });
 
 ScreenFlappy.Instance = function(){ return ScreenFlappy._instance; };
-
-//var BtnPlay = cc.Sprite.extend({
-//    ctor:function(x, y)
-//    {
-//        //singleton
-//        this._super("flappy/play.png");
-//        BtnPlay._instance = this;
-//        //singleton
-//
-//        //basic attributes
-//        this.setPosition(x, y);
-//        this.setScale(0.5, 0.5);
-//        //basic attributes
-//    },
-//
-//    show:function()
-//    {
-//        this.setVisible(true);
-//        this.clickListener = cc.eventManager.addListener({
-//            event: cc.EventListener.MOUSE,
-//            onMouseDown: this.startGame
-//        }, this);
-//        this.spaceListener = cc.eventManager.addListener({
-//            event: cc.EventListener.KEYBOARD,
-//            onKeyPressed:function(keyCode, sender){
-//                if (keyCode == 32) BtnPlay.Instance().startGame(sender);
-//            }
-//        }, this);
-//    },
-//
-//    hide:function()
-//    {
-//        this.setVisible(false);
-//        if (this.clickListener)
-//            cc.eventManager.removeListener(this.clickListener);
-//        if (this.spaceListener)
-//            cc.eventManager.removeListener(this.spaceListener);
-//    },
-//
-//    startGame: function(sender)
-//    {
-//        if (sender.getType() == cc.Event.MOUSE) {
-//            var x = sender.getLocationX();
-//            var y = sender.getLocationY();
-//            var btnPlay = BtnPlay.Instance();
-//            if (x < btnPlay.x - btnPlay.width / 2 * btnPlay.getScaleX() || x > btnPlay.x + btnPlay.width / 2 * btnPlay.getScaleX()) return;
-//            if (y < btnPlay.y - btnPlay.height / 2 * btnPlay.getScaleY() || y > btnPlay.y + btnPlay.height / 2 * btnPlay.getScaleY()) return;
-//        }
-//        ScreenFlappy.Instance().startGame();
-//    }
-//});
-//
-//BtnPlay.Instance = function(){ return BtnPlay._instance; }
 
 

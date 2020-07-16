@@ -17,17 +17,17 @@ var Obstacle = cc.Layer.extend({
         this.setPosition(width/2, height/2);
         //basic attributes
 
-        //properties
+        //Constants
         this.speed = 170;
         this.distanceBetweenPair = 160;
-        this.pipeWidth = 60;
+        this.pipeWidth = 55;
         this.gapDistance = 155;
         this.pipeStartPoint = this.width * 3/2;
         this.maxHeight = this.height/2 - this.gapDistance;
         this.minHeight = (75 / 900 - 1/2) * this.height + this.gapDistance;
         this.grounds = ["first", "second"];
         this.groundSpawnX = this.width * (1 - 100/1464);
-        //properties
+        //Constants
 
         this.spawnGrounds();
         this.spawnPipes();
