@@ -16,6 +16,7 @@ var Player = cc.Layer.extend({
 
     update:function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var flappy = Flappy.Instance();
         var pipe = Obstacle.Instance().getCurrentPipe();
 
@@ -31,8 +32,8 @@ var Player = cc.Layer.extend({
         var C = Math.pow(Math.sin(rot), 2)/(a*a) + Math.pow(Math.cos(rot), 2)/(b*b);
         var down = y - 1/Math.sqrt(C - B*B/(4*A));
         var left = x - 1/Math.sqrt(A - B*B/(4*C));
-        if (left - 0.5 > pipe.x + PIPE_CONST.WIDTH / 2) return;
-        if (down - 0.5 <= pipe.y - PIPE_CONST.GAP_DISTANCE / 2){
+        if (left - 2 > pipe.x + PIPE_CONST.WIDTH / 2) return;
+        if (down - 2 <= pipe.y - PIPE_CONST.GAP_DISTANCE / 2){
             ScreenFlappy.Instance().bird.v = FLAPPY_CONST.V_0;
         }
     }

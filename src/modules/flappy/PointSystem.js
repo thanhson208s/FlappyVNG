@@ -48,12 +48,12 @@ var PointSystem = cc.Layer.extend({
             }
         }
 
-        var curX = 10;
+        var curX = 30;
         for (var i = numList.length - 1; i >= 0; i--){
             var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
             this.addChild(sprite);
-            curX += sprite.width * sprite.getScaleX() * 1.1;
             sprite.setPosition(curX - this.width/2, this.height/2 - sprite.height * sprite.getScaleY());
+            curX += sprite.width * sprite.getScaleX() + 2;
         }
     },
 
@@ -65,7 +65,6 @@ var PointSystem = cc.Layer.extend({
 
     saveBestScore:function()
     {
-        cc.log("Score: " + this.score, "Best: ", this.bestScore);
         if (this.score > this.bestScore)
             cc.sys.localStorage.setItem(this.storageKey, this.score);
     }

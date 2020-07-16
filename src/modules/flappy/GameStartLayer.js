@@ -20,6 +20,10 @@ var GameStartLayer = cc.Layer.extend({
 
         //constants
         this.speed = PIPE_CONST.SPEED;
+        this.autoIndex = -1;
+        this.autoCode = "SONDEPTRAI".split('').map(function(x) {return x.charCodeAt(0)});
+        this.pipeIndex = -1;
+        this.pipeCode = "KHONGLAMMAVANCOAN".split('').map(function(x) {return x.charCodeAt(0)});
         //constants
 
         var title = new cc.Sprite("flappy/title.png");
@@ -40,10 +44,36 @@ var GameStartLayer = cc.Layer.extend({
             event: cc.EventListener.MOUSE,
             onMouseDown: this.startGame
         }, this);
+        this.autoIndex = -1;
         this.spaceListener = cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyPressed:function(keyCode, sender){
                 if (keyCode == 32) GameStartLayer.Instance().startGame(sender);
+                else{
+                    if (keyCode == GameStartLayer.Instance().autoCode[GameStartLayer.Instance().autoIndex + 1]){
+                        GameStartLayer.Instance().autoIndex++;
+                        if (GameStartLayer.Instance().autoIndex == GameStartLayer.Instance().autoCode.length - 1){
+                            GameStartLayer.Instance().autoIndex = -1;
+                            AUTO = !AUTO;
+                            cc.log("Auto set to " + AUTO);
+                        }
+                    }else {
+                        GameStartLayer.Instance().autoIndex = -1;
+                        if (keyCode == GameStartLayer.Instance().autoCode[0]) GameStartLayer.Instance().autoIndex++;
+                    }
+
+                    if (keyCode == GameStartLayer.Instance().pipeCode[GameStartLayer.Instance().pipeIndex + 1]){
+                        GameStartLayer.Instance().pipeIndex++;
+                        if (GameStartLayer.Instance().pipeIndex == GameStartLayer.Instance().pipeCode.length - 1){
+                            GameStartLayer.Instance().pipeIndex = -1;
+                            DEBUGGING = !DEBUGGING;
+                            cc.log("Debug set to " + DEBUGGING);
+                        }
+                    }else {
+                        GameStartLayer.Instance().pipeIndex = -1;
+                        if (keyCode == GameStartLayer.Instance().pipeCode[0]) GameStartLayer.Instance().pipeIndex++;
+                    }
+                }
             }
         }, this);
         //BtnPlay.Instance().show();
@@ -65,6 +95,7 @@ var GameStartLayer = cc.Layer.extend({
 
     update:function(dt)
     {
+        dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.x -= this.speed * dt;
         if (this.x <= -this.width) {
             this.unscheduleUpdate();

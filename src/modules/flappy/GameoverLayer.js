@@ -2,12 +2,12 @@
  * Created by CPU12735-local on 7/15/2020.
  */
 
-var GameoverLayer = cc.Layer.extend({
+var GameOverLayer = cc.Layer.extend({
     ctor:function(width, height)
     {
         //singleton
         this._super();
-        GameoverLayer._instance = this;
+        GameOverLayer._instance = this;
         //singleton
 
         //basic attributes
@@ -39,7 +39,7 @@ var GameoverLayer = cc.Layer.extend({
     }
 });
 
-GameoverLayer.Instance = function(){ return GameoverLayer._instance; }
+GameOverLayer.Instance = function(){ return GameOverLayer._instance; }
 
 var BtnReplay = cc.Sprite.extend({
     ctor:function(x, y)
@@ -113,8 +113,8 @@ var Scoreboard = cc.Sprite.extend({
         this.scorePos = {x: this.width - 40, y: this.height - 65};
         this.bestScorePos = {x: this.width - 40, y: 40};
         this.medalPos = {x: 76, y: this.height/2 - 10};
-        this.thresholds = [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]];
-        this.starRate = {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2};
+        this.thresholds = MEDAL_CONST.THRESHOLDS;
+        this.starRate = MEDAL_CONST.STAR_RATES;
         //constants
     },
 
@@ -150,10 +150,8 @@ var Scoreboard = cc.Sprite.extend({
 
         this.scoreSprites = [];
         this.currentScore = 0;
-        var runTime = (score >= 100) ? 2 : ((score >= 50) ? 1.5 : 1);
         this.showScoreIncreasing();
-        if (score > 0)
-            this.schedule(this.showScoreIncreasing, this.runTime/score);
+        if (score > 0) this.schedule(this.showScoreIncreasing, 1/score);
 
         this.showMedal(score);
         this.setVisible(true);

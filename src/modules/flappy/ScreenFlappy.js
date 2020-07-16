@@ -33,7 +33,7 @@ var ScreenFlappy = cc.Layer.extend({
             maxAngle: FLAPPY_CONST.ANGLE_MAX
         };
         this.limit = {max: 1, min: BG_CONST.GROUND_HEIGHT};
-        this.timeScale = 1;
+        this.timeScale = TIME_SCALE;
         //constants
 
         this.addChild(new Background(size.width, size.height), -1);
@@ -41,7 +41,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
         this.addChild(new PointSystem(size.width, size.height), 1);
         this.addChild(new FlashLayer(size.width, size.height), 10);
-        this.addChild(new GameoverLayer(size.width, size.height), 5);
+        this.addChild(new GameOverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
         this.addChild(new Player());
 
@@ -69,7 +69,7 @@ var ScreenFlappy = cc.Layer.extend({
         Obstacle.Instance().initGame();
         PointSystem.Instance().initGame();
         GameStartLayer.Instance().show();
-        GameoverLayer.Instance().hide();
+        GameOverLayer.Instance().hide();
 
         this.update = this.idleFlappy;
         this.scheduleUpdate();
@@ -96,8 +96,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.bird.v = this.bird.v0;
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
-        if (AUTO)
-            Player.Instance().startGame();
+        if (AUTO) Player.Instance().startGame();
         //cc.audioEngine.rewindMusic();
     },
 
@@ -170,7 +169,7 @@ var ScreenFlappy = cc.Layer.extend({
             flappy.y = this.limit.min * this.height + (this.bird.y - down);
             this.unscheduleUpdate();
             PointSystem.Instance().hide();
-            GameoverLayer.Instance().show();
+            GameOverLayer.Instance().show();
             return;
         }
         flappy.y = this.bird.y;

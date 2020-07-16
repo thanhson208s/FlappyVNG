@@ -45,7 +45,7 @@
         "src/modules/flappy/Obstacle.js",
         "src/modules/flappy/PointSystem.js",
         "src/modules/flappy/FlashLayer.js",
-        "src/modules/flappy/GameoverLayer.js",
+        "src/modules/flappy/GameOverLayer.js",
         "src/modules/flappy/GameStartLayer.js",
         "src/modules/flappy/seedrandom.js",
         "src/modules/flappy/Constants.js",

@@ -24,8 +24,8 @@ var Obstacle = cc.Layer.extend({
         this.pipeWidth = PIPE_CONST.WIDTH;
         this.gapDistance = PIPE_CONST.GAP_DISTANCE;
         this.pipeStartPoint = this.width * 2;
-        this.maxHeight = this.height - this.gapDistance;
-        this.minHeight = BG_CONST.GROUND_HEIGHT * this.height + this.gapDistance;
+        this.maxHeight = this.height - (this.gapDistance/2 + this.pipeWidth / 2);
+        this.minHeight = BG_CONST.GROUND_HEIGHT * this.height + (this.gapDistance/2 + this.pipeWidth / 2);
         this.grounds = ["first", "second"];
         this.groundSpawnX = this.width * (3/2 - BG_CONST.OVERLAP_WIDTH);
         //Constants
