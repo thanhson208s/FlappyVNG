@@ -45,15 +45,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new GameStartLayer(size.width, size.height), 3);
         this.addChild(new Player());
 
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfw_wing.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_hit.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_point.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_swooshing.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_die.wav");
-        //
-        //cc.audioEngine.playMusic("flappy/theme.mp3", true);
-        //cc.audioEngine.pauseMusic();
-
+        this.musicId = jsb.AudioEngine.play2d("flappy/theme.mp3", true);
+        jsb.AudioEngine.setVolume(this.musicId, 0.15);
 
         this.initGame();
     },
@@ -97,7 +90,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
         if (AUTO) Player.Instance().startGame();
-        //cc.audioEngine.rewindMusic();
+        jsb.AudioEngine.play2d("flappy/sfx/sfx_wing.mp3", false);
     },
 
     idleFlappy: function(dt)
@@ -123,7 +116,7 @@ var ScreenFlappy = cc.Layer.extend({
             this.bird.y = this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY();
 
         if (Obstacle.Instance().collided(Flappy.Instance().x + dt*PIPE_CONST.SPEED, this.bird.y)) {
-            //cc.audioEngine.playEffect("flappy/sfx/sfx_hit.wav", false);
+            jsb.AudioEngine.play2d("flappy/sfx/sfx_hit.mp3", false);
             //cc.audioEngine.pauseMusic();
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
@@ -210,11 +203,10 @@ var ScreenFlappy = cc.Layer.extend({
         return angle;
     },
 
-    pushFlappy:function(sender)
+    pushFlappy:function()
     {
-        var screen = sender.getCurrentTarget();
-        screen.bird.v = screen.bird.v0;
-        //cc.audioEngine.playEffect("flappy/sfx/sfx_wing.wav", false);
+        ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
+        jsb.AudioEngine.play2d("flappy/sfx/sfx_wing.mp3", false);
     },
 
     dtAfterTimeScale:function(dt)

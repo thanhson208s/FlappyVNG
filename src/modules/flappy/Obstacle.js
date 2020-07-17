@@ -31,6 +31,8 @@ var Obstacle = cc.Layer.extend({
         this.coinRate = COIN_RATE;
         this.targets = [];
         this.targetNames = [];
+        this.plus1 = [];
+        this.plus2 = [];
         //Constants
 
         this.spawnGrounds();
@@ -201,6 +203,12 @@ var Obstacle = cc.Layer.extend({
                 if (!(up <= coin.y - coin.height/2 * coin.getScaleY() || down >= coin.y + coin.height/2 * coin.getScaleY())){
                     this.targets.splice(this.currentTargetIndex, 1);
                     this.targetNames.splice(this.currentTargetIndex, 1);
+                    if (this.plus2.length == 0) {
+                        var plus = new PlusPoint(2);
+                        this.addChild(plus);
+                        this.plus2.push(plus);
+                    }
+                    this.plus2.shift().show(coin.x, coin.y);
                     this.removeChild(coin);
                     PointSystem.Instance().increaseScore(2);
                 }
@@ -214,6 +222,12 @@ var Obstacle = cc.Layer.extend({
             else if (left > curPipe.x + this.pipeWidth / 2) {
                 PointSystem.Instance().increaseScore(1);
                 this.currentTargetIndex++;
+                if (this.plus1.length == 0) {
+                    var plus = new PlusPoint(1);
+                    this.addChild(plus);
+                    this.plus1.push(plus);
+                }
+                this.plus1.shift().show(left, flappy.y);
                 return false;
             }
             else {
@@ -277,5 +291,55 @@ var Coin = cc.Sprite.extend({
        animation.setDelayPerUnit(1/this.rate);
        var animate = cc.Animate(animation).repeatForever();
        this.runAction(animate);
+
+       this.amplitude = Math.random() * (1/5 - 1/8) + 1/8;
+       this.maxHeight = this.y + Obstacle.Instance().height * this.amplitude;
+       this.minHeight = this.y - Obstacle.Instance().height * this.amplitude;
+       if (this.maxHeight >= Obstacle.Instance().maxHeight){
+           this.maxHeight = Obstacle.Instance().maxHeight;
+           this.minHeight = this.maxHeight - 2 * this.amplitude * Obstacle.Instance().height;
+       }else if (this.minHeight <= Obstacle.Instance().maxHeight){
+           this.minHeight = Obstacle.Instance().minHeight;
+           this.maxHeight = this.minHeight + 2 * this.amplitude * Obstacle.Instance().height;
+       }
+
+       var coin = this;
+       this.runAction(cc.sequence(
+           cc.moveBy(Math.random() * 0.5, cc.p(0, this.maxHeight - this.y)),
+           cc.callFunc(function(){
+               coin.runAction(cc.sequence(
+                   cc.moveBy(Math.random() * 1 + 1, cc.p(0, coin.minHeight - coin.maxHeight)),
+                   cc.moveBy(Math.random() * 1 + 1, cc.p(0, coin.maxHeight - coin.minHeight))
+               ).repeatForever());
+           })
+        ));
    }
+});
+
+var PlusPoint = cc.Sprite.extend({
+    ctor:function(point)
+    {
+        this._super("flappy/plus" + point + ".png");
+        this.setScale(0.8, 0.8);
+        this.setOpacity(0);
+        this.point = point;
+    },
+
+    show:function(x, y)
+    {
+        this.setOpacity(255);
+        this.setPosition(x, y);
+        var plus = this;
+
+        this.runAction(cc.sequence(
+            cc.fadeOut(1),
+            cc.callFunc(function(){
+                if (plus.point == 1)
+                    Obstacle.Instance().plus1.push(plus);
+                else
+                    Obstacle.Instance().plus2.push(plus);
+            })
+        ));
+        this.runAction(cc.moveBy(1, cc.p(-Obstacle.Instance().speed, 50)));
+    }
 });
