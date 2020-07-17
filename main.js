@@ -55,6 +55,5 @@ cc.game.onStart = function () {
 
         fr.view(ScreenFlappy, 0.5);
     }, this);
-
 };
 cc.game.run();

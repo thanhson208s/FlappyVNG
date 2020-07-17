@@ -47,7 +47,11 @@
     <file url="file://$PROJECT_DIR$/res/flappy/sfx/sfx_wing.wav" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/stars.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/flappy/theme.mp3" charset="windows-1252" />
+<<<<<<< HEAD
+    <file url="file://$PROJECT_DIR$/res/flappy/winErr.mp3" charset="windows-1252" />
+=======
     <file url="file://$PROJECT_DIR$/res/flappy/title.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/modules/animation/seedrandom.js" charset="windows-1252" />
+>>>>>>> f33f108bbd3c73101323cdf3a8d77264057ea528
   </component>
 </project>
