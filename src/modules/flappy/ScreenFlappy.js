@@ -2,8 +2,6 @@
  * Created by GSN on 7/9/2015.
  */
 
-//TODO: add sound
-
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,

@@ -20,12 +20,10 @@ var GameStartLayer = cc.Layer.extend({
 
         //constants
         this.speed = PIPE_CONST.SPEED;
-        this.autoIndex = -1;
         this.autoCode = "AUTO".split('').map(function(x) {return x.charCodeAt(0)});
-        this.debugIndex = -1;
         this.debugCode = "DEBUG".split('').map(function(x) {return x.charCodeAt(0)});
-        this.muteIndex = -1;
         this.muteCode = "MUTE".split('').map(function(x) {return x.charCodeAt(0)});
+        this.sfxCode = "SFX".split('').map(function(x) {return x.charCodeAt(0)});
         //constants
 
         this.addChild(new Title(width/2, height * 5/6), 0, "title");
@@ -61,6 +59,9 @@ var GameStartLayer = cc.Layer.extend({
             onMouseDown: this.startGame
         }, this);
         this.autoIndex = -1;
+        this.sfxIndex = -1;
+        this.debugIndex = -1;
+        this.muteIndex = -1;
         this.spaceListener = cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyPressed:function(keyCode, sender){
@@ -97,6 +98,17 @@ var GameStartLayer = cc.Layer.extend({
                     }else {
                         GameStartLayer.Instance().muteIndex = -1;
                         if (keyCode == GameStartLayer.Instance().muteCode[0]) GameStartLayer.Instance().muteIndex++;
+                    }
+
+                    if (keyCode == GameStartLayer.Instance().sfxCode[GameStartLayer.Instance().sfxIndex + 1]){
+                        GameStartLayer.Instance().sfxIndex++;
+                        if (GameStartLayer.Instance().sfxIndex == GameStartLayer.Instance().sfxCode.length - 1){
+                            GameStartLayer.Instance().sfxIndex = -1;
+                            SoundCenter.Instance().toggleSfxVolume();
+                        }
+                    }else {
+                        GameStartLayer.Instance().sfxIndex = -1;
+                        if (keyCode == GameStartLayer.Instance().sfxCode[0]) GameStartLayer.Instance().sfxIndex++;
                     }
 
                     if (keyCode == 39) {

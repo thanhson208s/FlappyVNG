@@ -13,7 +13,7 @@ var SoundCenter = cc.Layer.extend({
         this.musicOn = true;
         this.musicVolume = 0.2;
         this.sfxOn = true;
-        this.sfxVolume = 1;
+        this.sfxVolume = this._sfxVolume = 1;
 
         jsb.AudioEngine.lazyInit();
         this.musicId = jsb.AudioEngine.play2d("flappy/theme.mp3", true, this.musicVolume);
@@ -28,7 +28,7 @@ var SoundCenter = cc.Layer.extend({
     playEffect:function(url, volume)
     {
         if (volume == null) volume = this.sfxVolume;
-        if (volume > 0) {
+        if (volume > 0 && this.sfxOn) {
             jsb.AudioEngine.play2d("flappy/sfx/" + url, false, volume);
         }
     },
@@ -55,6 +55,21 @@ var SoundCenter = cc.Layer.extend({
             }
         }
         jsb.AudioEngine.setVolume(this.musicId, volume);
+    },
+
+    toggleSfxVolume:function()
+    {
+        if (this.sfxOn){
+            this.sfxOn = false;
+            this.sfxVolume = 0;
+        }else{
+            this.sfxOn = true;
+            if (this._sfxVolume > 0)
+                this.sfxVolume = this._sfxVolume;
+            else{
+                this.sfxVolume = this._sfxVolume = 1;
+            }
+        }
     }
 });
 
