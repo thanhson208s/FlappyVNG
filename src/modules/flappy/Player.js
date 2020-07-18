@@ -17,24 +17,21 @@ var Player = cc.Layer.extend({
             cc.repeat(cc.sequence(
                 cc.delayTime(0.25),
                 cc.callFunc(function(){
-                    ScreenFlappy.Instance().pushFlappy();
+                    if (this.on) ScreenFlappy.Instance().pushFlappy();
                 })
             ), 5),
             cc.delayTime(0.75),
             cc.repeat(cc.sequence(
                 cc.delayTime(0.25),
                 cc.callFunc(function(){
-                    ScreenFlappy.Instance().pushFlappy();
+                    if (this.on) ScreenFlappy.Instance().pushFlappy();
                 })
             ), 5),
             cc.callFunc(function(){
                 Player.Instance().scheduleUpdate();
             })
         ));
-        //this.scheduleUpdate();
     },
-
-
 
     update:function(dt)
     {
