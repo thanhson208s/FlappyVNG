@@ -21,9 +21,11 @@ var GameStartLayer = cc.Layer.extend({
         //constants
         this.speed = PIPE_CONST.SPEED;
         this.autoIndex = -1;
-        this.autoCode = "SONDEPTRAI".split('').map(function(x) {return x.charCodeAt(0)});
-        this.pipeIndex = -1;
-        this.pipeCode = "KHONGLAMMAVANCOAN".split('').map(function(x) {return x.charCodeAt(0)});
+        this.autoCode = "AUTO".split('').map(function(x) {return x.charCodeAt(0)});
+        this.debugIndex = -1;
+        this.debugCode = "DEBUG".split('').map(function(x) {return x.charCodeAt(0)});
+        this.muteIndex = -1;
+        this.muteCode = "MUTE".split('').map(function(x) {return x.charCodeAt(0)});
         //constants
 
         this.addChild(new Title(width/2, height * 5/6), 0, "title");
@@ -69,30 +71,39 @@ var GameStartLayer = cc.Layer.extend({
                         if (GameStartLayer.Instance().autoIndex == GameStartLayer.Instance().autoCode.length - 1){
                             GameStartLayer.Instance().autoIndex = -1;
                             AUTO = !AUTO;
-                            cc.log("Auto set to " + AUTO);
                         }
                     }else {
                         GameStartLayer.Instance().autoIndex = -1;
                         if (keyCode == GameStartLayer.Instance().autoCode[0]) GameStartLayer.Instance().autoIndex++;
                     }
 
-                    if (keyCode == GameStartLayer.Instance().pipeCode[GameStartLayer.Instance().pipeIndex + 1]){
-                        GameStartLayer.Instance().pipeIndex++;
-                        if (GameStartLayer.Instance().pipeIndex == GameStartLayer.Instance().pipeCode.length - 1){
-                            GameStartLayer.Instance().pipeIndex = -1;
+                    if (keyCode == GameStartLayer.Instance().debugCode[GameStartLayer.Instance().debugIndex + 1]){
+                        GameStartLayer.Instance().debugIndex++;
+                        if (GameStartLayer.Instance().debugIndex == GameStartLayer.Instance().debugCode.length - 1){
+                            GameStartLayer.Instance().debugIndex = -1;
                             DEBUGGING = !DEBUGGING;
-                            cc.log("Debug set to " + DEBUGGING);
                         }
                     }else {
-                        GameStartLayer.Instance().pipeIndex = -1;
-                        if (keyCode == GameStartLayer.Instance().pipeCode[0]) GameStartLayer.Instance().pipeIndex++;
+                        GameStartLayer.Instance().debugIndex = -1;
+                        if (keyCode == GameStartLayer.Instance().debugCode[0]) GameStartLayer.Instance().debugIndex++;
+                    }
+
+                    if (keyCode == GameStartLayer.Instance().muteCode[GameStartLayer.Instance().muteIndex + 1]){
+                        GameStartLayer.Instance().muteIndex++;
+                        if (GameStartLayer.Instance().muteIndex == GameStartLayer.Instance().muteCode.length - 1){
+                            GameStartLayer.Instance().muteIndex = -1;
+                            SoundCenter.Instance().toggleMusicVolume();
+                        }
+                    }else {
+                        GameStartLayer.Instance().muteIndex = -1;
+                        if (keyCode == GameStartLayer.Instance().muteCode[0]) GameStartLayer.Instance().muteIndex++;
                     }
 
                     if (keyCode == 39) {
                         var oldBtn = GameStartLayer.Instance().getChildByName("btn" + Flappy.Instance().version);
                         Flappy.Instance().changeColorToNext();
                         var newBtn = GameStartLayer.Instance().getChildByName("btn" + Flappy.Instance().version);
-                        jsb.AudioEngine.play2d("flappy/sfx/switch.mp3", false);
+                        SoundCenter.Instance().playEffect("switch.mp3");
                         oldBtn.setScale(0.3, 0.3);
                         oldBtn.setOpacity(160);
                         newBtn.setScale(0.4, 0.4);
@@ -102,7 +113,7 @@ var GameStartLayer = cc.Layer.extend({
                         var oldBtn = GameStartLayer.Instance().getChildByName("btn" + Flappy.Instance().version);
                         Flappy.Instance().changeColorToPrev();
                         var newBtn = GameStartLayer.Instance().getChildByName("btn" + Flappy.Instance().version);
-                        jsb.AudioEngine.play2d("flappy/sfx/switch.mp3", false);
+                        SoundCenter.Instance().playEffect("switch.mp3");
                         oldBtn.setScale(0.3, 0.3);
                         oldBtn.setOpacity(160);
                         newBtn.setScale(0.4, 0.4);
@@ -134,7 +145,7 @@ var GameStartLayer = cc.Layer.extend({
                 if (i != Flappy.Instance().version){
                     var oldBtn = GameStartLayer.Instance().getChildByName("btn" + Flappy.Instance().version);
                     Flappy.Instance().changeColorTo(Flappy.Instance().versions[i]);
-                    jsb.AudioEngine.play2d("flappy/sfx/switch.mp3", false);
+                    SoundCenter.Instance().playEffect("switch.mp3");
                     oldBtn.setScale(0.3, 0.3);
                     oldBtn.setOpacity(160);
                     btn.setScale(0.4, 0.4);

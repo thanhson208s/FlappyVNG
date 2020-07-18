@@ -90,7 +90,7 @@ var BtnReplay = cc.Sprite.extend({
             if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
             if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
         }
-        jsb.AudioEngine.play2d("flappy/sfx/sfx_swooshing.mp3", false);
+        SoundCenter.Instance().playEffect("sfx_swooshing.mp3");
         FlashLayer.Instance().flash();
         ScreenFlappy.Instance().initGame();
     }
@@ -223,7 +223,7 @@ var Scoreboard = cc.Sprite.extend({
                 score = Math.floor(score/10);
             }
         }
-        jsb.AudioEngine.play2d("flappy/sfx/numIncrease.mp3", false);
+        SoundCenter.Instance().playEffect("numIncrease.mp3");
         for (var i = 0; i < numList.length; i++){
             var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
             sprite.setScale(0.6, 0.6);
@@ -251,8 +251,7 @@ var Scoreboard = cc.Sprite.extend({
             cc.callFunc(function(){medalSprite.setVisible(true)}),
             cc.scaleTo(0.75, 0.6, 0.6),
             cc.callFunc(function(){
-                var audio = jsb.AudioEngine.play2d("flappy/sfx/medalDrop.mp3", false);
-                jsb.AudioEngine.setVolume(audio, 0.2);
+                SoundCenter.Instance().playEffect("medalDrop.mp3", 0.2);
                 if (Scoreboard.Instance().thresholds[i][0] != "none")
                     Scoreboard.Instance().schedule(Scoreboard.Instance().spark, Scoreboard.Instance().starRate[Scoreboard.Instance().thresholds[i][0]]);
             }),
