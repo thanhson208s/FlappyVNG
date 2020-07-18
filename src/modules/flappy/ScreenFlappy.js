@@ -209,8 +209,9 @@ var ScreenFlappy = cc.Layer.extend({
         return angle;
     },
 
-    pushFlappy:function()
+    pushFlappy:function(sender)
     {
+        if (sender != null) Player.Instance().turnOff();
         ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
         SoundCenter.Instance().playEffect("sfx_wing.mp3");
     },
