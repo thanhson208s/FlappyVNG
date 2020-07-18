@@ -142,7 +142,6 @@ var ScreenFlappy = cc.Layer.extend({
         Obstacle.Instance().unscheduleUpdate();
         GameStartLayer.Instance().unscheduleUpdate();
         Player.Instance().unscheduleUpdate();
-        //cc.audioEngine.playEffect("flappy/sfx/sfx_die.wav");
     },
 
     fallingFlappy:function(dt)
@@ -168,6 +167,7 @@ var ScreenFlappy = cc.Layer.extend({
             flappy.y = this.limit.min * this.height + (this.bird.y - down);
             this.unscheduleUpdate();
             PointSystem.Instance().hide();
+            SoundCenter.Instance().playEffect("sfx_die.mp3");
             GameOverLayer.Instance().show();
             return;
         }
