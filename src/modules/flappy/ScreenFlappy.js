@@ -44,6 +44,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new GameOverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
         this.addChild(new Player());
+        this.addChild(new SoundCenter());
 
         this.musicId = jsb.AudioEngine.play2d("flappy/theme.mp3", true);
         jsb.AudioEngine.setVolume(this.musicId, 0.15);

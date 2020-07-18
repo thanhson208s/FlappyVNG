@@ -33,7 +33,6 @@ var GameStartLayer = cc.Layer.extend({
         mess.setPosition(width/2, height*3/7);
         this.addChild(mess, 0, "mess");
 
-
         for (var i = 0; i < Flappy.Instance().versions.length; i++){
             var btn = new cc.Sprite("flappy/btn/" + Flappy.Instance().versions[i] + "Btn.png");
             btn.setPosition(this.width * (1/2 +(i - (Flappy.Instance().versions.length - 1)/2) * 1/7), this.height/6);

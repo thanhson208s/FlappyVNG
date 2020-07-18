@@ -11,13 +11,15 @@ var Player = cc.Layer.extend({
 
     startGame:function()
     {
+        this.lastTimePlay = 0;
         this.scheduleUpdate();
-        this.lastTimePlayAudio = 0.15;
     },
 
     update:function(dt)
     {
-        this.lastTimePlayAudio += dt;
+        this.lastTimePlay += dt;
+        if (this.lastTimePlay < 0.15) return;
+
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var flappy = Flappy.Instance();
         var target = Obstacle.Instance().getCurrentTarget();
@@ -39,20 +41,14 @@ var Player = cc.Layer.extend({
 
         if (targetName == "pipe") {
             if (down - 10 <= target.y - PIPE_CONST.GAP_DISTANCE / 2) {
-                ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
-                if (this.lastTimePlayAudio > 0.15) {
-                    jsb.AudioEngine.play2d("flappy/sfx/sfx_wing.mp3", false);
-                    this.lastTimePlayAudio = 0;
-                }
+                ScreenFlappy.Instance().pushFlappy();
+                this.lastTimePlay = 0;
             }
         }
         else{
             if (down <= target.y - target.width * target.getScaleY() * 3/2){
-                ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
-                if (this.lastTimePlayAudio > 0.15) {
-                    jsb.AudioEngine.play2d("flappy/sfx/sfx_wing.mp3", false);
-                    this.lastTimePlayAudio = 0;
-                }
+                ScreenFlappy.Instance().pushFlappy();
+                this.lastTimePlay = 0;
             }
         }
     }

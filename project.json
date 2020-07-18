@@ -50,6 +50,7 @@
         "src/modules/flappy/seedrandom.js",
         "src/modules/flappy/Constants.js",
         "src/modules/flappy/Player.js",
+        "src/modules/flappy/SoundCenter.js",
         "src/modules/localization/ScreenLocalization.js",
         "src/modules/mainmenu/ScreenMenu.js",
         "src/modules/testnetwork/network/Network.js",

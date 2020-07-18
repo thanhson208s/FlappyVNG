@@ -194,13 +194,13 @@ var Obstacle = cc.Layer.extend({
 
         if (this.targetNames[this.currentTargetIndex] == "coin"){
             var coin = this.targets[this.currentTargetIndex];
-            if (right <= coin.x - coin.width/2 * coin.getScaleX()){
+            if (right <= coin.x - (coin.width/2 * coin.getScaleX()) * 3/4){
                 //do nothing
             }
-            else if (left >= coin.x + coin.width/2 * coin.getScaleX()){
+            else if (left >= coin.x + (coin.width/2 * coin.getScaleX()) * 3/4){
                 this.currentTargetIndex++;
             }else{
-                if (!(up <= coin.y - coin.height/2 * coin.getScaleY() || down >= coin.y + coin.height/2 * coin.getScaleY())){
+                if (!(up <= coin.y - (coin.height/2 * coin.getScaleY()) * 3/4 || down >= coin.y + (coin.height/2 * coin.getScaleY()) *3/4)){
                     this.targets.splice(this.currentTargetIndex, 1);
                     this.targetNames.splice(this.currentTargetIndex, 1);
                     if (this.plus2.length == 0) {
@@ -231,8 +231,22 @@ var Obstacle = cc.Layer.extend({
                 return false;
             }
             else {
-                var colliedWithPipe = up >= curPipe.y + this.gapDistance / 2 || down <= curPipe.y - this.gapDistance / 2;
-                return colliedWithPipe && !DEBUGGING;
+                if (up < curPipe.y + this.gapDistance / 2 && down > curPipe.y - this.gapDistance / 2) return false;
+
+                var rightY = (right - x)*(-B/2*C) + y;
+                var collidedHorizontal = rightY >= curPipe.y + this.gapDistance / 2 || rightY <= curPipe.y - this.gapDistance / 2;
+                var upX = (up - y)*(-B/2*A) + x;
+                var downX = (down - y)*(-B/2*A) + x;
+                var collidedUp = upX >= curPipe.x - this.pipeWidth / 2 && upX <= curPipe.x + this.pipeWidth / 2 && up >= curPipe.y + this.gapDistance / 2;
+                var collidedDown = downX >= curPipe.x - this.pipeWidth / 2 && downX <= curPipe.x + this.pipeWidth / 2 && down <= curPipe.y - this.gapDistance / 2;
+                var collidedCornerUpLeft = A*Math.pow(curPipe.x - this.pipeWidth / 2 - x,2) + B*(curPipe.x - this.pipeWidth / 2 - x) * (curPipe.y + this.gapDistance / 2 - y) + C * Math.pow(curPipe.y + this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerDownLeft = A*Math.pow(curPipe.x - this.pipeWidth / 2 - x,2) + B*(curPipe.x - this.pipeWidth / 2 - x) * (curPipe.y - this.gapDistance / 2 - y) + C * Math.pow(curPipe.y - this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerUpRight = A*Math.pow(curPipe.x + this.pipeWidth / 2 - x,2) + B*(curPipe.x + this.pipeWidth / 2 - x) * (curPipe.y + this.gapDistance / 2 - y) + C * Math.pow(curPipe.y + this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerDownRight = A*Math.pow(curPipe.x + this.pipeWidth / 2 - x,2) + B*(curPipe.x + this.pipeWidth / 2 - x) * (curPipe.y - this.gapDistance / 2 - y) + C * Math.pow(curPipe.y - this.gapDistance / 2 - y, 2) <= 1;
+                var collidedWithCorner = collidedCornerDownLeft || collidedCornerDownRight || collidedCornerUpLeft || collidedCornerUpRight;
+
+                var collidedWithPipe = collidedHorizontal || collidedUp || collidedDown || collidedWithCorner;
+                return collidedWithPipe && !DEBUGGING;
             }
         }
     },
@@ -308,8 +322,8 @@ var Coin = cc.Sprite.extend({
            cc.moveBy(Math.random() * 0.5, cc.p(0, this.maxHeight - this.y)),
            cc.callFunc(function(){
                coin.runAction(cc.sequence(
-                   cc.moveBy(Math.random() * 1 + 1, cc.p(0, coin.minHeight - coin.maxHeight)),
-                   cc.moveBy(Math.random() * 1 + 1, cc.p(0, coin.maxHeight - coin.minHeight))
+                   cc.moveBy((Math.random() * 1 + 1) / TIME_SCALE, cc.p(0, coin.minHeight - coin.maxHeight)),
+                   cc.moveBy((Math.random() * 1 + 1) / TIME_SCALE, cc.p(0, coin.maxHeight - coin.minHeight))
                ).repeatForever());
            })
         ));
@@ -340,6 +354,6 @@ var PlusPoint = cc.Sprite.extend({
                     Obstacle.Instance().plus2.push(plus);
             })
         ));
-        this.runAction(cc.moveBy(1, cc.p(-Obstacle.Instance().speed, 50)));
+        this.runAction(cc.moveBy(1, cc.p(-Obstacle.Instance().speed * TIME_SCALE, 50)));
     }
 });

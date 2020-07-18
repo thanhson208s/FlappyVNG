@@ -151,5 +151,9 @@ var g_resources = [
     "flappy/btn/yellowBtn.png",
     "flappy/btn/BWBtn.png",
     "flappy/btn/redBtn.png",
-    "flappy/btn/blueBtn.png"
+    "flappy/btn/blueBtn.png",
+    "flappy/sound/musicOn.png",
+    "flappy/sound/musicOff.png",
+    "flappy/sound/sfxOn.png",
+    "flappy/sound/sfxOff.png"
 ];
