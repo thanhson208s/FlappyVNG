@@ -32,6 +32,6 @@ var TIME_SCALE = 1;
 var COIN_RATE = 0.2;
 
 var MEDAL_CONST = {
-    THRESHOLDS: [["none", 0], ["bronze", 1], ["silver", 2], ["gold", 3], ["ruby", 4], ["diamond", 5]],
+    THRESHOLDS: [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]],
     STAR_RATES: {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2}
 };

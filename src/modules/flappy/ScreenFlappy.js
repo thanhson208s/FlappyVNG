@@ -2,8 +2,6 @@
  * Created by GSN on 7/9/2015.
  */
 
-//TODO: add sound
-
 var ScreenFlappy = cc.Layer.extend({
     _itemMenu:null,
     _beginPos:0,
@@ -44,15 +42,8 @@ var ScreenFlappy = cc.Layer.extend({
         this.addChild(new GameOverLayer(size.width, size.height), 5);
         this.addChild(new GameStartLayer(size.width, size.height), 3);
         this.addChild(new Player());
+        this.addChild(new SoundCenter());
 
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfw_wing.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_hit.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_point.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_swooshing.wav");
-        //cc.audioEngine.preloadEffect("flappy/sfx/sfx_die.wav");
-        //
-        //cc.audioEngine.playMusic("flappy/theme.mp3", true);
-        //cc.audioEngine.pauseMusic();
 
 
         this.initGame();
@@ -97,7 +88,7 @@ var ScreenFlappy = cc.Layer.extend({
         this.update = this.flyingFlappy;
         Obstacle.Instance().startGame();
         if (AUTO) Player.Instance().startGame();
-        //cc.audioEngine.rewindMusic();
+        SoundCenter.Instance().playEffect("sfx_wing.mp3");
     },
 
     idleFlappy: function(dt)
@@ -105,8 +96,14 @@ var ScreenFlappy = cc.Layer.extend({
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var amplitude = 10;
         this.bird.y += this.bird.v * dt;
-        if (this.bird.y >= this.height/2 + amplitude || this.bird.y <= this.height/2 - amplitude)
+        if (this.bird.y >= this.height/2 + amplitude){
+            this.bird.y = this.height/2 + amplitude;
             this.bird.v = -this.bird.v;
+        }else if (this.bird.y <= this.height/2 - amplitude){
+            this.bird.y = this.height/2 - amplitude;
+            this.bird.v = -this.bird.v;
+        }
+
         Flappy.Instance().y = this.bird.y;
     },
 
@@ -123,7 +120,7 @@ var ScreenFlappy = cc.Layer.extend({
             this.bird.y = this.limit.max * this.height + Flappy.Instance().height * Flappy.Instance().getScaleY();
 
         if (Obstacle.Instance().collided(Flappy.Instance().x + dt*PIPE_CONST.SPEED, this.bird.y)) {
-            //cc.audioEngine.playEffect("flappy/sfx/sfx_hit.wav", false);
+            SoundCenter.Instance().playEffect("sfx_hit.mp3");
             //cc.audioEngine.pauseMusic();
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
@@ -143,7 +140,6 @@ var ScreenFlappy = cc.Layer.extend({
         Obstacle.Instance().unscheduleUpdate();
         GameStartLayer.Instance().unscheduleUpdate();
         Player.Instance().unscheduleUpdate();
-        //cc.audioEngine.playEffect("flappy/sfx/sfx_die.wav");
     },
 
     fallingFlappy:function(dt)
@@ -169,6 +165,7 @@ var ScreenFlappy = cc.Layer.extend({
             flappy.y = this.limit.min * this.height + (this.bird.y - down);
             this.unscheduleUpdate();
             PointSystem.Instance().hide();
+            SoundCenter.Instance().playEffect("sfx_die.mp3");
             GameOverLayer.Instance().show();
             return;
         }
@@ -212,9 +209,9 @@ var ScreenFlappy = cc.Layer.extend({
 
     pushFlappy:function(sender)
     {
-        var screen = sender.getCurrentTarget();
-        screen.bird.v = screen.bird.v0;
-        //cc.audioEngine.playEffect("flappy/sfx/sfx_wing.wav", false);
+        if (sender != null) Player.Instance().turnOff();
+        ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
+        SoundCenter.Instance().playEffect("sfx_wing.mp3");
     },
 
     dtAfterTimeScale:function(dt)

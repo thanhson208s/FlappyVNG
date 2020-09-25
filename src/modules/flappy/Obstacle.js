@@ -31,6 +31,8 @@ var Obstacle = cc.Layer.extend({
         this.coinRate = COIN_RATE;
         this.targets = [];
         this.targetNames = [];
+        this.plus1 = [];
+        this.plus2 = [];
         //Constants
 
         this.spawnGrounds();
@@ -192,15 +194,21 @@ var Obstacle = cc.Layer.extend({
 
         if (this.targetNames[this.currentTargetIndex] == "coin"){
             var coin = this.targets[this.currentTargetIndex];
-            if (right <= coin.x - coin.width/2 * coin.getScaleX()){
+            if (right <= coin.x - (coin.width/2 * coin.getScaleX()) * 3/4){
                 //do nothing
             }
-            else if (left >= coin.x + coin.width/2 * coin.getScaleX()){
+            else if (left >= coin.x + (coin.width/2 * coin.getScaleX()) * 3/4){
                 this.currentTargetIndex++;
             }else{
-                if (!(up <= coin.y - coin.height/2 * coin.getScaleY() || down >= coin.y + coin.height/2 * coin.getScaleY())){
+                if (!(up <= coin.y - (coin.height/2 * coin.getScaleY()) * 3/4 || down >= coin.y + (coin.height/2 * coin.getScaleY()) *3/4)){
                     this.targets.splice(this.currentTargetIndex, 1);
                     this.targetNames.splice(this.currentTargetIndex, 1);
+                    if (this.plus2.length == 0) {
+                        var plus = new PlusPoint(2);
+                        this.addChild(plus);
+                        this.plus2.push(plus);
+                    }
+                    this.plus2.shift().show(coin.x, coin.y);
                     this.removeChild(coin);
                     PointSystem.Instance().increaseScore(2);
                 }
@@ -214,11 +222,31 @@ var Obstacle = cc.Layer.extend({
             else if (left > curPipe.x + this.pipeWidth / 2) {
                 PointSystem.Instance().increaseScore(1);
                 this.currentTargetIndex++;
+                if (this.plus1.length == 0) {
+                    var plus = new PlusPoint(1);
+                    this.addChild(plus);
+                    this.plus1.push(plus);
+                }
+                this.plus1.shift().show(left, flappy.y);
                 return false;
             }
             else {
-                var colliedWithPipe = up >= curPipe.y + this.gapDistance / 2 || down <= curPipe.y - this.gapDistance / 2;
-                return colliedWithPipe && !DEBUGGING;
+                if (up < curPipe.y + this.gapDistance / 2 && down > curPipe.y - this.gapDistance / 2) return false;
+
+                var rightY = (right - x)*(-B/2*C) + y;
+                var collidedHorizontal = rightY >= curPipe.y + this.gapDistance / 2 || rightY <= curPipe.y - this.gapDistance / 2;
+                var upX = (up - y)*(-B/2*A) + x;
+                var downX = (down - y)*(-B/2*A) + x;
+                var collidedUp = upX >= curPipe.x - this.pipeWidth / 2 && upX <= curPipe.x + this.pipeWidth / 2 && up >= curPipe.y + this.gapDistance / 2;
+                var collidedDown = downX >= curPipe.x - this.pipeWidth / 2 && downX <= curPipe.x + this.pipeWidth / 2 && down <= curPipe.y - this.gapDistance / 2;
+                var collidedCornerUpLeft = A*Math.pow(curPipe.x - this.pipeWidth / 2 - x,2) + B*(curPipe.x - this.pipeWidth / 2 - x) * (curPipe.y + this.gapDistance / 2 - y) + C * Math.pow(curPipe.y + this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerDownLeft = A*Math.pow(curPipe.x - this.pipeWidth / 2 - x,2) + B*(curPipe.x - this.pipeWidth / 2 - x) * (curPipe.y - this.gapDistance / 2 - y) + C * Math.pow(curPipe.y - this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerUpRight = A*Math.pow(curPipe.x + this.pipeWidth / 2 - x,2) + B*(curPipe.x + this.pipeWidth / 2 - x) * (curPipe.y + this.gapDistance / 2 - y) + C * Math.pow(curPipe.y + this.gapDistance / 2 - y, 2) <= 1;
+                var collidedCornerDownRight = A*Math.pow(curPipe.x + this.pipeWidth / 2 - x,2) + B*(curPipe.x + this.pipeWidth / 2 - x) * (curPipe.y - this.gapDistance / 2 - y) + C * Math.pow(curPipe.y - this.gapDistance / 2 - y, 2) <= 1;
+                var collidedWithCorner = collidedCornerDownLeft || collidedCornerDownRight || collidedCornerUpLeft || collidedCornerUpRight;
+
+                var collidedWithPipe = collidedHorizontal || collidedUp || collidedDown || collidedWithCorner;
+                return collidedWithPipe && !DEBUGGING;
             }
         }
     },
@@ -277,5 +305,55 @@ var Coin = cc.Sprite.extend({
        animation.setDelayPerUnit(1/this.rate);
        var animate = cc.Animate(animation).repeatForever();
        this.runAction(animate);
+
+       this.amplitude = Math.random() * (1/5 - 1/8) + 1/8;
+       this.maxHeight = this.y + Obstacle.Instance().height * this.amplitude;
+       this.minHeight = this.y - Obstacle.Instance().height * this.amplitude;
+       if (this.maxHeight >= Obstacle.Instance().maxHeight){
+           this.maxHeight = Obstacle.Instance().maxHeight;
+           this.minHeight = this.maxHeight - 2 * this.amplitude * Obstacle.Instance().height;
+       }else if (this.minHeight <= Obstacle.Instance().maxHeight){
+           this.minHeight = Obstacle.Instance().minHeight;
+           this.maxHeight = this.minHeight + 2 * this.amplitude * Obstacle.Instance().height;
+       }
+
+       var coin = this;
+       this.runAction(cc.sequence(
+           cc.moveBy(Math.random() * 0.5, cc.p(0, this.maxHeight - this.y)),
+           cc.callFunc(function(){
+               coin.runAction(cc.sequence(
+                   cc.moveBy((Math.random() * 1 + 1) / TIME_SCALE, cc.p(0, coin.minHeight - coin.maxHeight)),
+                   cc.moveBy((Math.random() * 1 + 1) / TIME_SCALE, cc.p(0, coin.maxHeight - coin.minHeight))
+               ).repeatForever());
+           })
+        ));
    }
+});
+
+var PlusPoint = cc.Sprite.extend({
+    ctor:function(point)
+    {
+        this._super("flappy/plus" + point + ".png");
+        this.setScale(0.8, 0.8);
+        this.setOpacity(0);
+        this.point = point;
+    },
+
+    show:function(x, y)
+    {
+        this.setOpacity(255);
+        this.setPosition(x, y);
+        var plus = this;
+
+        this.runAction(cc.sequence(
+            cc.fadeOut(1),
+            cc.callFunc(function(){
+                if (plus.point == 1)
+                    Obstacle.Instance().plus1.push(plus);
+                else
+                    Obstacle.Instance().plus2.push(plus);
+            })
+        ));
+        this.runAction(cc.moveBy(1, cc.p(-Obstacle.Instance().speed * TIME_SCALE, 50)));
+    }
 });

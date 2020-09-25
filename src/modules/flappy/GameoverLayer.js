@@ -90,7 +90,7 @@ var BtnReplay = cc.Sprite.extend({
             if (x < btnReplay.x - btnReplay.width / 2 * btnReplay.getScaleX() || x > btnReplay.x + btnReplay.width / 2 * btnReplay.getScaleX()) return;
             if (y < btnReplay.y - btnReplay.height / 2 * btnReplay.getScaleY() || y > btnReplay.y + btnReplay.height / 2 * btnReplay.getScaleY()) return;
         }
-        //cc.audioEngine.playEffect("flappy/sfx/sfx_swooshing.wav", false);
+        SoundCenter.Instance().playEffect("sfx_swooshing.mp3");
         FlashLayer.Instance().flash();
         ScreenFlappy.Instance().initGame();
     }
@@ -156,7 +156,9 @@ var Scoreboard = cc.Sprite.extend({
                 Scoreboard.Instance().scoreSprites = [];
                 Scoreboard.Instance().currentScore = 0;
                 Scoreboard.Instance().showScoreIncreasing();
-                if (score > 0) Scoreboard.Instance().schedule(Scoreboard.Instance().showScoreIncreasing, 1/score);
+                if (score > 0) {
+                    Scoreboard.Instance().schedule(Scoreboard.Instance().showScoreIncreasing, 0);
+                }
                 else Scoreboard.Instance().showMedal(score);
             })
         ));
@@ -221,7 +223,7 @@ var Scoreboard = cc.Sprite.extend({
                 score = Math.floor(score/10);
             }
         }
-
+        SoundCenter.Instance().playEffect("numIncrease.mp3");
         for (var i = 0; i < numList.length; i++){
             var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
             sprite.setScale(0.6, 0.6);
@@ -247,8 +249,9 @@ var Scoreboard = cc.Sprite.extend({
         medalSprite.runAction(cc.sequence(
             cc.delayTime(0.2),
             cc.callFunc(function(){medalSprite.setVisible(true)}),
-            cc.scaleTo(1, 0.6, 0.6),
+            cc.scaleTo(0.75, 0.6, 0.6),
             cc.callFunc(function(){
+                SoundCenter.Instance().playEffect("medalDrop.mp3", 0.2);
                 if (Scoreboard.Instance().thresholds[i][0] != "none")
                     Scoreboard.Instance().schedule(Scoreboard.Instance().spark, Scoreboard.Instance().starRate[Scoreboard.Instance().thresholds[i][0]]);
             }),
@@ -294,4 +297,4 @@ var Star = cc.Sprite.extend({
             }else this.opacity = opacity;
         }
     }
-})
+});
