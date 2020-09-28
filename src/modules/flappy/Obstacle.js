@@ -66,7 +66,6 @@ var Obstacle = cc.Layer.extend({
         }
 
         this.update = this.idle;
-        this.scheduleUpdate();
     },
 
     startGame: function()

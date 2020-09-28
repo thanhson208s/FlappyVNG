@@ -43,4 +43,4 @@ var CODE = {
     SFX: "SFX"
 };
 
-var CHALLENGE_THRESHOLD = 40;
+var CHALLENGE_THRESHOLD = 25;

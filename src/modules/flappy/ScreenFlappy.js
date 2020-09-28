@@ -18,6 +18,7 @@ var ScreenFlappy = cc.Layer.extend({
         var size = cc.director.getVisibleSize();
         this.width = size.width + 50;
         this.height = size.height + 50;
+        
         this.setPosition(-25, -25);
         //basic attributes
 
@@ -33,7 +34,7 @@ var ScreenFlappy = cc.Layer.extend({
         };
         this.limit = {max: 1, min: BG_CONST.GROUND_HEIGHT};
         this.timeScale = TIME_SCALE;
-        this.challenges = ["DARK", "RAIN", "SHAKE"];
+        this.challenges = ["DARK", "RAIN", "SHAKE", "REVERSE"];
         //constants
 
         //add children layers
@@ -107,6 +108,8 @@ var ScreenFlappy = cc.Layer.extend({
     /*Different Update Functions for Flappy */
     idleFlappy: function(dt)
     {
+        Obstacle.Instance().update(dt);
+
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         var amplitude = 10;
         this.bird.y += this.bird.v * dt;
@@ -123,6 +126,8 @@ var ScreenFlappy = cc.Layer.extend({
 
     flyingFlappy: function(dt)
     {
+        Obstacle.Instance().update(dt);
+
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
         this.rotateFlappy(dt);
 
@@ -139,11 +144,15 @@ var ScreenFlappy = cc.Layer.extend({
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
             this.setFallingFlappy();
+
+            //stop running challenge
+            this.stopAllActions();
             if (this.getChildByName("darkness").isVisible())
                 this.clearDarkness();
             if (this.getChildByName("rain").isActive())
                 this.stopRain();
             if (this.isShaking) this.stopShake();
+            if (this.getScaleX() < 0) this.stopReverse();
             return;
         }
         else this.getChildByName("darkness").y = Flappy.Instance().y;
@@ -157,7 +166,6 @@ var ScreenFlappy = cc.Layer.extend({
         this.update = this.fallingFlappy;
         Background.Instance().unscheduleUpdate();
         Flappy.Instance().stopActionByTag(0);
-        Obstacle.Instance().unscheduleUpdate();
         GameStartLayer.Instance().unscheduleUpdate();
         Player.Instance().unscheduleUpdate();
     },
@@ -253,10 +261,10 @@ var ScreenFlappy = cc.Layer.extend({
         darkness.setVisible(true);
         darkness.runAction(cc.sequence(
             cc.spawn(
-                cc.scaleTo(10, 2),
-                cc.fadeTo(10, 255)
+                cc.scaleTo(7, 2),
+                cc.fadeTo(7, 255)
             ),
-            cc.delayTime(8),
+            cc.delayTime(7),
             cc.spawn(
                 cc.scaleTo(2, 15),
                 cc.fadeTo(2, 0)
@@ -318,7 +326,7 @@ var ScreenFlappy = cc.Layer.extend({
                 this.bird.g = FLAPPY_CONST.G * 1.25;
             }.bind(this)),
 
-            cc.delayTime(16),
+            cc.delayTime(12),
 
             cc.callFunc(function(){
                 this.getChildByName("rain").stopSystem();
@@ -353,17 +361,17 @@ var ScreenFlappy = cc.Layer.extend({
         this.isShaking = true;
         this.shakeRoutine();
         this.runAction(cc.sequence(
-            cc.delayTime(5),
+            cc.delayTime(4),
             cc.callFunc(function(){
                 this.shakeVector = cc.p(0, 10);
                 this.shakeVectorVar = cc.p(0, 2.5);
             }.bind(this)),
-            cc.delayTime(10),
+            cc.delayTime(8),
             cc.callFunc(function(){
                 this.shakeVector = cc.p(0, 15);
                 this.shakeVectorVar = cc.p(0, 3);
             }.bind(this)),
-            cc.delayTime(5),
+            cc.delayTime(4),
             cc.callFunc(function(){
                 this.stopShake();
             }.bind(this))
@@ -389,6 +397,36 @@ var ScreenFlappy = cc.Layer.extend({
     },
     /* Shake Control Functions */
 
+    /* Reverse Control Functions */
+    startReverse: function()
+    {
+        this.runAction(cc.sequence(
+            cc.callFunc(function(){
+                this.unscheduleUpdate();
+            }.bind(this)),
+            cc.scaleTo(0.25, -1, 1),
+            cc.delayTime(0.25),
+            cc.callFunc(function(){
+                this.scheduleUpdate();
+            }.bind(this)),
+            cc.delayTime(15),
+            cc.callFunc(function(){
+                this.unscheduleUpdate();
+            }.bind(this)),
+            cc.scaleTo(0.25, 1, 1),
+            cc.delayTime(0.25),
+            cc.callFunc(function(){
+                this.scheduleUpdate();
+            }.bind(this))
+        ));
+    },
+
+    stopReverse: function()
+    {
+        this.runAction(cc.scaleTo(0.5, 1, 1));
+    },
+    /* Reverse Control Functions */
+
     playRandomChallenge: function()
     {
         var challenge = this.challenges[Math.floor(Math.random() * this.challenges.length)];
@@ -401,6 +439,10 @@ var ScreenFlappy = cc.Layer.extend({
                 break;
             case "SHAKE":
                 this.startShake();
+                break;
+            case "REVERSE":
+                this.startReverse();
+                break;
             default:
                 break;
         }
