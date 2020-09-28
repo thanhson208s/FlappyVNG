@@ -35,3 +35,12 @@ var MEDAL_CONST = {
     THRESHOLDS: [["none", 0], ["bronze", 10], ["silver", 20], ["gold", 30], ["ruby", 40], ["diamond", 50]],
     STAR_RATES: {"none": 0, "bronze": 2, "silver": 1, "gold": 0.5, "ruby": 0.4, "diamond": 0.2}
 };
+
+var CODE = {
+    AUTO: "AUTO",
+    DEBUG: "DEBUG",
+    MUTE: "MUTE",
+    SFX: "SFX"
+};
+
+var CHALLENGE_THRESHOLD = 40;

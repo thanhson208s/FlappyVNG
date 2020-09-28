@@ -19,7 +19,6 @@ var SoundCenter = cc.Layer.extend({
         this.musicId = jsb.AudioEngine.play2d("flappy/theme.mp3", true, this.musicVolume);
         if (!this.musicOn)
             jsb.AudioEngine.setVolume(this.musicId, 0);
-
     },
 
     onExit:function()

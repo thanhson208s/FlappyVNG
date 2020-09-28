@@ -8,7 +8,7 @@ var Flappy = cc.Sprite.extend({
     ctor: function(x, y)
     {
         //singleton
-        this._super("flappy/bird/BWup.png");
+        this._super();
         Flappy._instance = this;
         //singleton
 

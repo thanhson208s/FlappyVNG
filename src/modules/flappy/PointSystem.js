@@ -48,7 +48,7 @@ var PointSystem = cc.Layer.extend({
             }
         }
 
-        var curX = 30;
+        var curX = 55;
         for (var i = numList.length - 1; i >= 0; i--){
             var sprite = new cc.Sprite("flappy/num/" + parseInt(numList[i]) + ".png");
             this.addChild(sprite);
@@ -59,8 +59,12 @@ var PointSystem = cc.Layer.extend({
 
     increaseScore:function(point)
     {
-        SoundCenter.Instance().playEffect("sfx_point.mp3");
+        var oldPoint = this.score % CHALLENGE_THRESHOLD;
         this.score += point;
+        var newPoint = this.score % CHALLENGE_THRESHOLD;
+
+        if (oldPoint > newPoint) ScreenFlappy.Instance().playRandomChallenge();
+        SoundCenter.Instance().playEffect("sfx_point.mp3");
         this.score2Sprites(this.score);
     },
 

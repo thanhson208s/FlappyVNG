@@ -73,6 +73,7 @@ var g_resources = [
     "zcsd/screen_menu.json",
     "zcsd/screen_network.json",
     "zcsd/screen_zalo.json",
+
     "flappy/flappy.png",
     "flappy/background.png",
     "flappy/bird/yellowup.png",

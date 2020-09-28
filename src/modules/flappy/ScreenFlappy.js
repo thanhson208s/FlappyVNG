@@ -16,8 +16,9 @@ var ScreenFlappy = cc.Layer.extend({
 
         //basic attributes
         var size = cc.director.getVisibleSize();
-        this.width = size.width;
-        this.height = size.height;
+        this.width = size.width + 50;
+        this.height = size.height + 50;
+        this.setPosition(-25, -25);
         //basic attributes
 
         //constants
@@ -32,19 +33,24 @@ var ScreenFlappy = cc.Layer.extend({
         };
         this.limit = {max: 1, min: BG_CONST.GROUND_HEIGHT};
         this.timeScale = TIME_SCALE;
+        this.challenges = ["DARK", "RAIN", "SHAKE"];
         //constants
 
-        this.addChild(new Background(size.width, size.height), -1);
-        this.addChild(new Obstacle(size.width, size.height), 0);
-        this.addChild(new Flappy(size.width*1/3, this.bird.y), 1);
-        this.addChild(new PointSystem(size.width, size.height), 1);
-        this.addChild(new FlashLayer(size.width, size.height), 10);
-        this.addChild(new GameOverLayer(size.width, size.height), 5);
-        this.addChild(new GameStartLayer(size.width, size.height), 3);
+        //add children layers
+        this.addChild(new Background(this.width, this.height), -1);
+        this.addChild(new Obstacle(this.width, this.height), 0);
+        this.addChild(new Flappy(this.width*1/3, this.height/2), 1);
+        this.addChild(new cc.Sprite("flappy/darkness.png"), 2, "darkness");
+        this.addChild(new cc.ParticleRain(), 2, "rain");
+
+        this.addChild(new PointSystem(this.width, this.height), 3);
+        this.addChild(new GameStartLayer(this.width, this.height), 4);
+        this.addChild(new GameOverLayer(this.width, this.height), 5);
+        this.addChild(new FlashLayer(this.width, this.height), 10);
+        
         this.addChild(new Player());
         this.addChild(new SoundCenter());
-
-
+        //add children layers
 
         this.initGame();
     },
@@ -62,26 +68,33 @@ var ScreenFlappy = cc.Layer.extend({
         GameStartLayer.Instance().show();
         GameOverLayer.Instance().hide();
 
+        this.initDarkness();
+        this.initRain();
+
         this.update = this.idleFlappy;
         this.scheduleUpdate();
     },
 
     startGame:function()
     {
+        // add listeners for push flappy to main layer //
         this.clickListener = cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseDown: this.pushFlappy
         }, this);
+
         this.spaceListener = cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyPressed:function(keyCode, sender){
                 if (keyCode == 27){
-                    ScreenFlappy.Instance().timeScale = 1 -  ScreenFlappy.Instance().timeScale;
+                    ScreenFlappy.Instance().timeScale = 1 - ScreenFlappy.Instance().timeScale;
                 }
                 if (ScreenFlappy.Instance().timeScale == 0) return;
                 if (keyCode == 32) ScreenFlappy.Instance().pushFlappy(sender);
             }
         }, this);
+        // add listeners for push flappy to main layer //
+
         GameStartLayer.Instance().hide();
         PointSystem.Instance().show();
         this.bird.v = this.bird.v0;
@@ -91,6 +104,7 @@ var ScreenFlappy = cc.Layer.extend({
         SoundCenter.Instance().playEffect("sfx_wing.mp3");
     },
 
+    /*Different Update Functions for Flappy */
     idleFlappy: function(dt)
     {
         dt = ScreenFlappy.Instance().dtAfterTimeScale(dt);
@@ -104,7 +118,7 @@ var ScreenFlappy = cc.Layer.extend({
             this.bird.v = -this.bird.v;
         }
 
-        Flappy.Instance().y = this.bird.y;
+        this.getChildByName("darkness").y = Flappy.Instance().y = this.bird.y;
     },
 
     flyingFlappy: function(dt)
@@ -125,8 +139,14 @@ var ScreenFlappy = cc.Layer.extend({
             PointSystem.Instance().saveBestScore();
             FlashLayer.Instance().flash();
             this.setFallingFlappy();
+            if (this.getChildByName("darkness").isVisible())
+                this.clearDarkness();
+            if (this.getChildByName("rain").isActive())
+                this.stopRain();
+            if (this.isShaking) this.stopShake();
             return;
         }
+        else this.getChildByName("darkness").y = Flappy.Instance().y;
     },
 
     setFallingFlappy: function(){
@@ -169,9 +189,11 @@ var ScreenFlappy = cc.Layer.extend({
             GameOverLayer.Instance().show();
             return;
         }
-        flappy.y = this.bird.y;
+        this.getChildByName("darkness").y = flappy.y = this.bird.y;
     },
+    /*Different Update Functions for Flappy */
 
+    /* Flappy Transform Functions */
     rotateFlappy:function(dt)
     {
         if (this.bird.v >= 0){
@@ -212,6 +234,176 @@ var ScreenFlappy = cc.Layer.extend({
         if (sender != null) Player.Instance().turnOff();
         ScreenFlappy.Instance().bird.v = ScreenFlappy.Instance().bird.v0;
         SoundCenter.Instance().playEffect("sfx_wing.mp3");
+    },
+    /* Flappy Transform Functions */
+
+    /* Darkness Control Functions */
+    initDarkness: function()
+    {
+        var darkness = this.getChildByName("darkness");
+        darkness.setPosition(this.width/3, this.height/2);
+        darkness.setVisible(false);
+        darkness.setOpacity(0);
+        darkness.setScale(15);
+    },
+
+    runDarkness: function()
+    {
+        var darkness = this.getChildByName("darkness");
+        darkness.setVisible(true);
+        darkness.runAction(cc.sequence(
+            cc.spawn(
+                cc.scaleTo(10, 2),
+                cc.fadeTo(10, 255)
+            ),
+            cc.delayTime(8),
+            cc.spawn(
+                cc.scaleTo(2, 15),
+                cc.fadeTo(2, 0)
+            ),
+            cc.callFunc(function(){
+                this.setVisible(false);
+            }.bind(darkness))
+        ));
+    },
+
+    clearDarkness: function()
+    {
+        var darkness = this.getChildByName("darkness");
+        darkness.runAction(cc.sequence(
+            cc.spawn(
+                cc.scaleTo(0.5, 15),
+                cc.fadeOut(0.5)
+            ),
+            cc.callFunc(function(){
+                this.setVisible(false);
+            }.bind(darkness))
+        ));
+    },
+    /* Darkness Control Functions */
+
+    /* Rain Control Functions */
+    initRain: function()
+    {
+        var rainEmitter = this.getChildByName("rain");
+        rainEmitter.texture = cc.textureCache.addImage("flappy/rainDrop.png");
+        rainEmitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
+        rainEmitter.setPosition(this.width*1/2, this.height);
+
+        rainEmitter.setLife(2);
+        rainEmitter.setLifeVar(1);
+        rainEmitter.setEmissionRate(400);
+
+        rainEmitter.setGravity(cc.p(0, -1000));
+        rainEmitter.setSpeed(800);
+        rainEmitter.setAngle(-100);
+
+        var startColor = rainEmitter.getStartColor();
+        rainEmitter.setStartColor(cc.color(startColor.r, startColor.g, startColor.b, 100));
+
+        rainEmitter.stopSystem();
+    },
+
+    startRain: function()
+    {
+        var darkness = this.getChildByName("darkness");
+        darkness.setVisible(true);
+        darkness.runAction(cc.sequence(
+            cc.fadeTo(1, 127),
+            cc.callFunc(function(){
+                this.getChildByName("rain").resetSystem();
+            }.bind(this)),
+            cc.fadeTo(1, 255),
+            cc.callFunc(function(){
+                this.bird.g = FLAPPY_CONST.G * 1.25;
+            }.bind(this)),
+
+            cc.delayTime(16),
+
+            cc.callFunc(function(){
+                this.getChildByName("rain").stopSystem();
+            }.bind(this)),
+            cc.fadeOut(2),
+            cc.callFunc(function(){
+                this.getChildByName("darkness").setVisible(false);
+                this.bird.g = FLAPPY_CONST.G;
+            }.bind(this))
+        ));
+    },
+
+    stopRain: function()
+    {
+        this.getChildByName("rain").stopSystem();
+        
+        this.getChildByName("darkness").runAction(cc.sequence(
+            cc.fadeOut(0.5),
+            cc.callFunc(function(){
+                this.getChildByName("darkness").setVisible(false);
+                this.bird.g = FLAPPY_CONST.G;
+            }.bind(this))
+        ));
+    },
+    /* Rain Control Function */
+
+    /* Shake Control Functions */
+    startShake: function()
+    {
+        this.shakeVector = cc.p(0, 5);
+        this.shakeVectorVar = cc.p(0, 2)
+        this.isShaking = true;
+        this.shakeRoutine();
+        this.runAction(cc.sequence(
+            cc.delayTime(5),
+            cc.callFunc(function(){
+                this.shakeVector = cc.p(0, 10);
+                this.shakeVectorVar = cc.p(0, 2.5);
+            }.bind(this)),
+            cc.delayTime(10),
+            cc.callFunc(function(){
+                this.shakeVector = cc.p(0, 15);
+                this.shakeVectorVar = cc.p(0, 3);
+            }.bind(this)),
+            cc.delayTime(5),
+            cc.callFunc(function(){
+                this.stopShake();
+            }.bind(this))
+        ));
+    },
+
+    shakeRoutine: function()
+    {
+        var shakeVector = cc.p(this.shakeVector.x + this.shakeVectorVar.x * Math.random(), this.shakeVector.y + this.shakeVectorVar.y * Math.random());
+        this.runAction(cc.sequence(
+            cc.moveBy(0.05, shakeVector),
+            cc.moveBy(0.05, shakeVector).reverse(),
+            cc.callFunc(function(){
+                if (this.isShaking)
+                    this.shakeRoutine();
+            }.bind(this))
+        ));
+    },
+
+    stopShake: function()
+    {
+        this.isShaking = false;
+    },
+    /* Shake Control Functions */
+
+    playRandomChallenge: function()
+    {
+        var challenge = this.challenges[Math.floor(Math.random() * this.challenges.length)];
+        switch(challenge){
+            case "DARK":
+                this.runDarkness();
+                break;
+            case "RAIN":
+                this.startRain();
+                break;
+            case "SHAKE":
+                this.startShake();
+            default:
+                break;
+        }
     },
 
     dtAfterTimeScale:function(dt)
