@@ -22,23 +22,33 @@ var Flappy = cc.Sprite.extend({
         //properties
         this.rate = 10;
         this.index = 0;
-        this.spriteNames = [];
         this.versions = ["yellow", "BW", "red", "blue"];
+        this.animations = [];
         this.version = 0;
         //properties
+
+        for (var i = 0; i < this.versions.length; i++){
+            var spriteNames = ["up", "mid", "down", "mid"].map(function(x){
+                return "flappy/bird/" + this.versions[i] + x + ".png";
+            }.bind(this));
+            var animation = new cc.Animation();
+
+            for (var j = 0; j < spriteNames.length; j++){
+                animation.addSpriteFrameWithFile(spriteNames[j]);
+            }
+            animation.setDelayPerUnit(1/this.rate);
+            animation.retain();
+
+            this.animations.push(animation);
+        }
     },
 
     initGame: function()
     {
-        this.spriteNames = ["flappy/bird/" + this.versions[this.version] + "up.png", "flappy/bird/" + this.versions[this.version] + "mid.png", "flappy/bird/" + this.versions[this.version] + "down.png", "flappy/bird/" + this.versions[this.version] + "mid.png"];
         this.setPosition(this.x0, this.y0);
         this.rotation = 0;
 
-        var animation = cc.Animation();
-        for (var i = 0; i < this.spriteNames.length; i++){
-            animation.addSpriteFrameWithFile(this.spriteNames[i]);
-        }
-        animation.setDelayPerUnit(1/this.rate);
+        var animation = this.animations[this.version];
         var animate = cc.Animate(animation).repeatForever();
         animate.setTag(0);
         this.runAction(animate);
@@ -47,13 +57,8 @@ var Flappy = cc.Sprite.extend({
     changeColorTo:function(color)
     {
         this.version = this.versions.indexOf(color);
-        this.spriteNames = ["flappy/bird/" + this.versions[this.version] + "up.png", "flappy/bird/" + this.versions[this.version] + "mid.png", "flappy/bird/" + this.versions[this.version] + "down.png", "flappy/bird/" + this.versions[this.version] + "mid.png"];
-
-        var animation = cc.Animation();
-        for (var i = 0; i < this.spriteNames.length; i++){
-            animation.addSpriteFrameWithFile(this.spriteNames[i]);
-        }
-        animation.setDelayPerUnit(1/this.rate);
+        
+        var animation = this.animations[this.version];
         var animate = cc.Animate(animation).repeatForever();
         this.stopActionByTag(0);
         animate.setTag(0);
